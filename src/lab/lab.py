@@ -2,6 +2,54 @@ from manim import *
 
 from common.common import layout
 
+# manim -ql -p -o lab_video.mp4 .\lab.py SpinningTriangle
+class SpinningTriangle(Scene):
+    def construct(self):
+        background, bg_text = layout()
+        self.add(background)
+        self.add(bg_text) 
+        # background = ImageMobject("../assets/images/blackboard.png").set_opacity(.8)
+        cog = SVGMobject("../assets/svgs/thinking.svg")
+        self.play(            
+            Rotate(cog, angle=2*PI, rate_func=linear , run_time=10),
+            )
+
+class RotateGear(Scene):
+    def construct(self):
+        background, bg_text = layout()
+        self.add(background)
+        self.add(bg_text) 
+        # 1. Load the SVG
+        # Replace 'head_gear.svg' with your file path
+        # Use config to color, or let it use SVG colors
+        thinking_head = SVGMobject("../assets/svgs/brain.svg")
+        
+        gear1 = thinking_head[0] # Your specific gear object
+        gear2 = thinking_head[1]
+        
+        self.add(thinking_head)
+        
+        # This rotates the gear around its OWN center
+        # self.play(
+        #     Rotate(
+        #         gear,
+        #         angle=2*PI,
+        #         about_point=gear.get_center(), # CRITICAL: Keeps it from moving
+        #         rate_func=linear,
+        #         run_time=5
+        #     )
+        # )
+        self.play( Succession(
+        *[
+            AnimationGroup(
+                Indicate(gear1, color=RED, scale_factor=1.1),
+                Indicate(gear2, color=RED, scale_factor=1.1),
+                run_time=1
+            ) 
+            for _ in range(6)
+        ]
+    )  )
+
 class MovingFrameBox(Scene):
     def construct(self):
         background, bg_text = layout()
