@@ -229,21 +229,19 @@ class Propositions(Scene):
 
         self.add(title)
         self.add(underline)
-
-        simple_statement_definition = '''መብርሂ: 
-        simple proposition (ቐሊል ሓሳብ) ከም and (ከምኡ እውን) ፡ or (ወይ) ፡ not (ኣይኰነን)፡ ወዘተ.
-        ዝኣመሰሉ ጠመርቲ ቃላት ዘይብሉ፣ ሓደ ሓሳብ ዘመሓላልፍ ሓረግ እዩ።'''
-        simple_statement_code = Code(
-                code_string=simple_statement_definition,
-                tab_width=4,
-                formatter_style="vim",
-                 add_line_numbers=False,
-                background="rectangle",                
-                background_config={"stroke_color": YELLOW, "stroke_width": 2, "fill_color": ORANGE, "fill_opacity": 0.05},
-                paragraph_config={"font": "Nyala"},
-            ).next_to(underline, DOWN, buff=0.5).shift(LEFT *1)
-        self.play(Create(simple_statement_code))
+       
+        simple_statement_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")       
+        simple_statement_definition_1 = MarkupText("simple proposition (ቐሊል ሓሳብ) ከም <span fgcolor='YELLOW'>and (ከምኡ እውን)</span> ፡ <span fgcolor='YELLOW'>or (ወይ)</span> ፡ <span fgcolor='YELLOW'>not (ኣይኰነን)</span>፡ ወዘተ...",font_size=30, color=WHITE, font="Nyala")
+        simple_statement_definition_2 = MarkupText("ዝኣመሰሉ ጠመርቲ ቃላት ዘይብሉ፣ ሓደ ሓሳብ ዘመሓላልፍ ሓረግ እዩ።",font_size=30, color=WHITE, font="Nyala")        
+        simple_statement_definition = VGroup(simple_statement_definition_title, simple_statement_definition_1, simple_statement_definition_2).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        
+        simple_box = SurroundingRectangle(simple_statement_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2)
+        self.add(simple_statement_definition_title,
+                  simple_statement_definition_1,
+                  simple_statement_definition_2,
+                  simple_box)
         self.wait(2)
+        
         first_statement = MarkupText(
             "ሀ. መቐለ ርእሰ ከተማ ትግራይ እያ።",
             font_size=30, font="Nyala"
@@ -253,27 +251,25 @@ class Propositions(Scene):
             font_size=30, font="Nyala"
         )  
         
-        simple_sentences = VGroup(first_statement, second_statement).arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(simple_statement_code, DOWN, buff=0.5)    
+        simple_sentences = VGroup(first_statement, second_statement).arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(simple_statement_definition, DOWN*2, buff=0.5).scale(.5)    
         self.play(FadeIn(first_statement))
         self.wait(2)
 
         self.play(FadeIn(second_statement))
         self.wait(2)   
-        self.play(FadeOut(simple_sentences), FadeOut(simple_statement_code))   
+        self.play(FadeOut(simple_sentences), FadeOut(simple_statement_definition), FadeOut(simple_box))   
         self.wait(2)
 
-        compound_statement_definition = '''መብርሂ: 
-        ክልተ ወይ ልዕሊኡ ቀለልቲ ሓሳባት ብመልክዕ ሓደ ሓረግ እንትግለፁ፣ compound (ውሁድ) ሓሳብ ይፈጥሩ።'''
-        compound_statement_code = Code(
-                code_string=compound_statement_definition,
-                tab_width=4,
-                formatter_style="vim",
-                add_line_numbers=False,
-                background="rectangle",                
-                background_config={"stroke_color": YELLOW, "stroke_width": 2, "fill_color": ORANGE, "fill_opacity": 0.05},
-                paragraph_config={"font": "Nyala"},
-            ).next_to(underline, DOWN, buff=0.5)
-        self.play(Create(compound_statement_code))
+        
+        compound_statement_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")       
+        compound_statement_definition_1 = MarkupText("ክልተ ወይ ልዕሊኡ ቀለልቲ ሓሳባት ብመልክዕ ሓደ ሓረግ እንትግለፁ፣ compound (ውሁድ) ሓሳብ ይፈጥሩ።",font_size=30, color=WHITE, font="Nyala")
+        compound_statement_definition = VGroup(compound_statement_definition_title, compound_statement_definition_1).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        
+        compound_box = SurroundingRectangle(compound_statement_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2)
+        self.add(compound_statement_definition_title,
+                  compound_statement_definition_1,                  
+                  compound_box)
+        self.wait(2)
         self.wait(2)
         third_statement_1 = MarkupText(
             "ሀ. ናይ 1 ርብዒ ሱር 1 ኮይኑ",
@@ -301,13 +297,21 @@ class Propositions(Scene):
         )   
         third_statement =VGroup(third_statement_1, third_statement_2, third_statement_3).arrange(RIGHT)
         fourth_statement =VGroup(fourth_statement_1, fourth_statement_2, fourth_statement_3).arrange(RIGHT)
-        compound_sentences = VGroup(third_statement, fourth_statement).arrange(DOWN*3, aligned_edge=LEFT, buff=0.5).next_to(simple_statement_code, DOWN*3, buff=0.5)    
+        compound_sentences = VGroup(third_statement, fourth_statement).arrange(DOWN*4, aligned_edge=LEFT, buff=0.5).scale(.5).next_to(compound_statement_definition, DOWN*3, buff=0.5)      
         self.play(FadeIn(third_statement_1), FadeIn(third_statement_2), FadeIn(third_statement_3))
         self.wait(2)
-        br1 = BraceText(third_statement_1, "1").set_color(ORANGE).set_stroke(width=.5)
+        br1 = BraceText(third_statement_1, "1", label_constructor=Text, font_size =20,  brace_config={
+                
+                "stroke_width": 0.25
+            },           
+        buff=0.05  ).set_color(ORANGE).set_stroke(width=.5)
         self.add(br1)
         self.wait(2)
-        br2 = BraceText(third_statement_3, "2", brace_direction=UP).set_color(ORANGE)
+        br2 = BraceText(third_statement_3, "2", brace_direction=UP , label_constructor=Text, font_size =20,  brace_config={
+                
+                "stroke_width": 0.25
+            },           
+        buff=0.05).set_color(ORANGE)
         self.add(br2)
         self.wait(2)
         third_box = SurroundingRectangle(third_statement_2, color=YELLOW, buff=.1)        
@@ -316,10 +320,18 @@ class Propositions(Scene):
         self.play(FadeIn(fourth_statement_1), FadeIn(fourth_statement_2), FadeIn(fourth_statement_3))
         self.wait(2) 
         
-        br3 = BraceText(fourth_statement_1, "1").set_color(ORANGE).set_stroke(width=.5)
+        br3 = BraceText(fourth_statement_1, "1", label_constructor=Text, font_size =20,  brace_config={
+                
+                "stroke_width": 0.25
+            },           
+        buff=0.05).set_color(ORANGE).set_stroke(width=.5)
         self.add(br3)
         self.wait(2)
-        br4 = BraceText(fourth_statement_3, "2", brace_direction=UP).set_color(ORANGE)
+        br4 = BraceText(fourth_statement_3, "2", brace_direction=UP, label_constructor=Text, font_size =20,  brace_config={
+                
+                "stroke_width": 0.25
+            },           
+        buff=0.05).set_color(ORANGE)
         self.add(br4)
         self.wait(2)
         fourth_box = SurroundingRectangle(fourth_statement_2, color=YELLOW, buff=.1)        
@@ -377,32 +389,31 @@ class Negation(Scene):
 
         self.add(title)
         self.add(underline)
-
-        negation_definition = '''መብርሂ: 
-        p ዝባሃል ሓሳብ እንተልዩ፣ ¬p ናይ p ምኽሓድ ምልክት እዩ።
-        'p ኣይኾነን እዩ' ብዝብል ሓሳብ ኢልና ንገልፆ።'''
-        negation_code = Code(
-                code_string=negation_definition,
-                tab_width=4,
-                formatter_style="vim",
-                 add_line_numbers=False,
-                background="rectangle",                
-                background_config={"stroke_color": YELLOW, "stroke_width": 2, "fill_color": ORANGE, "fill_opacity": 0.05},
-                paragraph_config={"font": "Nyala"},
-            ).next_to(underline, DOWN, buff=0.5).shift(LEFT *1)
-        self.play(Create(negation_code))
+        
+        negation_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
+       
+        negation_definition_1 = MarkupText("p ዝባሃል ሓሳብ እንተልዩ፣ <span fgcolor='{ORANGE}'>¬p</span> ናይ p ምኽሓድ ምልክት እዩ።",font_size=30, color=WHITE, font="Nyala")
+        negation_definition_2 = MarkupText("'p ኣይኾነን እዩ' ብዝብል ሓሳብ ኢልና ንገልፆ።",font_size=30, color=WHITE, font="Nyala")
+        
+        disjunction_definition = VGroup(negation_definition_title, negation_definition_1, negation_definition_2).scale(.7).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        
+        box = SurroundingRectangle(disjunction_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2)
+        self.add(negation_definition_title,
+                  negation_definition_1,
+                  negation_definition_2,
+                  box)
         self.wait(2)
         font_size =28
         ex_one = MarkupText("P = እቲ ቤተ መፃሕፍቲ ሕዚ ኽፉት እዩ።", font_size=font_size, font="Nyala")
         ex_one_not = MarkupText("¬P = እቲ ቤተ መፃሕፍቲ ሕዚ ኽፉት ኣይኾነን እዩ።", font_size=font_size, font="Nyala")
         ex = VGroup(ex_one, ex_one_not)
-        ex.arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(negation_code, DOWN, buff=0.5)
+        ex.arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(disjunction_definition, DOWN, buff=0.5)
 
         self.play(FadeIn(ex_one))
         self.wait(2) 
         self.play(FadeIn(ex_one_not))
         self.wait(2)
-        self.play(FadeOut(ex), FadeOut(negation_code))
+        self.play(FadeOut(ex), FadeOut(disjunction_definition), FadeOut(box))
         self.wait(2)
         # Table content
         headers = ["p", "¬p"]
@@ -417,7 +428,7 @@ class Negation(Scene):
             col_labels=[Text(h) for h in headers],  # Use Text here
             include_outer_lines=False,
         )            
-        table.center()
+        table.scale(.7).center()
         # Get each column as a VGroup
         first_col = VGroup(table.get_columns()[0], table.get_col_labels()[0])
         second_col = VGroup(table.get_columns()[1], table.get_col_labels()[1])
@@ -465,11 +476,11 @@ class Disjunction(Scene):
         disjunction_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
        
         disjunction_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ ናይ pን qን disjunction፣",font_size=30, color=WHITE, font="Nyala")
-        disjunction_definition_2 = MarkupText("ወይ p ሓቂ እንተኾይኑ ወይ q ሓቂ እንተኾይኑ ወይ pን qን ክልቲኦም ሓቂ እንተኾይኖም፣ <span font_family='Sans'>p ∨ q</span> ሓቂ እዩ ብይብል።",font_size=30, color=WHITE, font="Nyala")
-        disjunction_definition_3 = MarkupText(" ምልክቱ ድማ፣ <span font_family='Sans'>p ∨ q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
+        disjunction_definition_2 = MarkupText("ወይ p ሓቂ እንተኾይኑ ወይ q ሓቂ እንተኾይኑ ወይ pን qን ክልቲኦም ሓቂ እንተኾይኖም፣ <span font_family='Sans' fgcolor='{ORANGE}'>p ∨ q</span> ሓቂ እዩ ብይብል።",font_size=30, color=WHITE, font="Nyala")
+        disjunction_definition_3 = MarkupText("ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='{ORANGE}'>p ∨ q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
         disjunction_definition = VGroup(disjunction_definition_title, disjunction_definition_1, disjunction_definition_2, disjunction_definition_3).scale(.7).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
         
-        box = SurroundingRectangle(disjunction_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2)
+        box = SurroundingRectangle(disjunction_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
         self.add(disjunction_definition_title,
                   disjunction_definition_1,
                   disjunction_definition_2,
