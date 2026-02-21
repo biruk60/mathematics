@@ -266,7 +266,7 @@ class SetColumnColorsExample(Scene):
             [["T", "F"],
             ["F","T"]],
             # row_labels=[Text("R1"), Text("R2")],
-            col_labels=[Text("P"), Text("¬P")]
+            col_cdlabels=[Text("P"), Text("¬P")]
         ).set_column_colors([BLUE], [GREEN],[YELLOW])
         
         col1 = SurroundingRectangle(table.get_columns()[0])
