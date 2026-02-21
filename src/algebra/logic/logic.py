@@ -1,5 +1,5 @@
 from manim import * 
-
+import manimpango
 from common.common import layout
 
 class Introduction(Scene):
@@ -113,7 +113,7 @@ class Statement(Scene):
         background, bg_text = layout()
         self.add(background)
         self.add(bg_text)  
-        title = Text("ምሉእ-ሓሳብ", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        title = Text("ሓረግ", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
         underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
         underline.next_to(title, DOWN, buff=0.2)
         self.add(title)
@@ -145,7 +145,7 @@ class Statement(Scene):
         
 
         statement_definition = '''መብርሂ: 
-        proposition (ወይ መግለጺ)፣ ዝኾነ ትርጉም ዘለዎ፣ ንፁርን ዘየሻሚን ሓረግ እዩ።
+        proposition (ሓሳብ)፣ ዝኾነ ትርጉም ዘለዎ፣ ንፁርን ዘየሻሚን ሓረግ እዩ።
         እቲ ሓረግ፣ ወይ ሓቂ ወይ ሓሶት ክኾን ይኽእል እዪ። 
         ኣብ ሓደ እዋን ግን ክልቲኡ (ወይ ሓቂ ወይ ሓሶት) ክኾን ኣይኽእልን።'''
         statement = Code(
@@ -154,7 +154,7 @@ class Statement(Scene):
                 formatter_style="vim",
                  add_line_numbers=False,
                 background="rectangle",                
-                background_config={"stroke_color": MAROON, "stroke_width": 2, "fill_color": GREEN, "fill_opacity": 0.025},
+                background_config={"stroke_color": MAROON, "stroke_width": 2, "fill_color": ORANGE, "fill_opacity": 0.05},
                 paragraph_config={"font": "Nyala"},
             ).next_to(underline, DOWN, buff=0.5).shift(LEFT *2)
         self.play(Create(statement))
@@ -187,36 +187,223 @@ class Statement(Scene):
         self.play(Write(he_statement))
         self.wait(2)
 
-        x_box = SurroundingRectangle(x, color=MAROON, buff=.1)        
+        x_box = SurroundingRectangle(x, color=YELLOW, buff=.1)        
         self.play(Create(x_box))
         self.wait(2)
-        he_box = SurroundingRectangle(he, color=MAROON, buff=.1)        
+        he_box = SurroundingRectangle(he, color=YELLOW, buff=.1)        
         self.play(Create(he_box))
         self.wait(2)
         self.play(FadeOut(variables), FadeOut(x_box), FadeOut(he_box))
         self.wait(2)
         open_statement_definition = '''መብርሂ: 
-        open proposition (ወይ ክፉት-መግለጺ)፣ 
+        open proposition (ክፉት ሓሳብ)፣ 
         ሓደ ወይ ልዕሊ ሓደ ተለዋዋጢ ወይ ተውላጠ-ስማት ዝሓዘ ሓረግ ኮይኑ፣
         ነፍሲ ወከፍ ተለዋዋጢ ወይ ተውላጠ-ስማት 
-        ብፍሉይ ዋጋ ወይ ውልቀ-ሰብ ምስ ዝትካእ መግለጺ ይኸውን።'''
+        ብፍሉይ ዋጋ ወይ ውልቀ-ሰብ ምስ ዝትካእ ሓሳብ ይኸውን።'''
         open_statement = Code(
                 code_string=open_statement_definition,
                 tab_width=4,
                 formatter_style="vim",
                  add_line_numbers=False,
                 background="rectangle",                
-                background_config={"stroke_color": MAROON, "stroke_width": 2, "fill_color": GREEN, "fill_opacity": 0.025},
+                background_config={"stroke_color": YELLOW, "stroke_width": 2, "fill_color": ORANGE, "fill_opacity": 0.05},
                 paragraph_config={"font": "Nyala"},
             ).next_to(underline, DOWN, buff=0.5).shift(LEFT *2)
         self.play(Create(open_statement))
         self.wait(2)
 
+        
+# manim -ql -p --disable_caching logic.py Statement
+
+
+class Propositions(Scene):
+    def construct(self):        
+        background, bg_text = layout()
+        self.add(background)
+        self.add(bg_text)        
+               
+        # Title
+        title = Text("ዓይነታት ሓሳባት", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
+        underline.next_to(title, DOWN, buff=0.2)
+
+        self.add(title)
+        self.add(underline)
+
+        simple_statement_definition = '''መብርሂ: 
+        simple proposition (ቐሊል ሓሳብ) ከም and (ከምኡ እውን) ፡ or (ወይ) ፡ not (ኣይኰነን)፡ ወዘተ.
+        ዝኣመሰሉ ጠመርቲ ቃላት ዘይብሉ፣ ሓደ ሓሳብ ዘመሓላልፍ ሓረግ እዩ።'''
+        simple_statement_code = Code(
+                code_string=simple_statement_definition,
+                tab_width=4,
+                formatter_style="vim",
+                 add_line_numbers=False,
+                background="rectangle",                
+                background_config={"stroke_color": YELLOW, "stroke_width": 2, "fill_color": ORANGE, "fill_opacity": 0.05},
+                paragraph_config={"font": "Nyala"},
+            ).next_to(underline, DOWN, buff=0.5).shift(LEFT *1)
+        self.play(Create(simple_statement_code))
+        self.wait(2)
+        first_statement = MarkupText(
+            "ሀ. መቐለ ርእሰ ከተማ ትግራይ እያ።",
+            font_size=30, font="Nyala"
+        )
+        second_statement = MarkupText(
+            "ለ. ወለደ ኣብርሃ ንጉስ፣ ብሉፅ ፖለቲከኛ ትግራይ እዩ።",
+            font_size=30, font="Nyala"
+        )  
+        
+        simple_sentences = VGroup(first_statement, second_statement).arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(simple_statement_code, DOWN, buff=0.5)    
+        self.play(FadeIn(first_statement))
+        self.wait(2)
+
+        self.play(FadeIn(second_statement))
+        self.wait(2)   
+        self.play(FadeOut(simple_sentences), FadeOut(simple_statement_code))   
+        self.wait(2)
+
+        compound_statement_definition = '''መብርሂ: 
+        ክልተ ወይ ልዕሊኡ ቀለልቲ ሓሳባት ብመልክዕ ሓደ ሓረግ እንትግለፁ፣ compound (ውሁድ) ሓሳብ ይፈጥሩ።'''
+        compound_statement_code = Code(
+                code_string=compound_statement_definition,
+                tab_width=4,
+                formatter_style="vim",
+                add_line_numbers=False,
+                background="rectangle",                
+                background_config={"stroke_color": YELLOW, "stroke_width": 2, "fill_color": ORANGE, "fill_opacity": 0.05},
+                paragraph_config={"font": "Nyala"},
+            ).next_to(underline, DOWN, buff=0.5)
+        self.play(Create(compound_statement_code))
+        self.wait(2)
+        third_statement_1 = MarkupText(
+            "ሀ. ናይ 1 ርብዒ ሱር 1 ኮይኑ",
+            font_size=30, font="Nyala"
+        )
+        third_statement_2 = MarkupText(
+            " ኮይኑ ከምኡ",
+            font_size=30, font="Nyala"
+        )
+        third_statement_3 = MarkupText(
+            " ሰለስተ ካብ ኣርባዕተ ዝነኣሰ እዩ።",
+            font_size=30, font="Nyala"
+        )
+        fourth_statement_1 = MarkupText(
+            "ለ. ድሕሪ ሰሉስ ዘሎ መዓልቲ ረቡዕ",
+            font_size=30, font="Nyala"
+        ) 
+        fourth_statement_2 = MarkupText(
+            " ወይ",
+            font_size=30, font="Nyala"
+        )  
+        fourth_statement_3 = MarkupText(
+            " ክልተ ክድመር ክልተ ኣርባዕተ እዩ።",
+            font_size=30, font="Nyala"
+        )   
+        third_statement =VGroup(third_statement_1, third_statement_2, third_statement_3).arrange(RIGHT)
+        fourth_statement =VGroup(fourth_statement_1, fourth_statement_2, fourth_statement_3).arrange(RIGHT)
+        compound_sentences = VGroup(third_statement, fourth_statement).arrange(DOWN*3, aligned_edge=LEFT, buff=0.5).next_to(simple_statement_code, DOWN*3, buff=0.5)    
+        self.play(FadeIn(third_statement_1), FadeIn(third_statement_2), FadeIn(third_statement_3))
+        self.wait(2)
+        br1 = BraceText(third_statement_1, "1").set_color(ORANGE).set_stroke(width=.5)
+        self.add(br1)
+        self.wait(2)
+        br2 = BraceText(third_statement_3, "2", brace_direction=UP).set_color(ORANGE)
+        self.add(br2)
+        self.wait(2)
+        third_box = SurroundingRectangle(third_statement_2, color=YELLOW, buff=.1)        
+        self.play(Create(third_box))
+        self.wait(2)
+        self.play(FadeIn(fourth_statement_1), FadeIn(fourth_statement_2), FadeIn(fourth_statement_3))
+        self.wait(2) 
+        
+        br3 = BraceText(fourth_statement_1, "1").set_color(ORANGE).set_stroke(width=.5)
+        self.add(br3)
+        self.wait(2)
+        br4 = BraceText(fourth_statement_3, "2", brace_direction=UP).set_color(ORANGE)
+        self.add(br4)
+        self.wait(2)
+        fourth_box = SurroundingRectangle(fourth_statement_2, color=YELLOW, buff=.1)        
+        self.play(Create(fourth_box))
+        self.wait(2)
+# manim -ql -p --disable_caching logic.py Propositions
+
+class Connectives(Scene):
+    def construct(self):        
+        background, bg_text = layout()
+        self.add(background)
+        self.add(bg_text)        
+               
+        # Title
+        title = Text("መጥመርቲ", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
+        underline.next_to(title, DOWN, buff=0.2)
+
+        self.add(title)
+        self.add(underline)
+        font_size =28
+        negation = MarkupText("1. Negation", font_size=font_size)
+        conjunction = MarkupText("2. Conjunction", font_size=font_size)
+        disjunction = MarkupText("3. Disjunction", font_size=font_size)
+        implication = MarkupText("4. Implication", font_size=font_size)
+        biImplication = MarkupText("5. Bi-implication", font_size=font_size)
+
+        BulletedList = VGroup(negation, conjunction, disjunction, implication, biImplication)
+        BulletedList.arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(underline, DOWN, buff=0.5)
+        self.play(Write(negation))
+        self.wait() 
+        self.play(Write(conjunction))
+        self.wait()
+        self.play(Write(disjunction))
+        self.wait()
+        self.play(Write(implication))
+        self.wait(2)
+        self.play(Write(biImplication))
+        self.wait(2)
+        self.play(FadeOut(BulletedList))
+        self.wait(2)
+# manim -ql -p --disable_caching logic.py Connectives
+
+
 class Negation(Scene):
     def construct(self):
         background, bg_text = layout()
         self.add(background)
-        self.add(bg_text)  
+        self.add(bg_text)        
+               
+        # Title
+        title = Text("Negation", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
+        underline.next_to(title, DOWN, buff=0.2)
+
+        self.add(title)
+        self.add(underline)
+
+        negation_definition = '''መብርሂ: 
+        p ዝባሃል ሓሳብ እንተልዩ፣ ¬p ናይ p ምኽሓድ ምልክት እዩ።
+        'p ኣይኾነን እዩ' ብዝብል ሓሳብ ኢልና ንገልፆ።'''
+        negation_code = Code(
+                code_string=negation_definition,
+                tab_width=4,
+                formatter_style="vim",
+                 add_line_numbers=False,
+                background="rectangle",                
+                background_config={"stroke_color": YELLOW, "stroke_width": 2, "fill_color": ORANGE, "fill_opacity": 0.05},
+                paragraph_config={"font": "Nyala"},
+            ).next_to(underline, DOWN, buff=0.5).shift(LEFT *1)
+        self.play(Create(negation_code))
+        self.wait(2)
+        font_size =28
+        ex_one = MarkupText("P = እቲ ቤተ መፃሕፍቲ ሕዚ ኽፉት እዩ።", font_size=font_size, font="Nyala")
+        ex_one_not = MarkupText("¬P = እቲ ቤተ መፃሕፍቲ ሕዚ ኽፉት ኣይኾነን እዩ።", font_size=font_size, font="Nyala")
+        ex = VGroup(ex_one, ex_one_not)
+        ex.arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(negation_code, DOWN, buff=0.5)
+
+        self.play(FadeIn(ex_one))
+        self.wait(2) 
+        self.play(FadeIn(ex_one_not))
+        self.wait(2)
+        self.play(FadeOut(ex), FadeOut(negation_code))
+        self.wait(2)
         # Table content
         headers = ["p", "¬p"]
         table_data = [
@@ -258,45 +445,89 @@ class Negation(Scene):
             
         self.wait(2) 
         self.play(table.animate.set_opacity(0)) 
-        self.wait(2)  
+        self.wait(2)
 
-class SetColumnColorsExample(Scene):
+# manim -ql -p --disable_caching logic.py Negation
+
+class Disjunction(Scene):
     def construct(self):
+        background, bg_text = layout()
+        self.add(background)
+        self.add(bg_text)        
+               
+        # Title
+        title = Text("Disjunction", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
+        underline.next_to(title, DOWN, buff=0.2)
+
+        self.add(title)
+        self.add(underline)
+        disjunction_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
+       
+        disjunction_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ ናይ pን qን disjunction፣",font_size=30, color=WHITE, font="Nyala")
+        disjunction_definition_2 = MarkupText("ወይ p ሓቂ እንተኾይኑ ወይ q ሓቂ እንተኾይኑ ወይ pን qን ክልቲኦም ሓቂ እንተኾይኖም፣ <span font_family='Sans'>p ∨ q</span> ሓቂ እዩ ብይብል።",font_size=30, color=WHITE, font="Nyala")
+        disjunction_definition_3 = MarkupText(" ምልክቱ ድማ፣ <span font_family='Sans'>p ∨ q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
+        disjunction_definition = VGroup(disjunction_definition_title, disjunction_definition_1, disjunction_definition_2, disjunction_definition_3).scale(.7).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        
+        box = SurroundingRectangle(disjunction_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2)
+        self.add(disjunction_definition_title,
+                  disjunction_definition_1,
+                  disjunction_definition_2,
+                  disjunction_definition_3,box)
+        self.wait(2)
+       
+        self.play(FadeOut(disjunction_definition),FadeOut(box))
+        self.wait(2)
+        # Table content
+        headers = ["p", "q", "p ∨ q"]
+        table_data = [
+            ["T", "T", "T"],
+            ["T", "F", "T"],
+            ["F", "T", "T"],
+            ["F", "F", "F"],          
+        ]
+
+        # Create table object without MathTex
         table = Table(
-            [["T", "F"],
-            ["F","T"]],
-            # row_labels=[Text("R1"), Text("R2")],
-            col_cdlabels=[Text("P"), Text("¬P")]
-        ).set_column_colors([BLUE], [GREEN],[YELLOW])
+            table_data,
+            col_labels=[Text(h) for h in headers],  # Use Text here
+            include_outer_lines=False,
+        )            
+        table.scale(.7).next_to(underline, DOWN, buff=0.5).center()
+        # Get each column as a VGroup
+        first_col = VGroup(table.get_columns()[0], table.get_col_labels()[0])
+        second_col = VGroup(table.get_columns()[1], table.get_col_labels()[1])
+        third_col = VGroup(table.get_columns()[2], table.get_col_labels()[2])
+        # Add to scene
         
-        col1 = SurroundingRectangle(table.get_columns()[0])
-        col2 = SurroundingRectangle(table.get_columns()[1])
-        row1 = SurroundingRectangle(table.get_rows()[1])
-        row2 = SurroundingRectangle(table.get_rows()[2])
-        cell1 = SurroundingRectangle(table.get_cell((1,1)), color=RED)
-        cell1_content = SurroundingRectangle(table.get_entries((2, 1)), color=BLUE)
-        cell2_content = SurroundingRectangle(table.get_entries((3, 1)), color=BLUE)
-        self.play(Create(table), run_time=1)
-        self.wait() 
-        # self.play(chama.animate.set_opacity(1), run_time=1)
-        self.play(Create(col1), run_time=1)
-        self.wait() 
-        # highlight = table.get_cells((2,1), color=GREEN, fill_opacity=.75)
-        # table.add_to_back(highlight)
-        self.play(Create(cell1), run_time=1)
-        self.wait() 
-        self.play(Create(cell1_content), run_time=1)
-        self.wait()
-        self.play(ReplacementTransform(cell1_content, cell2_content), run_time=1)
-        self.wait()
-        self.play(FadeOut(cell2_content), ReplacementTransform(col1, col2), run_time=1)
-        self.wait()
-        # self.play(ReplacementTransform(col1, col2), run_time=1)
-        # self.wait()
-        self.play(FadeOut(col2), run_time=1)
-        self.wait()
-        self.play(Create(row1), run_time=1)
-        self.wait()
-        self.play(ReplacementTransform(row1, row2), run_time=1)
-        self.wait()
+        # Hide all columns initially
+        for col in [first_col, second_col,third_col]:
+            col.set_opacity(0)
         
+        self.add(table)
+        self.play(first_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(second_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(third_col[1].animate.set_opacity(1))
+        self.wait(1)
+    
+        for cell in first_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+        
+        for cell in second_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2) 
+
+        for cell in third_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+
+        self.play(table.animate.set_opacity(0)) 
+        self.wait(2)
+
+# manim -ql -p --disable_caching logic.py Disjunction
