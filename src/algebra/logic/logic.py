@@ -140,26 +140,21 @@ class Statement(Scene):
         self.wait(2)
 
         self.play(FadeOut(BulletedList), FadeOut(box_one))
-        self.wait(2)
-
+        self.wait(2)     
+        statement_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")       
+        statement_definition_1 = MarkupText("proposition (ሓሳብ)፣ ዝኾነ ትርጉም ዘለዎ፣ ንፁርን ዘየሻሚን ሓረግ እዩ።",font_size=30, color=WHITE, font="Nyala")
+        statement_definition_2 = MarkupText("እቲ ሓረግ፣ ወይ ሓቂ ወይ ሓሶት ክኾን ይኽእል እዪ።",font_size=30, color=WHITE, font="Nyala")
+        statement_definition_3 = MarkupText("ኣብ ሓደ እዋን ግን ክልቲኡ (ወይ ሓቂ ወይ ሓሶት) ክኾን ኣይኽእልን።",font_size=30, color=WHITE, font="Nyala")
+        statement_definition = VGroup(statement_definition_title, statement_definition_1, statement_definition_2, statement_definition_3).scale(.7).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
         
-
-        statement_definition = '''መብርሂ: 
-        proposition (ሓሳብ)፣ ዝኾነ ትርጉም ዘለዎ፣ ንፁርን ዘየሻሚን ሓረግ እዩ።
-        እቲ ሓረግ፣ ወይ ሓቂ ወይ ሓሶት ክኾን ይኽእል እዪ። 
-        ኣብ ሓደ እዋን ግን ክልቲኡ (ወይ ሓቂ ወይ ሓሶት) ክኾን ኣይኽእልን።'''
-        statement = Code(
-                code_string=statement_definition,
-                tab_width=4,
-                formatter_style="vim",
-                 add_line_numbers=False,
-                background="rectangle",                
-                background_config={"stroke_color": MAROON, "stroke_width": 2, "fill_color": ORANGE, "fill_opacity": 0.05},
-                paragraph_config={"font": "Nyala"},
-            ).next_to(underline, DOWN, buff=0.5).shift(LEFT *2)
-        self.play(Create(statement))
+        statement_box = SurroundingRectangle(statement_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
+        self.add(statement_definition_title,
+                  statement_definition_1,
+                  statement_definition_2,
+                  statement_definition_3,statement_box)
         self.wait(2)
-        self.play(FadeOut(statement))
+        
+        self.play(FadeOut(statement_definition), FadeOut(statement_box))
         self.wait(2)
         x = MarkupText(
             "ሀ",
@@ -187,31 +182,35 @@ class Statement(Scene):
         self.play(Write(he_statement))
         self.wait(2)
 
-        x_box = SurroundingRectangle(x, color=YELLOW, buff=.1)        
+        x_box = SurroundingRectangle(x, color=RED, buff=.1,
+                                             stroke_width= 1)        
         self.play(Create(x_box))
         self.wait(2)
-        he_box = SurroundingRectangle(he, color=YELLOW, buff=.1)        
+        he_box = SurroundingRectangle(he, color=RED, buff=.1, 
+                                             stroke_width= 1)        
         self.play(Create(he_box))
         self.wait(2)
         self.play(FadeOut(variables), FadeOut(x_box), FadeOut(he_box))
         self.wait(2)
-        open_statement_definition = '''መብርሂ: 
-        open proposition (ክፉት ሓሳብ)፣ 
-        ሓደ ወይ ልዕሊ ሓደ ተለዋዋጢ ወይ ተውላጠ-ስማት ዝሓዘ ሓረግ ኮይኑ፣
-        ነፍሲ ወከፍ ተለዋዋጢ ወይ ተውላጠ-ስማት 
-        ብፍሉይ ዋጋ ወይ ውልቀ-ሰብ ምስ ዝትካእ ሓሳብ ይኸውን።'''
-        open_statement = Code(
-                code_string=open_statement_definition,
-                tab_width=4,
-                formatter_style="vim",
-                 add_line_numbers=False,
-                background="rectangle",                
-                background_config={"stroke_color": YELLOW, "stroke_width": 2, "fill_color": ORANGE, "fill_opacity": 0.05},
-                paragraph_config={"font": "Nyala"},
-            ).next_to(underline, DOWN, buff=0.5).shift(LEFT *2)
-        self.play(Create(open_statement))
+       
+        open_statement_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")       
+        open_statement_definition_1 = MarkupText("proposition (ሓሳብ)፣ ዝኾነ ትርጉም ዘለዎ፣ ንፁርን ዘየሻሚን ሓረግ እዩ።",font_size=30, color=WHITE, font="Nyala")
+        open_statement_definition_2 = MarkupText("እቲ ሓረግ፣ ወይ ሓቂ ወይ ሓሶት ክኾን ይኽእል እዪ።",font_size=30, color=WHITE, font="Nyala")
+        open_statement_definition_3 = MarkupText("ኣብ ሓደ እዋን ግን ክልቲኡ (ወይ ሓቂ ወይ ሓሶት) ክኾን ኣይኽእልን።",font_size=30, color=WHITE, font="Nyala")
+        open_statement_definition_4 = MarkupText("ኣብ ሓደ እዋን ግን ክልቲኡ (ወይ ሓቂ ወይ ሓሶት) ክኾን ኣይኽእልን።",font_size=30, color=WHITE, font="Nyala")
+        open_statement_definition = VGroup(open_statement_definition_title, open_statement_definition_1, 
+                                           open_statement_definition_2, open_statement_definition_3,
+                                           open_statement_definition_4).scale(.7).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        
+        open_statement_box = SurroundingRectangle(open_statement_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
+        self.add(statement_definition_title,
+                  statement_definition_1,
+                  statement_definition_2,
+                  statement_definition_3,
+                  open_statement_definition_4,
+                  open_statement_box)
         self.wait(2)
-
+        
         
 # manim -ql -p --disable_caching logic.py Statement
 
@@ -235,7 +234,9 @@ class Propositions(Scene):
         simple_statement_definition_2 = MarkupText("ዝኣመሰሉ ጠመርቲ ቃላት ዘይብሉ፣ ሓደ ሓሳብ ዘመሓላልፍ ሓረግ እዩ።",font_size=30, color=WHITE, font="Nyala")        
         simple_statement_definition = VGroup(simple_statement_definition_title, simple_statement_definition_1, simple_statement_definition_2).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
         
-        simple_box = SurroundingRectangle(simple_statement_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2)
+        simple_box = SurroundingRectangle(simple_statement_definition, color=YELLOW, buff=0.4, 
+                                          fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2
+                                          ,stroke_width= 1)
         self.add(simple_statement_definition_title,
                   simple_statement_definition_1,
                   simple_statement_definition_2,
@@ -265,7 +266,9 @@ class Propositions(Scene):
         compound_statement_definition_1 = MarkupText("ክልተ ወይ ልዕሊኡ ቀለልቲ ሓሳባት ብመልክዕ ሓደ ሓረግ እንትግለፁ፣ compound (ውሁድ) ሓሳብ ይፈጥሩ።",font_size=30, color=WHITE, font="Nyala")
         compound_statement_definition = VGroup(compound_statement_definition_title, compound_statement_definition_1).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
         
-        compound_box = SurroundingRectangle(compound_statement_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2)
+        compound_box = SurroundingRectangle(compound_statement_definition, color=YELLOW, buff=0.4, 
+                                            fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2,
+                                             stroke_width= 1)
         self.add(compound_statement_definition_title,
                   compound_statement_definition_1,                  
                   compound_box)
@@ -276,7 +279,7 @@ class Propositions(Scene):
             font_size=30, font="Nyala"
         )
         third_statement_2 = MarkupText(
-            " ኮይኑ ከምኡ",
+            " ከምኡውን",
             font_size=30, font="Nyala"
         )
         third_statement_3 = MarkupText(
@@ -300,41 +303,40 @@ class Propositions(Scene):
         compound_sentences = VGroup(third_statement, fourth_statement).arrange(DOWN*4, aligned_edge=LEFT, buff=0.5).scale(.5).next_to(compound_statement_definition, DOWN*3, buff=0.5)      
         self.play(FadeIn(third_statement_1), FadeIn(third_statement_2), FadeIn(third_statement_3))
         self.wait(2)
-        br1 = BraceText(third_statement_1, "1", label_constructor=Text, font_size =20,  brace_config={
-                
-                "stroke_width": 0.25
-            },           
-        buff=0.05  ).set_color(ORANGE).set_stroke(width=.5)
-        self.add(br1)
+       
+        underline_third_statement_1 = Line(LEFT*third_statement_1.width/2, RIGHT*third_statement_1.width/2, stroke_width=1, color=YELLOW)
+        underline_third_statement_1.next_to(third_statement_1, DOWN, buff=0.1)
+        self.play(FadeIn(underline_third_statement_1))
         self.wait(2)
-        br2 = BraceText(third_statement_3, "2", brace_direction=UP , label_constructor=Text, font_size =20,  brace_config={
-                
-                "stroke_width": 0.25
-            },           
-        buff=0.05).set_color(ORANGE)
-        self.add(br2)
+       
+        underline_third_statement_3 = Line(LEFT*third_statement_3.width/2, RIGHT*third_statement_3.width/2, stroke_width=1, color=ORANGE)
+        underline_third_statement_3.next_to(third_statement_3, UP, buff=0.1)
+        self.play(Create(underline_third_statement_3))
         self.wait(2)
-        third_box = SurroundingRectangle(third_statement_2, color=YELLOW, buff=.1)        
+       
+        third_box = SurroundingRectangle(third_statement_2, color=RED, buff=.1,
+                                             stroke_width= 1)        
         self.play(Create(third_box))
+        
         self.wait(2)
         self.play(FadeIn(fourth_statement_1), FadeIn(fourth_statement_2), FadeIn(fourth_statement_3))
         self.wait(2) 
         
-        br3 = BraceText(fourth_statement_1, "1", label_constructor=Text, font_size =20,  brace_config={
-                
-                "stroke_width": 0.25
-            },           
-        buff=0.05).set_color(ORANGE).set_stroke(width=.5)
-        self.add(br3)
+        underline_fourth_statement_1 = Line(LEFT*fourth_statement_1.width/2, RIGHT*fourth_statement_1.width/2, stroke_width=1, color=YELLOW)
+        underline_fourth_statement_1.next_to(fourth_statement_1, DOWN, buff=0.1)
+        self.play(Create(underline_fourth_statement_1))
         self.wait(2)
-        br4 = BraceText(fourth_statement_3, "2", brace_direction=UP, label_constructor=Text, font_size =20,  brace_config={
-                
-                "stroke_width": 0.25
-            },           
-        buff=0.05).set_color(ORANGE)
-        self.add(br4)
+        # self.play(Uncreate(underline_fourth_statement_1))
+        # self.wait(2)
+        underline_fourth_statement_3 = Line(LEFT*fourth_statement_3.width/2, RIGHT*fourth_statement_3.width/2, stroke_width=1, color=ORANGE)
+        underline_fourth_statement_3.next_to(fourth_statement_3, UP, buff=0.1)
+        self.play(Create(underline_fourth_statement_3))
         self.wait(2)
-        fourth_box = SurroundingRectangle(fourth_statement_2, color=YELLOW, buff=.1)        
+        # self.play(Uncreate(underline_fourth_statement_3))
+        # self.wait(2)
+        
+        fourth_box = SurroundingRectangle(fourth_statement_2, color=RED, buff=.1, 
+                                             stroke_width= 1)        
         self.play(Create(fourth_box))
         self.wait(2)
 # manim -ql -p --disable_caching logic.py Propositions
@@ -473,12 +475,13 @@ class Disjunction(Scene):
 
         self.add(title)
         self.add(underline)
+        self.wait(2)
         disjunction_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
        
         disjunction_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ ናይ pን qን disjunction፣",font_size=30, color=WHITE, font="Nyala")
-        disjunction_definition_2 = MarkupText("ወይ p ሓቂ እንተኾይኑ ወይ q ሓቂ እንተኾይኑ ወይ pን qን ክልቲኦም ሓቂ እንተኾይኖም፣ <span font_family='Sans' fgcolor='{ORANGE}'>p ∨ q</span> ሓቂ እዩ ብይብል።",font_size=30, color=WHITE, font="Nyala")
-        disjunction_definition_3 = MarkupText("ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='{ORANGE}'>p ∨ q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
-        disjunction_definition = VGroup(disjunction_definition_title, disjunction_definition_1, disjunction_definition_2, disjunction_definition_3).scale(.7).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        disjunction_definition_2 = MarkupText("ወይ p ሓቂ እንተኾይኑ ወይ q ሓቂ እንተኾይኑ ወይ pን qን ክልቲኦም ሓቂ እንተኾይኖም፣ <span font_family='Sans' fgcolor='ORANGE'>p ∨ q</span> ሓቂ እዩ ብይብል።",font_size=30, color=WHITE, font="Nyala")
+        disjunction_definition_3 = MarkupText("ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>p ∨ q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
+        disjunction_definition = VGroup(disjunction_definition_title, disjunction_definition_1, disjunction_definition_2, disjunction_definition_3).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
         
         box = SurroundingRectangle(disjunction_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
         self.add(disjunction_definition_title,
@@ -503,8 +506,9 @@ class Disjunction(Scene):
             table_data,
             col_labels=[Text(h) for h in headers],  # Use Text here
             include_outer_lines=False,
+            line_config={"stroke_width": 1},
         )            
-        table.scale(.7).next_to(underline, DOWN, buff=0.5).center()
+        table.scale(.5).next_to(underline, DOWN, buff=0.5).center()
         # Get each column as a VGroup
         first_col = VGroup(table.get_columns()[0], table.get_col_labels()[0])
         second_col = VGroup(table.get_columns()[1], table.get_col_labels()[1])
@@ -542,3 +546,815 @@ class Disjunction(Scene):
         self.wait(2)
 
 # manim -ql -p --disable_caching logic.py Disjunction
+
+class Conjunction(Scene):
+    def construct(self):
+        background, bg_text = layout()
+        self.add(background)
+        self.add(bg_text)        
+               
+        # Title
+        title = Text("Conjunction", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
+        underline.next_to(title, DOWN, buff=0.2)
+
+        self.add(title)
+        self.add(underline)
+        self.wait(2)
+        conjunction_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
+       
+        conjunction_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ ናይ pን qን conjunction",font_size=30, color=WHITE, font="Nyala")
+        conjunction_definition_2 = MarkupText("ወይ p ሓቂ እንተኾይኑ ወይ q ሓቂ እንተኾይኑ ወይ pን qን ክልቲኦም ሓቂ እንተኾይኖም፣ <span font_family='Sans' fgcolor='ORANGE'>p ∧ q</span> ሓቂ እዩ ብይብል።",font_size=30, color=WHITE, font="Nyala")
+        conjunction_definition_3 = MarkupText("ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>p ∧ q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
+        conjunction_definition = VGroup(conjunction_definition_title, conjunction_definition_1, conjunction_definition_2, conjunction_definition_3).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        
+        box = SurroundingRectangle(conjunction_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
+        self.add(conjunction_definition_title,
+                  conjunction_definition_1,
+                  conjunction_definition_2,
+                  conjunction_definition_3,box)
+        self.wait(2)
+       
+        self.play(FadeOut(conjunction_definition),FadeOut(box))
+        self.wait(2)
+        # Table content
+        headers = ["p", "q", "p ∧ q"]
+        table_data = [
+            ["T", "T", "T"],
+            ["T", "F", "F"],
+            ["F", "T", "F"],
+            ["F", "F", "F"],          
+        ]
+
+        # Create table object without MathTex
+        table = Table(
+            table_data,
+            col_labels=[Text(h) for h in headers],  # Use Text here
+            include_outer_lines=False,
+            line_config={"stroke_width": 1},
+        )            
+        table.scale(.5).next_to(underline, DOWN, buff=0.5).center()
+        # Get each column as a VGroup
+        first_col = VGroup(table.get_columns()[0], table.get_col_labels()[0])
+        second_col = VGroup(table.get_columns()[1], table.get_col_labels()[1])
+        third_col = VGroup(table.get_columns()[2], table.get_col_labels()[2])
+        # Add to scene
+        
+        # Hide all columns initially
+        for col in [first_col, second_col,third_col]:
+            col.set_opacity(0)
+        
+        self.add(table)
+        self.play(first_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(second_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(third_col[1].animate.set_opacity(1))
+        self.wait(1)
+    
+        for cell in first_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+        
+        for cell in second_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2) 
+
+        for cell in third_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+
+        self.play(table.animate.set_opacity(0)) 
+        self.wait(2)
+
+# manim -ql -p --disable_caching logic.py Conjunction
+
+class Implication(Scene):
+    def construct(self):
+        background, bg_text = layout()
+        self.add(background)
+        self.add(bg_text)        
+               
+        # Title
+        title = Text("Implication", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
+        underline.next_to(title, DOWN, buff=0.2)
+
+        self.add(title)
+        self.add(underline)
+        self.wait(2)
+        implication_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
+       
+        implication_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ ናይ pን qን implication",font_size=30, color=WHITE, font="Nyala")
+        implication_definition_2 = MarkupText("ወይ p ሓቂ እንተኾይኑ ወይ q ሓቂ እንተኾይኑ ወይ pን qን ክልቲኦም ሓቂ እንተኾይኖም፣ <span font_family='Sans' fgcolor='ORANGE'>p → q</span> ሓቂ እዩ ብይብል።",font_size=30, color=WHITE, font="Nyala")
+        implication_definition_3 = MarkupText("ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>p → q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
+        implication_definition = VGroup(implication_definition_title, implication_definition_1, implication_definition_2, implication_definition_3).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        
+        box = SurroundingRectangle(implication_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
+        self.add(implication_definition_title,
+                  implication_definition_1,
+                  implication_definition_2,
+                  implication_definition_3,box)
+        self.wait(2)
+       
+        self.play(FadeOut(implication_definition),FadeOut(box))
+        self.wait(2)
+        # Table content
+        headers = ["p", "q", "p → q"]
+        table_data = [
+            ["T", "T", "T"],
+            ["T", "F", "F"],
+            ["F", "T", "T"],
+            ["F", "F", "T"],          
+        ]
+
+        # Create table object without MathTex
+        table = Table(
+            table_data,
+            col_labels=[Text(h) for h in headers],  # Use Text here
+            include_outer_lines=False,
+            line_config={"stroke_width": 1},
+        )            
+        table.scale(.5).next_to(underline, DOWN, buff=0.5).center()
+        # Get each column as a VGroup
+        first_col = VGroup(table.get_columns()[0], table.get_col_labels()[0])
+        second_col = VGroup(table.get_columns()[1], table.get_col_labels()[1])
+        third_col = VGroup(table.get_columns()[2], table.get_col_labels()[2])
+        # Add to scene
+        
+        # Hide all columns initially
+        for col in [first_col, second_col,third_col]:
+            col.set_opacity(0)
+        
+        self.add(table)
+        self.play(first_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(second_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(third_col[1].animate.set_opacity(1))
+        self.wait(1)
+    
+        for cell in first_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+        
+        for cell in second_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2) 
+
+        for cell in third_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+
+        self.play(table.animate.set_opacity(0)) 
+        self.wait(2)
+
+# manim -ql -p --disable_caching logic.py Implication
+
+class BiImplication(Scene):
+    def construct(self):
+        background, bg_text = layout()
+        self.add(background)
+        self.add(bg_text)        
+               
+        # Title
+        title = Text("Bi-Implication", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
+        underline.next_to(title, DOWN, buff=0.2)
+
+        self.add(title)
+        self.add(underline)
+        self.wait(2)
+        biImplication_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
+       
+        biImplication_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ ናይ pን qን bi-implication",font_size=30, color=WHITE, font="Nyala")
+        biImplication_definition_2 = MarkupText("ወይ p ሓቂ እንተኾይኑ ወይ q ሓቂ እንተኾይኑ ወይ pን qን ክልቲኦም ሓቂ እንተኾይኖም፣ <span font_family='Sans' fgcolor='ORANGE'>p ↔ q</span> ሓቂ እዩ ብይብል።",font_size=30, color=WHITE, font="Nyala")
+        biImplication_definition_3 = MarkupText("ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>p ↔ q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
+        biImplication_definition = VGroup(biImplication_definition_title, biImplication_definition_1, biImplication_definition_2, biImplication_definition_3).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        
+        box = SurroundingRectangle(biImplication_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
+        self.add(biImplication_definition_title,
+                  biImplication_definition_1,
+                  biImplication_definition_2,
+                  biImplication_definition_3,box)
+        self.wait(2)
+       
+        self.play(FadeOut(biImplication_definition),FadeOut(box))
+        self.wait(2)
+        # Table content
+        headers = ["p", "q", "p ↔ q"]
+        table_data = [
+            ["T", "T", "T"],
+            ["T", "F", "F"],
+            ["F", "T", "F"],
+            ["F", "F", "T"],          
+        ]
+
+        # Create table object without MathTex
+        table = Table(
+            table_data,
+            col_labels=[Text(h) for h in headers],  # Use Text here
+            include_outer_lines=False,
+            line_config={"stroke_width": 1},
+        )            
+        table.scale(.5).next_to(underline, DOWN, buff=0.5).center()
+        # Get each column as a VGroup
+        first_col = VGroup(table.get_columns()[0], table.get_col_labels()[0])
+        second_col = VGroup(table.get_columns()[1], table.get_col_labels()[1])
+        third_col = VGroup(table.get_columns()[2], table.get_col_labels()[2])
+        # Add to scene
+        
+        # Hide all columns initially
+        for col in [first_col, second_col,third_col]:
+            col.set_opacity(0)
+        
+        self.add(table)
+        self.play(first_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(second_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(third_col[1].animate.set_opacity(1))
+        self.wait(1)
+    
+        for cell in first_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+        
+        for cell in second_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2) 
+
+        for cell in third_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+
+        self.play(table.animate.set_opacity(0)) 
+        self.wait(2)
+
+# manim -ql -p --disable_caching logic.py BiImplication
+
+class TautologyAndContradiction(Scene):
+    def construct(self):
+        background, bg_text = layout()
+        self.add(background)
+        self.add(bg_text)        
+               
+        # Title
+        title = Text("Tautology and Contradiction", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
+        underline.next_to(title, DOWN, buff=0.2)
+
+        self.add(title)
+        self.add(underline)
+        self.wait(2)
+        tautology_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
+       
+        tautology_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ ናይ pን qን tautology",font_size=30, color=WHITE, font="Nyala")
+        tautology_definition_2 = MarkupText("ወይ p ሓቂ እንተኾይኑ ወይ q ሓቂ እንተኾይኑ ወይ pን qን ክልቲኦም ሓቂ እንተኾይኖም፣ <span font_family='Sans' fgcolor='ORANGE'>p ↔ q</span> ሓቂ እዩ ብይብል።",font_size=30, color=WHITE, font="Nyala")
+        tautology_definition_3 = MarkupText("ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>p ↔ q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
+        tautology_definition = VGroup(tautology_definition_title, tautology_definition_1, tautology_definition_2, tautology_definition_3).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        
+        tautology_box = SurroundingRectangle(tautology_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
+        self.add(tautology_definition_title,
+                  tautology_definition_1,
+                  tautology_definition_2,
+                  tautology_definition_3,tautology_box)
+        self.wait(2)
+       
+        self.play(FadeOut(tautology_definition),FadeOut(tautology_box))
+        self.wait(2)
+        # Table content
+        tautology_headers = ["p", "¬p", "p ∨ ¬p"]
+        tautology_table_data = [
+            ["T", "F", "T"],
+            ["F", "T", "T"],
+                     
+        ]
+
+        # Create table object without MathTex
+        tautology_table = Table(
+            tautology_table_data,
+            col_labels=[Text(h) for h in tautology_headers],  # Use Text here
+            include_outer_lines=False,
+            line_config={"stroke_width": 1},
+        )            
+        tautology_table.scale(.5).next_to(underline, DOWN, buff=0.5).center()
+        # Get each column as a VGroup
+        tautology_first_col = VGroup(tautology_table.get_columns()[0], tautology_table.get_col_labels()[0])
+        tautology_second_col = VGroup(tautology_table.get_columns()[1], tautology_table.get_col_labels()[1])
+        tautology_third_col = VGroup(tautology_table.get_columns()[2], tautology_table.get_col_labels()[2])
+        # Add to scene
+        
+        # Hide all columns initially
+        for col in [tautology_first_col, tautology_second_col,tautology_third_col]:
+            col.set_opacity(0)
+        
+        self.add(tautology_table)
+        self.play(tautology_first_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(tautology_second_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(tautology_third_col[1].animate.set_opacity(1))
+        self.wait(1)
+    
+        for cell in tautology_first_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+        
+        for cell in tautology_second_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2) 
+
+        for cell in tautology_third_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+
+        self.play(tautology_table.animate.set_opacity(0)) 
+        self.wait(2)
+        
+        self.play(FadeOut(tautology_table))
+        self.wait(2)
+        contradiction_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
+       
+        contradiction_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ ናይ pን qን bi-implication",font_size=30, color=WHITE, font="Nyala")
+        contradiction_definition_2 = MarkupText("ወይ p ሓቂ እንተኾይኑ ወይ q ሓቂ እንተኾይኑ ወይ pን qን ክልቲኦም ሓቂ እንተኾይኖም፣ <span font_family='Sans' fgcolor='ORANGE'>p ↔ q</span> ሓቂ እዩ ብይብል።",font_size=30, color=WHITE, font="Nyala")
+        contradiction_definition_3 = MarkupText("ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>p ↔ q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
+        contradiction_definition = VGroup(contradiction_definition_title, contradiction_definition_1, contradiction_definition_2, contradiction_definition_3).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        
+        contradiction_box = SurroundingRectangle(contradiction_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
+        self.add(contradiction_definition_title,
+                  contradiction_definition_1,
+                  contradiction_definition_2,
+                  contradiction_definition_3,contradiction_box)
+        self.wait(2)
+       
+        self.play(FadeOut(contradiction_definition),FadeOut(contradiction_box))
+        self.wait(2)
+        # Table content
+        contradiction_headers = ["p", "¬p", "p ∧ ¬p"]
+        contradiction_table_data = [
+            ["T", "F", "F"],
+            ["F", "T", "F"],
+                     
+        ]
+      
+        # Create table object without MathTex
+        contradiction_table = Table(
+            contradiction_table_data,
+            col_labels=[Text(h) for h in contradiction_headers],  # Use Text here
+            include_outer_lines=False,
+            line_config={"stroke_width": 1},
+        )            
+        contradiction_table.scale(.5).next_to(underline, DOWN, buff=0.5).center()
+        # Get each column as a VGroup
+        contradiction_first_col = VGroup(contradiction_table.get_columns()[0], contradiction_table.get_col_labels()[0])
+        contradiction_second_col = VGroup(contradiction_table.get_columns()[1], contradiction_table.get_col_labels()[1])
+        contradiction_third_col = VGroup(contradiction_table.get_columns()[2], contradiction_table.get_col_labels()[2])
+        # Add to scene
+        
+        # Hide all columns initially
+        for col in [contradiction_first_col, contradiction_second_col,contradiction_third_col]:
+            col.set_opacity(0)
+        
+        self.add(contradiction_table)
+        self.play(contradiction_first_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(contradiction_second_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(contradiction_third_col[1].animate.set_opacity(1))
+        self.wait(1)
+    
+        for cell in contradiction_first_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+        
+        for cell in contradiction_second_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2) 
+
+        for cell in contradiction_third_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+
+        self.play(contradiction_table.animate.set_opacity(0)) 
+        self.wait(2)
+
+
+# manim -ql -p --disable_caching logic.py TautologyAndContradiction
+
+class Equivalence(Scene):
+    def construct(self):
+        background, bg_text = layout()
+        self.add(background)
+        self.add(bg_text)        
+               
+        # Title
+        title = Text("Logical Equivalence", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
+        underline.next_to(title, DOWN, buff=0.2)
+
+        self.add(title)
+        self.add(underline)
+        self.wait(2)
+        implication_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
+       
+        implication_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ ናይ pን qን logical equivalence",font_size=30, color=WHITE, font="Nyala")
+        implication_definition_2 = MarkupText("ወይ p ሓቂ እንተኾይኑ ወይ q ሓቂ እንተኾይኑ ወይ pን qን ክልቲኦም ሓቂ እንተኾይኖም፣ <span font_family='Sans' fgcolor='ORANGE'>p → q</span> ሓቂ እዩ ብይብል።",font_size=30, color=WHITE, font="Nyala")
+        implication_definition_3 = MarkupText("ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>≡</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
+        implication_definition = VGroup(implication_definition_title, implication_definition_1, implication_definition_2, implication_definition_3).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        
+        box = SurroundingRectangle(implication_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
+        self.add(implication_definition_title,
+                  implication_definition_1,
+                  implication_definition_2,
+                  implication_definition_3,box)
+        self.wait(2)       
+        self.play(FadeOut(implication_definition),FadeOut(box))
+        self.wait(2)
+        font_size =20
+        commutative = Text("1. Commutative law: p ∧ q  ≡ q ∧ p", font_size=font_size)
+        associative = Text("2. Associative law: (p ∧ q) ∧ r ≡ p ∧ (q ∧ r)", font_size=font_size)
+        distributive = Text("3. Distributive law: p ∧ (q ∨ r) ≡ (p ∧ q) ∨ (p ∧ r)", font_size=font_size)
+        identity = Text("4. Identity law: p ∧ t ≡ p", font_size=font_size)
+        negation = Text("5. Negation law: p ∧ ¬p ≡ c", font_size=font_size)
+        doubleNegation = Text("6. Double Negation law: ¬(¬p) ≡ p ", font_size=font_size)
+        idempotent = Text("7. Idempotent law:  p ∧ p ≡ p", font_size=font_size)
+        deMorgan = Text("8. De Morgan's law: ¬(p ∧ q) ≡ ¬p ∨ ¬q", font_size=font_size)
+        universal = Text("9. Universal bound law: p ∨ t ≡ t", font_size=font_size)
+        absorption = Text("10. Absorption law: p ∧ (p ∨ q) ≡ p", font_size=font_size)
+        tandc = Text("11. Negations of t and c:  ¬t ≡ c", font_size=font_size)
+
+        BulletedList = VGroup(commutative, associative, distributive, identity, negation, doubleNegation,
+                               idempotent, deMorgan, universal, absorption, tandc)
+        BulletedList.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25)
+
+        BulletedList.generate_target()        
+        BulletedList.target.shift(4.5*LEFT).scale(0.6)
+        self.play(FadeIn(commutative))
+        self.wait() 
+        self.play(FadeIn(associative))
+        self.wait()
+        self.play(FadeIn(distributive))
+        self.wait()
+        self.play(FadeIn(identity))
+        self.wait(2)
+        self.play(FadeIn(negation))
+        self.wait(2)
+        self.play(FadeIn(doubleNegation))
+        self.wait(2)
+        self.play(FadeIn(idempotent))
+        self.wait(2)
+        self.play(FadeIn(deMorgan))
+        self.wait(2)
+        self.play(FadeIn(universal))
+        self.wait(2)
+        self.play(FadeIn(absorption))
+        self.wait(2)
+        self.play(FadeIn(tandc))
+        self.wait(2)   
+       
+        box = SurroundingRectangle(BulletedList.target, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
+       
+        self.play(
+            MoveToTarget(BulletedList),
+            Create(box),
+            run_time=2
+        )
+        self.wait(2)
+
+        # Commutative law: p ∧ q  ≡ q ∧ p
+        commutative_title = Text("Commutative law: p ∧ q  ≡ q ∧ p", font_size=font_size + 8)
+        commutative_underline = Line(LEFT*commutative_title.width/2, RIGHT*commutative_title.width/2, stroke_width=1, color=WHITE)
+        commutative_underline.next_to(commutative_title, DOWN, buff=0.2)
+
+        commutative_bullet_underline = Line(LEFT*commutative.width/2, RIGHT*commutative.width/2, stroke_width=1, color=YELLOW)
+        commutative_bullet_underline.next_to(commutative, DOWN, buff=0.1)	
+
+        commutative_headers = ["p", "q", "p ∧ q", "q ∧ p"]
+        commutative_table_data = [
+            ["T", "T", "T", "T"],
+            ["T", "F", "F", "F"],
+            ["F", "T", "F", "F"],
+            ["F", "F", "F", "F"],          
+        ]
+		 # Create table object without MathTex
+        commutative_table = Table(
+            commutative_table_data,
+            col_labels=[Text(h) for h in commutative_headers],  # Use Text here
+            include_outer_lines=False,
+            line_config={"stroke_width": 1},
+        )            
+        commutative_table.scale(.5).next_to(underline, DOWN, buff=0.5).center()
+		
+        commutative_group = VGroup(commutative_title, commutative_underline, commutative_table)
+        commutative_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
+       
+        self.add(commutative_title, commutative_underline, commutative_bullet_underline)
+       
+        self.wait(2)
+        # Get each column as a VGroup
+        commutative_first_col = VGroup(commutative_table.get_columns()[0], commutative_table.get_col_labels()[0])
+        commutative_second_col = VGroup(commutative_table.get_columns()[1], commutative_table.get_col_labels()[1])
+        commutative_third_col = VGroup(commutative_table.get_columns()[2], commutative_table.get_col_labels()[2])
+        commutative_fourth_col = VGroup(commutative_table.get_columns()[3], commutative_table.get_col_labels()[3])
+        # Add to scene
+        
+        # Hide all columns initially
+        for col in [commutative_first_col, commutative_second_col,commutative_third_col, commutative_fourth_col]:
+            col.set_opacity(0)
+        
+        self.add(commutative_table)
+        self.play(commutative_first_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(commutative_second_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(commutative_third_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(commutative_fourth_col[1].animate.set_opacity(1))
+        self.wait(1)
+    
+        for cell in commutative_first_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+        
+        for cell in commutative_second_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2) 
+
+        # for cell in commutative_third_col[0]:
+        #     self.play(cell.animate.set_opacity(1))
+        #     self.wait(0.3)            
+        # self.wait(2)
+        cells = commutative_third_col[0]
+        for i in range(len(cells)):
+            # Access the cell using the index i
+            commutative_table.get_entries((i, 0)).set_color(GREEN)
+            commutative_table.get_entries((i, 1)).set_color(GREEN)
+            self.wait(0.3)
+            self.play(cells[i].animate.set_opacity(1))
+            self.wait(0.3)
+            commutative_table.get_entries((i, 0)).set_color(WHITE)
+            commutative_table.get_entries((i, 1)).set_color(WHITE)
+            self.wait(0.3)
+		
+        for cell in commutative_fourth_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+
+        # self.play(commutative_table.animate.set_opacity(0)) 
+        # self.wait(2)
+
+        commutative_col3 = SurroundingRectangle(commutative_table.get_columns()[2][1:], color=RED, buff=.1,
+                                             stroke_width= 1)
+        commutative_col4 = SurroundingRectangle(commutative_table.get_columns()[3][1:], color=RED, buff=.1,
+                                             stroke_width= 1)
+        self.add(commutative_col3, commutative_col4)
+        self.wait(2)
+        self.play(FadeOut(commutative_group), FadeOut(commutative_col3), FadeOut(commutative_col4), FadeOut(commutative_bullet_underline))
+        self.wait(2)
+
+                
+		# Associative law: p ∧ q  ≡ q ∧ p
+        associative_title = Text("Associative laws: (p ∧ q) ∧ r ≡ p ∧ (q ∧ r)", font_size=font_size + 8)
+        associative_underline = Line(LEFT*associative_title.width/2, RIGHT*associative_title.width/2, stroke_width=1, color=WHITE)
+        associative_underline.next_to(associative_title, DOWN, buff=0.2)
+
+        associative_bullet_underline = Line(LEFT*associative.width/2, RIGHT*associative.width/2, stroke_width=1, color=YELLOW)
+        associative_bullet_underline.next_to(associative, DOWN, buff=0.1)	
+
+        associative_headers = ["p", "q","r", "p ∧ q","q ∧ r", "(p ∧ q) ∧ r", "p ∧ (q ∧ r)"]
+        associative_table_data = [
+            ["T", "T", "T", "T", "T", "T", "T"],
+            ["T", "T", "F", "T", "F", "F", "F"],
+            ["T", "F", "T", "F", "F", "F", "F"],
+            ["T", "F", "F", "F", "F", "F", "F"],
+			["F", "T", "T", "F", "T", "F", "F"],
+            ["F", "T", "F", "F", "F", "F", "F"],
+            ["F", "F", "T", "F", "F", "F", "F"],
+            ["F", "F", "F", "F", "F", "F", "F"], 			
+        ]
+		 # Create table object without MathTex
+        associative_table = Table(
+            associative_table_data,
+            col_labels=[Text(h) for h in associative_headers],  # Use Text here
+            include_outer_lines=False,
+            line_config={"stroke_width": 1},
+        )            
+        associative_table.scale(.5).next_to(associative_bullet_underline, DOWN, buff=0.5).center()
+		
+        associative_group = VGroup(associative_title, associative_underline, associative_table)
+        associative_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
+       
+        self.add(associative_title, associative_underline, associative_bullet_underline)
+       
+        self.wait(2)
+        # Get each column as a VGroup
+        associative_first_col = VGroup(associative_table.get_columns()[0], associative_table.get_col_labels()[0])
+        associative_second_col = VGroup(associative_table.get_columns()[1], associative_table.get_col_labels()[1])
+        associative_third_col = VGroup(associative_table.get_columns()[2], associative_table.get_col_labels()[2])
+        associative_fourth_col = VGroup(associative_table.get_columns()[3], associative_table.get_col_labels()[3])
+        associative_fifth_col = VGroup(associative_table.get_columns()[4], associative_table.get_col_labels()[4])
+        associative_sixth_col = VGroup(associative_table.get_columns()[5], associative_table.get_col_labels()[5])
+        associative_seventh_col = VGroup(associative_table.get_columns()[6], associative_table.get_col_labels()[6])
+        # Add to scene
+        
+        # Hide all columns initially
+        for col in [associative_first_col, associative_second_col,associative_third_col, associative_fourth_col, associative_fifth_col, associative_sixth_col, associative_seventh_col]:
+            col.set_opacity(0)
+        
+        self.add(associative_table)
+        self.play(associative_first_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(associative_second_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(associative_third_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(associative_fourth_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(associative_fifth_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(associative_sixth_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(associative_seventh_col[1].animate.set_opacity(1))
+        self.wait(1)
+    
+        for cell in associative_first_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+        
+        for cell in associative_second_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2) 
+
+        for cell in associative_third_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+		
+        for cell in associative_fourth_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+
+        for cell in associative_fifth_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+        for cell in associative_sixth_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)
+        self.wait(2)
+        for cell in associative_seventh_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)  
+        self.wait(2)
+
+        # self.play(associative_table.animate.set_opacity(0)) 
+        # self.wait(2)
+
+        associative_col3 = SurroundingRectangle(associative_table.get_columns()[5][1:], color=RED, buff=.1,
+                                             stroke_width= 1)
+        associative_col4 = SurroundingRectangle(associative_table.get_columns()[6][1:], color=RED, buff=.1,
+                                             stroke_width= 1)
+        self.add(associative_col3, associative_col4)
+        self.wait(2)
+        self.play(FadeOut(associative_group), FadeOut(associative_col3), FadeOut(associative_col4), FadeOut(associative_bullet_underline))
+        self.wait(2)
+
+        # Distributive law: p ∧ q  ≡ q ∧ p
+        distributive_title = Text("Distributive laws: (p ∧ q) ∧ r ≡ p ∧ (q ∧ r)", font_size=font_size + 8)
+        distributive_underline = Line(LEFT*distributive_title.width/2, RIGHT*distributive_title.width/2, stroke_width=1, color=WHITE)
+        distributive_underline.next_to(distributive_title, DOWN, buff=0.2)
+
+        distributive_bullet_underline = Line(LEFT*distributive.width/2, RIGHT*distributive.width/2, stroke_width=1, color=YELLOW)
+        distributive_bullet_underline.next_to(distributive, DOWN, buff=0.1)	
+
+        distributive_headers = ["p","q","r", "p ∨ q","p ∧ q", "(p ∧ r)", "p ∧ (q ∨ r)", "(p ∧ q) ∨ (p ∧ r)"]
+        distributive_table_data = [
+            ["T", "T", "T", "T", "T", "T", "T", "T"],
+            ["T", "T", "F", "T", "T", "F", "T", "T"],
+            ["T", "F", "T", "T", "F", "T", "T", "T"],
+            ["T", "F", "F", "F", "F", "F", "F", "F"],
+            ["F", "T", "T", "T", "F", "F", "F", "F"],
+            ["F", "T", "F", "T", "F", "F", "F", "F"],
+            ["F", "F", "T", "T", "F", "F", "F", "F"],
+            ["F", "F", "F", "F", "F", "F", "F", "F"], 			
+        ]
+		 # Create table object without MathTex
+        distributive_table = Table(
+            distributive_table_data,
+            col_labels=[Text(h) for h in distributive_headers],  # Use Text here
+            include_outer_lines=False,
+            line_config={"stroke_width": 1},
+        )            
+        distributive_table.scale(.5).next_to(distributive_bullet_underline, DOWN, buff=0.5).center()
+		
+        distributive_group = VGroup(distributive_title, distributive_underline, distributive_table)
+        distributive_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2.5*RIGHT)
+       
+        self.add(distributive_title, distributive_underline, distributive_bullet_underline)
+       
+        self.wait(2)
+        # Get each column as a VGroup
+        distributive_first_col = VGroup(distributive_table.get_columns()[0], distributive_table.get_col_labels()[0])
+        distributive_second_col = VGroup(distributive_table.get_columns()[1], distributive_table.get_col_labels()[1])
+        distributive_third_col = VGroup(distributive_table.get_columns()[2], distributive_table.get_col_labels()[2])
+        distributive_fourth_col = VGroup(distributive_table.get_columns()[3], distributive_table.get_col_labels()[3])
+        distributive_fifth_col = VGroup(distributive_table.get_columns()[4], distributive_table.get_col_labels()[4])
+        distributive_sixth_col = VGroup(distributive_table.get_columns()[5], distributive_table.get_col_labels()[5])
+        distributive_seventh_col = VGroup(distributive_table.get_columns()[6], distributive_table.get_col_labels()[6])
+        distributive_eighth_col = VGroup(distributive_table.get_columns()[7], distributive_table.get_col_labels()[7])
+        # Add to scene
+        
+        # Hide all columns initially
+        for col in [distributive_first_col, distributive_second_col,distributive_third_col, distributive_fourth_col, 
+                    distributive_fifth_col, distributive_sixth_col, distributive_seventh_col, distributive_eighth_col]:
+            col.set_opacity(0)
+        
+        self.add(distributive_table)
+        self.play(distributive_first_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(distributive_second_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(distributive_third_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(distributive_fourth_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(distributive_fifth_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(distributive_sixth_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(distributive_seventh_col[1].animate.set_opacity(1))
+        self.wait(1)
+        self.play(distributive_eighth_col[1].animate.set_opacity(1))
+        self.wait(1)
+    
+        for cell in distributive_first_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+        
+        for cell in distributive_second_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2) 
+
+        for cell in distributive_third_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+		
+        for cell in distributive_fourth_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+
+        for cell in distributive_fifth_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(2)
+        for cell in distributive_sixth_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)
+        self.wait(2)
+        for cell in distributive_seventh_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)  
+        self.wait(2)
+        for cell in distributive_eighth_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)
+        self.wait(2)
+
+        # self.play(distributive_table.animate.set_opacity(0)) 
+        # self.wait(2)
+
+        distributive_col3 = SurroundingRectangle(distributive_table.get_columns()[6][1:], color=RED, buff=.1,
+                                             stroke_width= 1)
+        distributive_col4 = SurroundingRectangle(distributive_table.get_columns()[7][1:], color=RED, buff=.1,
+                                             stroke_width= 1)
+        self.add(distributive_col3, distributive_col4)
+        self.wait(2)
+        self.play(FadeOut(distributive_group), FadeOut(distributive_col3), FadeOut(distributive_col4), FadeOut(distributive_bullet_underline))
+        self.wait(2)
+# manim -ql -p --disable_caching logic.py Equivalence
