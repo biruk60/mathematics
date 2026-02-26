@@ -195,7 +195,7 @@ class EquivalenceScene(Scene):
 
         # distributive_bullet_underline = Line(LEFT*distributive.width/2, RIGHT*distributive.width/2, stroke_width=1, color=YELLOW)
         # distributive_bullet_underline.next_to(distributive, DOWN, buff=0.1)
-        #  distributive_headers = ["p","q","r", "p ∨ q","p ∧ q", "(p ∧ r)", "p ∧ (q ∨ r)", "(p ∧ q) ∨ (p ∧ r)"]
+        #  distributive_headers = ["p","q","r", "q ∨ r","p ∧ q", "(p ∧ r)", "p ∧ (q ∨ r)", "(p ∧ q) ∨ (p ∧ r)"]
         distributive_table = Table(
             [["T", "T", "T", "T", "T", "T", "T", "T"],
             ["T", "T", "F", "T", "T", "F", "T", "T"],
@@ -220,10 +220,10 @@ class EquivalenceScene(Scene):
         self.play(FadeIn(distributive_table), run_time=1)
         self.wait(1)
 
-        # p ∨ q
+        # q ∨ r
 
-        distributive_row1_col0_content = SurroundingRectangle(distributive_table.get_entries((2, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
-        distributive_row1_col1_content = SurroundingRectangle(distributive_table.get_entries((2, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        distributive_row1_col0_content = SurroundingRectangle(distributive_table.get_entries((2, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        distributive_row1_col1_content = SurroundingRectangle(distributive_table.get_entries((2, 3)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
         distributive_row1_col3_content = SurroundingRectangle(distributive_table.get_entries((2, 4)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1) 
         self.play(Create(distributive_row1_col0_content), run_time=1)
         self.play(Create(distributive_row1_col1_content),run_time=1)        
@@ -232,8 +232,8 @@ class EquivalenceScene(Scene):
         self.play(FadeOut(distributive_row1_col0_content), FadeOut(distributive_row1_col1_content), FadeOut(distributive_row1_col3_content), run_time=1)
         self.wait(1)
 
-        distributive_row2_col0_content = SurroundingRectangle(distributive_table.get_entries((3, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
-        distributive_row2_col1_content = SurroundingRectangle(distributive_table.get_entries((3, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        distributive_row2_col0_content = SurroundingRectangle(distributive_table.get_entries((3, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        distributive_row2_col1_content = SurroundingRectangle(distributive_table.get_entries((3, 3)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
         distributive_row2_col3_content = SurroundingRectangle(distributive_table.get_entries((3, 4)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1) 
         self.play(Create(distributive_row2_col0_content), run_time=1)
         self.play(Create(distributive_row2_col1_content),run_time=1)        
@@ -242,8 +242,8 @@ class EquivalenceScene(Scene):
         self.play(FadeOut(distributive_row2_col0_content), FadeOut(distributive_row2_col1_content),FadeOut(distributive_row2_col3_content), run_time=1)
         self.wait(1)
 
-        distributive_row3_col0_content = SurroundingRectangle(distributive_table.get_entries((4, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
-        distributive_row3_col1_content = SurroundingRectangle(distributive_table.get_entries((4, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
+        distributive_row3_col0_content = SurroundingRectangle(distributive_table.get_entries((4, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        distributive_row3_col1_content = SurroundingRectangle(distributive_table.get_entries((4, 3)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
         distributive_row3_col3_content = SurroundingRectangle(distributive_table.get_entries((4, 4)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
         self.play(Create(distributive_row3_col0_content), run_time=1)
         self.play(Create(distributive_row3_col1_content),run_time=1)        
@@ -252,8 +252,8 @@ class EquivalenceScene(Scene):
         self.play(FadeOut(distributive_row3_col0_content), FadeOut(distributive_row3_col1_content), FadeOut(distributive_row3_col3_content), run_time=1)
         self.wait(1)
 
-        distributive_row4_col0_content = SurroundingRectangle(distributive_table.get_entries((5, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
-        distributive_row4_col1_content = SurroundingRectangle(distributive_table.get_entries((5, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
+        distributive_row4_col0_content = SurroundingRectangle(distributive_table.get_entries((5, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        distributive_row4_col1_content = SurroundingRectangle(distributive_table.get_entries((5, 3)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
         distributive_row4_col3_content = SurroundingRectangle(distributive_table.get_entries((5, 4)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
         self.play(Create(distributive_row4_col0_content), run_time=1)
         self.play(Create(distributive_row4_col1_content),run_time=1)        
@@ -262,8 +262,8 @@ class EquivalenceScene(Scene):
         self.play(FadeOut(distributive_row4_col0_content), FadeOut(distributive_row4_col1_content), FadeOut(distributive_row4_col3_content), run_time=1)        
         self.wait(1)
 
-        distributive_row5_col0_content = SurroundingRectangle(distributive_table.get_entries((6, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
-        distributive_row5_col1_content = SurroundingRectangle(distributive_table.get_entries((6, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)        
+        distributive_row5_col0_content = SurroundingRectangle(distributive_table.get_entries((6, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        distributive_row5_col1_content = SurroundingRectangle(distributive_table.get_entries((6, 3)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)        
         distributive_row5_col3_content = SurroundingRectangle(distributive_table.get_entries((6, 4)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
         self.play(Create(distributive_row5_col0_content), run_time=1)
         self.play(Create(distributive_row5_col1_content),run_time=1)        
@@ -272,8 +272,8 @@ class EquivalenceScene(Scene):
         self.play(FadeOut(distributive_row5_col0_content), FadeOut(distributive_row5_col1_content), FadeOut(distributive_row5_col3_content), run_time=1)
         self.wait(1)
 
-        distributive_row6_col0_content = SurroundingRectangle(distributive_table.get_entries((7, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
-        distributive_row6_col1_content = SurroundingRectangle(distributive_table.get_entries((7, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)        
+        distributive_row6_col0_content = SurroundingRectangle(distributive_table.get_entries((7, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        distributive_row6_col1_content = SurroundingRectangle(distributive_table.get_entries((7, 3)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)        
         distributive_row6_col3_content = SurroundingRectangle(distributive_table.get_entries((7, 4)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
         self.play(Create(distributive_row6_col0_content), run_time=1)
         self.play(Create(distributive_row6_col1_content),run_time=1)       
@@ -282,8 +282,8 @@ class EquivalenceScene(Scene):
         self.play(FadeOut(distributive_row6_col0_content), FadeOut(distributive_row6_col1_content), FadeOut(distributive_row6_col3_content), run_time=1)
         self.wait(1)
 
-        distributive_row7_col0_content = SurroundingRectangle(distributive_table.get_entries((8, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
-        distributive_row7_col1_content = SurroundingRectangle(distributive_table.get_entries((8, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
+        distributive_row7_col0_content = SurroundingRectangle(distributive_table.get_entries((8, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        distributive_row7_col1_content = SurroundingRectangle(distributive_table.get_entries((8, 3)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
         distributive_row7_col3_content = SurroundingRectangle(distributive_table.get_entries((8, 4)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
         self.play(Create(distributive_row7_col0_content), run_time=1)
         self.play(Create(distributive_row7_col1_content),run_time=1)       
@@ -292,8 +292,8 @@ class EquivalenceScene(Scene):
         self.play(FadeOut(distributive_row7_col0_content), FadeOut(distributive_row7_col1_content), FadeOut(distributive_row7_col3_content), run_time=1)
         self.wait(1)
 
-        distributive_row8_col0_content = SurroundingRectangle(distributive_table.get_entries((9, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
-        distributive_row8_col1_content = SurroundingRectangle(distributive_table.get_entries((9, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
+        distributive_row8_col0_content = SurroundingRectangle(distributive_table.get_entries((9, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        distributive_row8_col1_content = SurroundingRectangle(distributive_table.get_entries((9, 3)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
         distributive_row8_col3_content = SurroundingRectangle(distributive_table.get_entries((9, 4)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
         self.play(Create(distributive_row8_col0_content), run_time=1)
         self.play(Create(distributive_row8_col1_content),run_time=1)        
