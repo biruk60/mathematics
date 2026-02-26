@@ -1,16 +1,8 @@
 
 from manim import * 
-import manimpango
 
-def layout()->[mobject.types.image_mobject.ImageMobject, mobject.text.text_mobject.Text]:
-    background = ImageMobject("assets/images/blackboard.png").set_opacity(.8)
-    manimpango.register_font("assets/fonts/nyala_regular.ttf")
-    background.scale_to_fit_width(config.frame_width)
-    background.scale_to_fit_height(config.frame_height)
-    background.set_z_index(-10)  # Keep behind everything
-    bg_text = Text("@BK_BROOK", fill_opacity=0.025).scale(3)
-    bg_text.set_z_index(-9)  # Keep behind everything
-    return background, bg_text 
+
+from common.common import layout, add_shadow
 
 class OutroScene(Scene):
     def construct(self):
@@ -19,24 +11,48 @@ class OutroScene(Scene):
         self.add(background)
         self.add(bg_text)
         
-        self.wait()           
+        self.wait()   
+             
         # Texts
-        share_text = Text("Share.", font_size=44, color='#52B2BF').shift(3*LEFT)
-        like_text = Text("Like.", font_size=44, color='#708238').next_to(share_text, 1.5*RIGHT)
-        subscribe_text = Text("Subscribe.", font_size=44, color='#EDC001').next_to(like_text, 1.5*RIGHT)
-        buff=0.3
+        share_text = add_shadow(Text("Share.", font_size=44, color="#054114").shift(3*LEFT))
+        like_text = add_shadow(Text("Like.", font_size=44, color="#0B0B46").next_to(share_text, 1.5*RIGHT))
+        subscribe_text = add_shadow(Text("Subscribe.", font_size=44, color='#EDC001').next_to(like_text, 1.5*RIGHT)).shift(UP*.05)
         
-        self.play(FadeIn(share_text), FadeIn(like_text), FadeIn(subscribe_text), run_time=1)
+        bell = SVGMobject("../assets/svgs/bell.svg").scale(0.2)
+        bell.set_color('#EDC001')  
+        bell.next_to(subscribe_text, UP*.7, buff=0.1)
+        
+        bell_shadow = add_shadow(bell)
+
+        like = SVGMobject("../assets/svgs/like.svg").scale(0.2)
+        like.set_color('#0B0B46')  
+        like.next_to(like_text, UP*.7, buff=0.1)
+        
+        like_shadow = add_shadow(like)
+
+        share = SVGMobject("../assets/svgs/share.svg").scale(0.2)
+        share.set_color('#054114')  
+        share.next_to(share_text, UP*.7, buff=0.1)
+        
+        share_shadow = add_shadow(share, color=BLACK, opacity=0.1, shift=(0.025,-0.025,0))
+        
+        v_share = VGroup(share_text,  share_shadow)
+        v_like = VGroup(like_text, like_shadow)
+        v_subscribe = VGroup(subscribe_text, bell_shadow)
+
+        buff=0.3
+        self.play(FadeIn(share_text), FadeIn(like_text), FadeIn(subscribe_text), 
+                  FadeIn(bell_shadow), FadeIn(like_shadow),FadeIn(share_shadow), run_time=1)
         # self.add_sound("assets/sounds/Outro/share_like_subscribe.mp3")
-        self.play(Circumscribe(share_text, Circle, color='#52B2BF', buff=buff), run_time=.3)
-        self.play(Circumscribe(share_text, Circle, True,color='#52B2BF', buff=buff), run_time=.3)
+        self.play(Circumscribe(v_share, Circle, color='#054114', buff=buff), run_time=.3)
+        self.play(Circumscribe(v_share, Circle, True,color='#054114', buff=buff), run_time=.3)
         self.wait()
-        self.play(Circumscribe(like_text, Rectangle, color='#708238', buff=buff), run_time=.35)
-        self.play(Circumscribe(like_text, Rectangle, True,color='#708238', buff=buff), run_time=.2)
+        self.play(Circumscribe(v_like, Rectangle, color="#0B0B46", buff=buff), run_time=.35)
+        self.play(Circumscribe(v_like, Rectangle, True,color='#0B0B46', buff=buff), run_time=.2)
         self.wait()
-        self.play(Circumscribe(subscribe_text, Circle, color='#EDC001', buff=buff), run_time=.5)
-        self.play(Circumscribe(subscribe_text, Circle, True,color='#EDC001', buff=buff), run_time=.5)
-        final_group = VGroup(share_text, like_text, subscribe_text)
+        self.play(Circumscribe(v_subscribe, Circle, color='#EDC001', buff=buff), run_time=.5)
+        self.play(Circumscribe(v_subscribe, Circle, True,color='#EDC001', buff=buff), run_time=.5)
+        final_group = VGroup(v_share, v_like, v_subscribe)
         self.play(ShrinkToCenter(final_group), run_time=1)   
         self.wait(1)
         # manim -ql -p --disable_caching  -o outro_video.mp4 .\outro.py OutroScene

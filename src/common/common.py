@@ -16,3 +16,8 @@ def layout()->[mobject.types.image_mobject.ImageMobject, mobject.text.text_mobje
     bg_text = Text("@BK_BROOK", fill_opacity=0.025).scale(3)
     bg_text.set_z_index(-9)  # Keep behind everything
     return background, bg_text 
+
+def add_shadow(mobject, color=BLACK, opacity=0.1,shift=(0.1,-0.1,0)):
+    shadow = (mobject.copy().set_fill(color = color, opacity=opacity).set_stroke_width(0).shift(shift).set_z_index(- 1))
+    mobject.add(shadow)
+    return mobject  

@@ -1040,209 +1040,457 @@ class Equivalence(Scene):
         # Commutative law: p ∧ q  ≡ q ∧ p
         commutative_title = Text("Commutative law: p ∧ q  ≡ q ∧ p", font_size=font_size + 8)
         commutative_underline = Line(LEFT*commutative_title.width/2, RIGHT*commutative_title.width/2, stroke_width=1, color=WHITE)
-        commutative_underline.next_to(commutative_title, DOWN, buff=0.2)
+        commutative_underline.next_to(commutative_title, DOWN, buff=0.2)        	
 
         commutative_bullet_underline = Line(LEFT*commutative.width/2, RIGHT*commutative.width/2, stroke_width=1, color=YELLOW)
-        commutative_bullet_underline.next_to(commutative, DOWN, buff=0.1)	
-
-        commutative_headers = ["p", "q", "p ∧ q", "q ∧ p"]
-        commutative_table_data = [
-            ["T", "T", "T", "T"],
+        commutative_bullet_underline.next_to(commutative, DOWN, buff=0.1)
+        commutative_table = Table(
+            [ ["T", "T", "T", "T"],
             ["T", "F", "F", "F"],
             ["F", "T", "F", "F"],
-            ["F", "F", "F", "F"],          
-        ]
-		 # Create table object without MathTex
-        commutative_table = Table(
-            commutative_table_data,
-            col_labels=[Text(h) for h in commutative_headers],  # Use Text here
+            ["F", "F", "F", "F"]],           
+            col_labels=[Text("P"), Text("q"), Text("p ∧ q"), Text("q ∧ p")],
             include_outer_lines=False,
             line_config={"stroke_width": 1},
-        )            
-        commutative_table.scale(.5).next_to(underline, DOWN, buff=0.5).center()
-		
+        ).scale(0.7).next_to(commutative_underline, DOWN*2, buff=0.5)
+
         commutative_group = VGroup(commutative_title, commutative_underline, commutative_table)
         commutative_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
        
         self.add(commutative_title, commutative_underline, commutative_bullet_underline)
        
         self.wait(2)
-        # Get each column as a VGroup
-        commutative_first_col = VGroup(commutative_table.get_columns()[0], commutative_table.get_col_labels()[0])
-        commutative_second_col = VGroup(commutative_table.get_columns()[1], commutative_table.get_col_labels()[1])
-        commutative_third_col = VGroup(commutative_table.get_columns()[2], commutative_table.get_col_labels()[2])
-        commutative_fourth_col = VGroup(commutative_table.get_columns()[3], commutative_table.get_col_labels()[3])
-        # Add to scene
-        
-        # Hide all columns initially
-        for col in [commutative_first_col, commutative_second_col,commutative_third_col, commutative_fourth_col]:
-            col.set_opacity(0)
-        
-        self.add(commutative_table)
-        self.play(commutative_first_col[1].animate.set_opacity(1))
+        self.play(FadeIn(commutative_table), run_time=1)
         self.wait(1)
-        self.play(commutative_second_col[1].animate.set_opacity(1))
-        self.wait(1)
-        self.play(commutative_third_col[1].animate.set_opacity(1))
-        self.wait(1)
-        self.play(commutative_fourth_col[1].animate.set_opacity(1))
-        self.wait(1)
-    
-        for cell in commutative_first_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
+       
+        commutative_row1_col0_content = SurroundingRectangle(commutative_table.get_entries((2, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        commutative_row1_col1_content = SurroundingRectangle(commutative_table.get_entries((2, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        commutative_row1_col2_content = SurroundingRectangle(commutative_table.get_entries((2, 3)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        commutative_row1_col3_content = SurroundingRectangle(commutative_table.get_entries((2, 4)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        self.play(Create(commutative_row1_col0_content), run_time=1)
+        self.play(Create(commutative_row1_col1_content),run_time=1)
+        self.play(Create(commutative_row1_col2_content), run_time=1)
+        self.play( Create(commutative_row1_col3_content) ,run_time=1)
         self.wait(2)
-        
-        for cell in commutative_second_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
-        self.wait(2) 
-
-        # for cell in commutative_third_col[0]:
-        #     self.play(cell.animate.set_opacity(1))
-        #     self.wait(0.3)            
-        # self.wait(2)
-        cells = commutative_third_col[0]
-        for i in range(len(cells)):
-            # Access the cell using the index i
-            commutative_table.get_entries((i, 0)).set_color(GREEN)
-            commutative_table.get_entries((i, 1)).set_color(GREEN)
-            self.wait(0.3)
-            self.play(cells[i].animate.set_opacity(1))
-            self.wait(0.3)
-            commutative_table.get_entries((i, 0)).set_color(WHITE)
-            commutative_table.get_entries((i, 1)).set_color(WHITE)
-            self.wait(0.3)
-		
-        for cell in commutative_fourth_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
+        self.play(FadeOut(commutative_row1_col0_content), FadeOut(commutative_row1_col1_content),
+                          FadeOut(commutative_row1_col2_content), FadeOut(commutative_row1_col3_content), run_time=1)
+        self.wait(2)
+        commutative_row2_col0_content = SurroundingRectangle(commutative_table.get_entries((3, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        commutative_row2_col1_content = SurroundingRectangle(commutative_table.get_entries((3, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        commutative_row2_col2_content = SurroundingRectangle(commutative_table.get_entries((3, 3)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        commutative_row2_col3_content = SurroundingRectangle(commutative_table.get_entries((3, 4)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(commutative_row2_col0_content), run_time=1)
+        self.play(Create(commutative_row2_col1_content),run_time=1)
+        self.play(Create(commutative_row2_col2_content), run_time=1)
+        self.play( Create(commutative_row2_col3_content) ,run_time=1)
+        self.wait(2)
+        self.play(FadeOut(commutative_row2_col0_content), FadeOut(commutative_row2_col1_content),
+                          FadeOut(commutative_row2_col2_content), FadeOut(commutative_row2_col3_content), run_time=1)
         self.wait(2)
 
-        # self.play(commutative_table.animate.set_opacity(0)) 
-        # self.wait(2)
+        commutative_row3_col0_content = SurroundingRectangle(commutative_table.get_entries((4, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        commutative_row3_col1_content = SurroundingRectangle(commutative_table.get_entries((4, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        commutative_row3_col2_content = SurroundingRectangle(commutative_table.get_entries((4, 3)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        commutative_row3_col3_content = SurroundingRectangle(commutative_table.get_entries((4, 4)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(commutative_row3_col0_content), run_time=1)
+        self.play(Create(commutative_row3_col1_content),run_time=1)
+        self.play(Create(commutative_row3_col2_content), run_time=1)
+        self.play( Create(commutative_row3_col3_content) ,run_time=1)
+        self.wait(2)
+        self.play(FadeOut(commutative_row3_col0_content), FadeOut(commutative_row3_col1_content),
+                          FadeOut(commutative_row3_col2_content), FadeOut(commutative_row3_col3_content), run_time=1)
+        self.wait(2)
 
-        commutative_col3 = SurroundingRectangle(commutative_table.get_columns()[2][1:], color=RED, buff=.1,
+        commutative_row4_col0_content = SurroundingRectangle(commutative_table.get_entries((5, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        commutative_row4_col1_content = SurroundingRectangle(commutative_table.get_entries((5, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        commutative_row4_col2_content = SurroundingRectangle(commutative_table.get_entries((5, 3)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        commutative_row4_col3_content = SurroundingRectangle(commutative_table.get_entries((5, 4)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(commutative_row4_col0_content), run_time=1)
+        self.play(Create(commutative_row4_col1_content),run_time=1)
+        self.play(Create(commutative_row4_col2_content), run_time=1)
+        self.play( Create(commutative_row4_col3_content) ,run_time=1)
+        self.wait(2)
+        self.play(FadeOut(commutative_row4_col0_content), FadeOut(commutative_row4_col1_content),
+                          FadeOut(commutative_row4_col2_content), FadeOut(commutative_row4_col3_content), run_time=1)
+        self.wait(2)
+        commutative_col3 = SurroundingRectangle(commutative_table.get_columns()[2][1:], color=RED, buff=0.05, 
                                              stroke_width= 1)
-        commutative_col4 = SurroundingRectangle(commutative_table.get_columns()[3][1:], color=RED, buff=.1,
+        commutative_col4 = SurroundingRectangle(commutative_table.get_columns()[3][1:], color=RED, buff=0.05, 
                                              stroke_width= 1)
         self.add(commutative_col3, commutative_col4)
         self.wait(2)
-        self.play(FadeOut(commutative_group), FadeOut(commutative_col3), FadeOut(commutative_col4), FadeOut(commutative_bullet_underline))
+        self.play(FadeOut(commutative_group), FadeOut(commutative_col3), FadeOut(commutative_col4),  FadeOut(commutative_bullet_underline), run_time=1)
         self.wait(2)
 
                 
-		# Associative law: p ∧ q  ≡ q ∧ p
+		 # Associative law: (p ∧ q) ∧ r ≡ p ∧ (q ∧ r)
         associative_title = Text("Associative laws: (p ∧ q) ∧ r ≡ p ∧ (q ∧ r)", font_size=font_size + 8)
         associative_underline = Line(LEFT*associative_title.width/2, RIGHT*associative_title.width/2, stroke_width=1, color=WHITE)
-        associative_underline.next_to(associative_title, DOWN, buff=0.2)
+        associative_underline.next_to(associative_title, DOWN, buff=0.2)        	
 
         associative_bullet_underline = Line(LEFT*associative.width/2, RIGHT*associative.width/2, stroke_width=1, color=YELLOW)
-        associative_bullet_underline.next_to(associative, DOWN, buff=0.1)	
-
-        associative_headers = ["p", "q","r", "p ∧ q","q ∧ r", "(p ∧ q) ∧ r", "p ∧ (q ∧ r)"]
-        associative_table_data = [
-            ["T", "T", "T", "T", "T", "T", "T"],
+        associative_bullet_underline.next_to(associative, DOWN, buff=0.1)
+        # associative_headers = ["p", "q","r", "p ∧ q","q ∧ r", "(p ∧ q) ∧ r", "p ∧ (q ∧ r)"]
+        associative_table = Table(
+            [["T", "T", "T", "T", "T", "T", "T"],
             ["T", "T", "F", "T", "F", "F", "F"],
             ["T", "F", "T", "F", "F", "F", "F"],
             ["T", "F", "F", "F", "F", "F", "F"],
 			["F", "T", "T", "F", "T", "F", "F"],
             ["F", "T", "F", "F", "F", "F", "F"],
             ["F", "F", "T", "F", "F", "F", "F"],
-            ["F", "F", "F", "F", "F", "F", "F"], 			
-        ]
-		 # Create table object without MathTex
-        associative_table = Table(
-            associative_table_data,
-            col_labels=[Text(h) for h in associative_headers],  # Use Text here
+            ["F", "F", "F", "F", "F", "F", "F"]],           
+            col_labels=[Text("P"), Text("q"), Text("r"), Text("p ∧ q"), Text("q ∧ r"), Text("(p ∧ q) ∧ r"), Text("p ∧ (q ∧ r)")],
             include_outer_lines=False,
             line_config={"stroke_width": 1},
-        )            
-        associative_table.scale(.5).next_to(associative_bullet_underline, DOWN, buff=0.5).center()
-		
+        ).scale(0.5).next_to(associative_underline, DOWN, buff=0.5)
+
         associative_group = VGroup(associative_title, associative_underline, associative_table)
         associative_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
        
         self.add(associative_title, associative_underline, associative_bullet_underline)
+        # self.add(associative_title, associative_underline)
        
-        self.wait(2)
-        # Get each column as a VGroup
-        associative_first_col = VGroup(associative_table.get_columns()[0], associative_table.get_col_labels()[0])
-        associative_second_col = VGroup(associative_table.get_columns()[1], associative_table.get_col_labels()[1])
-        associative_third_col = VGroup(associative_table.get_columns()[2], associative_table.get_col_labels()[2])
-        associative_fourth_col = VGroup(associative_table.get_columns()[3], associative_table.get_col_labels()[3])
-        associative_fifth_col = VGroup(associative_table.get_columns()[4], associative_table.get_col_labels()[4])
-        associative_sixth_col = VGroup(associative_table.get_columns()[5], associative_table.get_col_labels()[5])
-        associative_seventh_col = VGroup(associative_table.get_columns()[6], associative_table.get_col_labels()[6])
-        # Add to scene
+        self.wait(1)
+        self.play(FadeIn(associative_table), run_time=1)
+        self.wait(1)
+        # p ∧ q
+        associative_row1_col0_content = SurroundingRectangle(associative_table.get_entries((2, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        associative_row1_col1_content = SurroundingRectangle(associative_table.get_entries((2, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        associative_row1_col3_content = SurroundingRectangle(associative_table.get_entries((2, 4)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1) 
+        self.play(Create(associative_row1_col0_content), run_time=1)
+        self.play(Create(associative_row1_col1_content),run_time=1)        
+        self.play(Create(associative_row1_col3_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row1_col0_content), FadeOut(associative_row1_col1_content), FadeOut(associative_row1_col3_content), run_time=1)
+        self.wait(1)
+
+        associative_row2_col0_content = SurroundingRectangle(associative_table.get_entries((3, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        associative_row2_col1_content = SurroundingRectangle(associative_table.get_entries((3, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        associative_row2_col3_content = SurroundingRectangle(associative_table.get_entries((3, 4)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1) 
+        self.play(Create(associative_row2_col0_content), run_time=1)
+        self.play(Create(associative_row2_col1_content),run_time=1)        
+        self.play(Create(associative_row2_col3_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row2_col0_content), FadeOut(associative_row2_col1_content),FadeOut(associative_row2_col3_content), run_time=1)
+        self.wait(1)
+
+        associative_row3_col0_content = SurroundingRectangle(associative_table.get_entries((4, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        associative_row3_col1_content = SurroundingRectangle(associative_table.get_entries((4, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
+        associative_row3_col3_content = SurroundingRectangle(associative_table.get_entries((4, 4)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row3_col0_content), run_time=1)
+        self.play(Create(associative_row3_col1_content),run_time=1)        
+        self.play(Create(associative_row3_col3_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row3_col0_content), FadeOut(associative_row3_col1_content), FadeOut(associative_row3_col3_content), run_time=1)
+        self.wait(1)
+
+        associative_row4_col0_content = SurroundingRectangle(associative_table.get_entries((5, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        associative_row4_col1_content = SurroundingRectangle(associative_table.get_entries((5, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
+        associative_row4_col3_content = SurroundingRectangle(associative_table.get_entries((5, 4)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row4_col0_content), run_time=1)
+        self.play(Create(associative_row4_col1_content),run_time=1)        
+        self.play(Create(associative_row4_col3_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row4_col0_content), FadeOut(associative_row4_col1_content), FadeOut(associative_row4_col3_content), run_time=1)        
+        self.wait(1)
+
+        associative_row5_col0_content = SurroundingRectangle(associative_table.get_entries((6, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        associative_row5_col1_content = SurroundingRectangle(associative_table.get_entries((6, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)        
+        associative_row5_col3_content = SurroundingRectangle(associative_table.get_entries((6, 4)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row5_col0_content), run_time=1)
+        self.play(Create(associative_row5_col1_content),run_time=1)        
+        self.play(Create(associative_row5_col3_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row5_col0_content), FadeOut(associative_row5_col1_content), FadeOut(associative_row5_col3_content), run_time=1)
+        self.wait(1)
+
+        associative_row6_col0_content = SurroundingRectangle(associative_table.get_entries((7, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        associative_row6_col1_content = SurroundingRectangle(associative_table.get_entries((7, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)        
+        associative_row6_col3_content = SurroundingRectangle(associative_table.get_entries((7, 4)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row6_col0_content), run_time=1)
+        self.play(Create(associative_row6_col1_content),run_time=1)       
+        self.play(Create(associative_row6_col3_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row6_col0_content), FadeOut(associative_row6_col1_content), FadeOut(associative_row6_col3_content), run_time=1)
+        self.wait(1)
+
+        associative_row7_col0_content = SurroundingRectangle(associative_table.get_entries((8, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        associative_row7_col1_content = SurroundingRectangle(associative_table.get_entries((8, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
+        associative_row7_col3_content = SurroundingRectangle(associative_table.get_entries((8, 4)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row7_col0_content), run_time=1)
+        self.play(Create(associative_row7_col1_content),run_time=1)       
+        self.play(Create(associative_row7_col3_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row7_col0_content), FadeOut(associative_row7_col1_content), FadeOut(associative_row7_col3_content), run_time=1)
+        self.wait(1)
+
+        associative_row8_col0_content = SurroundingRectangle(associative_table.get_entries((9, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        associative_row8_col1_content = SurroundingRectangle(associative_table.get_entries((9, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
+        associative_row8_col3_content = SurroundingRectangle(associative_table.get_entries((9, 4)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row8_col0_content), run_time=1)
+        self.play(Create(associative_row8_col1_content),run_time=1)        
+        self.play(Create(associative_row8_col3_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row8_col0_content), FadeOut(associative_row8_col1_content), FadeOut(associative_row8_col3_content), run_time=1)
+        self.wait(1)
+
+        # q ∧ r
+        associative_row1_col2_content = SurroundingRectangle(associative_table.get_entries((2, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        associative_row1_col3_content = SurroundingRectangle(associative_table.get_entries((2, 3)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        associative_row1_col5_content = SurroundingRectangle(associative_table.get_entries((2, 5)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1) 
+        self.play(Create(associative_row1_col2_content), run_time=1)
+        self.play(Create(associative_row1_col3_content),run_time=1)        
+        self.play(Create(associative_row1_col5_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row1_col2_content), FadeOut(associative_row1_col3_content), FadeOut(associative_row1_col5_content), run_time=1)
+        self.wait(1)
+
+        associative_row2_col2_content = SurroundingRectangle(associative_table.get_entries((3, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        associative_row2_col3_content = SurroundingRectangle(associative_table.get_entries((3, 3)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        associative_row2_col5_content = SurroundingRectangle(associative_table.get_entries((3, 5)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1) 
+        self.play(Create(associative_row2_col2_content), run_time=1)
+        self.play(Create(associative_row2_col3_content),run_time=1)        
+        self.play(Create(associative_row2_col5_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row2_col2_content), FadeOut(associative_row2_col3_content),FadeOut(associative_row2_col5_content), run_time=1)
+        self.wait(1)
+
+        associative_row3_col2_content = SurroundingRectangle(associative_table.get_entries((4, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        associative_row3_col3_content = SurroundingRectangle(associative_table.get_entries((4, 3)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)        
+        associative_row3_col5_content = SurroundingRectangle(associative_table.get_entries((4, 5)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row3_col2_content), run_time=1)
+        self.play(Create(associative_row3_col3_content),run_time=1)        
+        self.play(Create(associative_row3_col5_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row3_col2_content), FadeOut(associative_row3_col3_content), FadeOut(associative_row3_col5_content), run_time=1)
+        self.wait(1)
+
+        associative_row4_col2_content = SurroundingRectangle(associative_table.get_entries((5, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        associative_row4_col3_content = SurroundingRectangle(associative_table.get_entries((5, 3)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
+        associative_row4_col5_content = SurroundingRectangle(associative_table.get_entries((5, 5)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row4_col2_content), run_time=1)
+        self.play(Create(associative_row4_col3_content),run_time=1)        
+        self.play(Create(associative_row4_col5_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row4_col2_content), FadeOut(associative_row4_col3_content), FadeOut(associative_row4_col5_content), run_time=1)        
+        self.wait(1)
+
+        associative_row5_col2_content = SurroundingRectangle(associative_table.get_entries((6, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        associative_row5_col3_content = SurroundingRectangle(associative_table.get_entries((6, 3)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)        
+        associative_row5_col5_content = SurroundingRectangle(associative_table.get_entries((6, 5)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row5_col2_content), run_time=1)
+        self.play(Create(associative_row5_col3_content),run_time=1)        
+        self.play(Create(associative_row5_col5_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row5_col2_content), FadeOut(associative_row5_col3_content), FadeOut(associative_row5_col5_content), run_time=1)
+        self.wait(1)
+
+        associative_row6_col2_content = SurroundingRectangle(associative_table.get_entries((7, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        associative_row6_col3_content = SurroundingRectangle(associative_table.get_entries((7, 3)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
+        associative_row6_col5_content = SurroundingRectangle(associative_table.get_entries((7, 5)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row6_col2_content), run_time=1)
+        self.play(Create(associative_row6_col3_content),run_time=1)       
+        self.play(Create(associative_row6_col5_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row6_col2_content), FadeOut(associative_row6_col3_content), FadeOut(associative_row6_col5_content), run_time=1)
+        self.wait(1)
+
+        associative_row7_col2_content = SurroundingRectangle(associative_table.get_entries((8, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        associative_row7_col3_content = SurroundingRectangle(associative_table.get_entries((8, 3)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)        
+        associative_row7_col5_content = SurroundingRectangle(associative_table.get_entries((8, 5)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row7_col2_content), run_time=1)
+        self.play(Create(associative_row7_col3_content),run_time=1)       
+        self.play(Create(associative_row7_col5_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row7_col2_content), FadeOut(associative_row7_col3_content), FadeOut(associative_row7_col5_content), run_time=1)
+        self.wait(1)
+
+        associative_row8_col2_content = SurroundingRectangle(associative_table.get_entries((9, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        associative_row8_col3_content = SurroundingRectangle(associative_table.get_entries((9, 3)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
+        associative_row8_col5_content = SurroundingRectangle(associative_table.get_entries((9, 5)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row8_col2_content), run_time=1)
+        self.play(Create(associative_row8_col3_content),run_time=1)        
+        self.play(Create(associative_row8_col5_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row8_col2_content), FadeOut(associative_row8_col3_content), FadeOut(associative_row8_col5_content), run_time=1)
+        self.wait(1)
+
+         # (p ∧ q) ∧ r
+        associative_row1_col4_content = SurroundingRectangle(associative_table.get_entries((2, 4)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        associative_row1_col3_content = SurroundingRectangle(associative_table.get_entries((2, 3)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        associative_row1_col6_content = SurroundingRectangle(associative_table.get_entries((2, 6)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1) 
+        self.play(Create(associative_row1_col4_content), run_time=1)
+        self.play(Create(associative_row1_col3_content),run_time=1)        
+        self.play(Create(associative_row1_col6_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row1_col4_content), FadeOut(associative_row1_col3_content), FadeOut(associative_row1_col6_content), run_time=1)
+        self.wait(1)
+
+        associative_row2_col4_content = SurroundingRectangle(associative_table.get_entries((3, 4)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        associative_row2_col3_content = SurroundingRectangle(associative_table.get_entries((3, 3)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        associative_row2_col6_content = SurroundingRectangle(associative_table.get_entries((3, 6)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1) 
+        self.play(Create(associative_row2_col4_content), run_time=1)
+        self.play(Create(associative_row2_col3_content),run_time=1)        
+        self.play(Create(associative_row2_col6_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row2_col4_content), FadeOut(associative_row2_col3_content),FadeOut(associative_row2_col6_content), run_time=1)
+        self.wait(1)
+
+        associative_row3_col4_content = SurroundingRectangle(associative_table.get_entries((4, 4)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        associative_row3_col3_content = SurroundingRectangle(associative_table.get_entries((4, 3)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)        
+        associative_row3_col6_content = SurroundingRectangle(associative_table.get_entries((4, 6)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row3_col4_content), run_time=1)
+        self.play(Create(associative_row3_col3_content),run_time=1)        
+        self.play(Create(associative_row3_col6_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row3_col4_content), FadeOut(associative_row3_col3_content), FadeOut(associative_row3_col6_content), run_time=1)
+        self.wait(1)
+
+        associative_row4_col4_content = SurroundingRectangle(associative_table.get_entries((5, 4)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        associative_row4_col3_content = SurroundingRectangle(associative_table.get_entries((5, 3)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
+        associative_row4_col6_content = SurroundingRectangle(associative_table.get_entries((5, 6)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row4_col4_content), run_time=1)
+        self.play(Create(associative_row4_col3_content),run_time=1)        
+        self.play(Create(associative_row4_col6_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row4_col4_content), FadeOut(associative_row4_col3_content), FadeOut(associative_row4_col6_content), run_time=1)        
+        self.wait(1)
+
+        associative_row5_col4_content = SurroundingRectangle(associative_table.get_entries((6, 4)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        associative_row5_col3_content = SurroundingRectangle(associative_table.get_entries((6, 3)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)        
+        associative_row5_col6_content = SurroundingRectangle(associative_table.get_entries((6, 6)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row5_col4_content), run_time=1)
+        self.play(Create(associative_row5_col3_content),run_time=1)        
+        self.play(Create(associative_row5_col6_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row5_col4_content), FadeOut(associative_row5_col3_content), FadeOut(associative_row5_col6_content), run_time=1)
+        self.wait(1)
+
+        associative_row6_col4_content = SurroundingRectangle(associative_table.get_entries((7, 4)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        associative_row6_col3_content = SurroundingRectangle(associative_table.get_entries((7, 3)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
+        associative_row6_col6_content = SurroundingRectangle(associative_table.get_entries((7, 6)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row6_col4_content), run_time=1)
+        self.play(Create(associative_row6_col3_content),run_time=1)       
+        self.play(Create(associative_row6_col6_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row6_col4_content), FadeOut(associative_row6_col3_content), FadeOut(associative_row6_col6_content), run_time=1)
+        self.wait(1)
+
+        associative_row7_col4_content = SurroundingRectangle(associative_table.get_entries((8, 4)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        associative_row7_col3_content = SurroundingRectangle(associative_table.get_entries((8, 3)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)        
+        associative_row7_col6_content = SurroundingRectangle(associative_table.get_entries((8, 6)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row7_col4_content), run_time=1)
+        self.play(Create(associative_row7_col3_content),run_time=1)       
+        self.play(Create(associative_row7_col6_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row7_col4_content), FadeOut(associative_row7_col3_content), FadeOut(associative_row7_col6_content), run_time=1)
+        self.wait(1)
+
+        associative_row8_col4_content = SurroundingRectangle(associative_table.get_entries((9, 4)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        associative_row8_col3_content = SurroundingRectangle(associative_table.get_entries((9, 3)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
+        associative_row8_col6_content = SurroundingRectangle(associative_table.get_entries((9, 6)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row8_col4_content), run_time=1)
+        self.play(Create(associative_row8_col3_content),run_time=1)        
+        self.play(Create(associative_row8_col6_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row8_col4_content), FadeOut(associative_row8_col3_content), FadeOut(associative_row8_col6_content), run_time=1)
+        self.wait(1)
+
+        # p ∧ (q ∧ r)
+
+        associative_row1_col1_content = SurroundingRectangle(associative_table.get_entries((2, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        associative_row1_col5_content = SurroundingRectangle(associative_table.get_entries((2, 5)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        associative_row1_col7_content = SurroundingRectangle(associative_table.get_entries((2, 7)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1) 
+        self.play(Create(associative_row1_col1_content), run_time=1)
+        self.play(Create(associative_row1_col5_content),run_time=1)        
+        self.play(Create(associative_row1_col7_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row1_col1_content), FadeOut(associative_row1_col5_content), FadeOut(associative_row1_col7_content), run_time=1)
+        self.wait(1)
+
+        associative_row2_col1_content = SurroundingRectangle(associative_table.get_entries((3, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        associative_row2_col5_content = SurroundingRectangle(associative_table.get_entries((3, 5)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        associative_row2_col7_content = SurroundingRectangle(associative_table.get_entries((3, 7)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1) 
+        self.play(Create(associative_row2_col1_content), run_time=1)
+        self.play(Create(associative_row2_col5_content),run_time=1)        
+        self.play(Create(associative_row2_col7_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row2_col1_content), FadeOut(associative_row2_col5_content),FadeOut(associative_row2_col7_content), run_time=1)
+        self.wait(1)
+
+        associative_row3_col1_content = SurroundingRectangle(associative_table.get_entries((4, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        associative_row3_col5_content = SurroundingRectangle(associative_table.get_entries((4, 5)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
+        associative_row3_col7_content = SurroundingRectangle(associative_table.get_entries((4, 7)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row3_col1_content), run_time=1)
+        self.play(Create(associative_row3_col5_content),run_time=1)        
+        self.play(Create(associative_row3_col7_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row3_col1_content), FadeOut(associative_row3_col5_content), FadeOut(associative_row3_col7_content), run_time=1)
+        self.wait(1)
+
+        associative_row4_col1_content = SurroundingRectangle(associative_table.get_entries((5, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        associative_row4_col5_content = SurroundingRectangle(associative_table.get_entries((5, 5)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
+        associative_row4_col7_content = SurroundingRectangle(associative_table.get_entries((5, 7)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row4_col1_content), run_time=1)
+        self.play(Create(associative_row4_col5_content),run_time=1)        
+        self.play(Create(associative_row4_col7_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row4_col1_content), FadeOut(associative_row4_col5_content), FadeOut(associative_row4_col7_content), run_time=1)        
+        self.wait(1)
+
+        associative_row5_col1_content = SurroundingRectangle(associative_table.get_entries((6, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        associative_row5_col5_content = SurroundingRectangle(associative_table.get_entries((6, 5)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)        
+        associative_row5_col7_content = SurroundingRectangle(associative_table.get_entries((6, 7)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row5_col1_content), run_time=1)
+        self.play(Create(associative_row5_col5_content),run_time=1)        
+        self.play(Create(associative_row5_col7_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row5_col1_content), FadeOut(associative_row5_col5_content), FadeOut(associative_row5_col7_content), run_time=1)
+        self.wait(1)
+
+        associative_row6_col1_content = SurroundingRectangle(associative_table.get_entries((7, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        associative_row6_col5_content = SurroundingRectangle(associative_table.get_entries((7, 5)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
+        associative_row6_col7_content = SurroundingRectangle(associative_table.get_entries((7, 7)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row6_col1_content), run_time=1)
+        self.play(Create(associative_row6_col5_content),run_time=1)       
+        self.play(Create(associative_row6_col7_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row6_col1_content), FadeOut(associative_row6_col5_content), FadeOut(associative_row6_col7_content), run_time=1)
+        self.wait(1)
+
+        associative_row7_col1_content = SurroundingRectangle(associative_table.get_entries((8, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        associative_row7_col5_content = SurroundingRectangle(associative_table.get_entries((8, 5)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
+        associative_row7_col7_content = SurroundingRectangle(associative_table.get_entries((8, 7)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row7_col1_content), run_time=1)
+        self.play(Create(associative_row7_col5_content),run_time=1)       
+        self.play(Create(associative_row7_col7_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row7_col1_content), FadeOut(associative_row7_col5_content), FadeOut(associative_row7_col7_content), run_time=1)
+        self.wait(1)
+
+        associative_row8_col1_content = SurroundingRectangle(associative_table.get_entries((9, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        associative_row8_col5_content = SurroundingRectangle(associative_table.get_entries((9, 5)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)        
+        associative_row8_col7_content = SurroundingRectangle(associative_table.get_entries((9, 7)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(associative_row8_col1_content), run_time=1)
+        self.play(Create(associative_row8_col5_content),run_time=1)        
+        self.play(Create(associative_row8_col7_content) ,run_time=1)
+        self.wait(1)
+        self.play(FadeOut(associative_row8_col1_content), FadeOut(associative_row8_col5_content), FadeOut(associative_row8_col7_content), run_time=1)
+        self.wait(1)
         
-        # Hide all columns initially
-        for col in [associative_first_col, associative_second_col,associative_third_col, associative_fourth_col, associative_fifth_col, associative_sixth_col, associative_seventh_col]:
-            col.set_opacity(0)
-        
-        self.add(associative_table)
-        self.play(associative_first_col[1].animate.set_opacity(1))
-        self.wait(1)
-        self.play(associative_second_col[1].animate.set_opacity(1))
-        self.wait(1)
-        self.play(associative_third_col[1].animate.set_opacity(1))
-        self.wait(1)
-        self.play(associative_fourth_col[1].animate.set_opacity(1))
-        self.wait(1)
-        self.play(associative_fifth_col[1].animate.set_opacity(1))
-        self.wait(1)
-        self.play(associative_sixth_col[1].animate.set_opacity(1))
-        self.wait(1)
-        self.play(associative_seventh_col[1].animate.set_opacity(1))
-        self.wait(1)
-    
-        for cell in associative_first_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
-        self.wait(2)
-        
-        for cell in associative_second_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
-        self.wait(2) 
-
-        for cell in associative_third_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
-        self.wait(2)
-		
-        for cell in associative_fourth_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
-        self.wait(2)
-
-        for cell in associative_fifth_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
-        self.wait(2)
-        for cell in associative_sixth_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)
-        self.wait(2)
-        for cell in associative_seventh_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)  
-        self.wait(2)
-
-        # self.play(associative_table.animate.set_opacity(0)) 
-        # self.wait(2)
-
-        associative_col3 = SurroundingRectangle(associative_table.get_columns()[5][1:], color=RED, buff=.1,
+        associative_col5 = SurroundingRectangle(associative_table.get_columns()[5][1:], color=RED, buff=0.05, 
                                              stroke_width= 1)
-        associative_col4 = SurroundingRectangle(associative_table.get_columns()[6][1:], color=RED, buff=.1,
+        associative_col6 = SurroundingRectangle(associative_table.get_columns()[6][1:], color=RED, buff=0.05, 
                                              stroke_width= 1)
-        self.add(associative_col3, associative_col4)
-        self.wait(2)
-        self.play(FadeOut(associative_group), FadeOut(associative_col3), FadeOut(associative_col4), FadeOut(associative_bullet_underline))
+        self.add(associative_col5, associative_col6)
+        self.wait(1)
+        self.play(FadeOut(associative_group), FadeOut(associative_col6), FadeOut(associative_col7),  FadeOut(associative_bullet_underline), run_time=1)
+        # self.play(FadeOut(associative_group), FadeOut(associative_col5), FadeOut(associative_col6), run_time=1)
         self.wait(2)
 
         # Distributive law: p ∧ q  ≡ q ∧ p
-        distributive_title = Text("Distributive laws: (p ∧ q) ∧ r ≡ p ∧ (q ∧ r)", font_size=font_size + 8)
+        distributive_title = Text("Distributive laws: p ∧ (q ∨ r) ≡ (p ∧ q) ∨ (p ∧ r)", font_size=font_size + 8)
         distributive_underline = Line(LEFT*distributive_title.width/2, RIGHT*distributive_title.width/2, stroke_width=1, color=WHITE)
         distributive_underline.next_to(distributive_title, DOWN, buff=0.2)
 
