@@ -1939,5 +1939,472 @@ class Equivalence(Scene):
         self.play(FadeOut(distributive_group), FadeOut(distributive_col6), FadeOut(distributive_col7),  FadeOut(distributive_bullet_underline), run_time=.5)
         # self.play(FadeOut(distributive_group), FadeOut(distributive_col6), FadeOut(distributive_col7), run_time=.5)
         self.wait(2)
+
+        # Identity laws: p ∧ t ≡ p
+        identity_title = Text("Identity law: p ∧ t ≡ p", font_size=font_size + 8)
+        identity_underline = Line(LEFT*identity_title.width/2, RIGHT*identity_title.width/2, stroke_width=1, color=WHITE)
+        identity_underline.next_to(identity_title, DOWN, buff=0.2)        	
+
+        identity_bullet_underline = Line(LEFT*identity.width/2, RIGHT*identity.width/2, stroke_width=1, color=YELLOW)
+        identity_bullet_underline.next_to(identity, DOWN, buff=0.1)
+        identity_table = Table(
+            [["T", "T", "T"],
+            ["F", "T", "F"]],           
+            col_labels=[Text("P"), Text("t"), Text("p ∧ t")],
+            include_outer_lines=False,
+            line_config={"stroke_width": 1},
+        ).scale(0.7).next_to(identity_underline, DOWN*2, buff=0.5)
+
+        identity_group = VGroup(identity_title, identity_underline, identity_table)
+        identity_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
+       
+        self.add(identity_title, identity_underline, identity_bullet_underline)
+        # self.add(identity_title, identity_underline)
+       
+        self.wait(.5)
+        self.play(FadeIn(identity_table), run_time=1)
+        self.wait(.5)
+       
+        identity_row1_col0_content = SurroundingRectangle(identity_table.get_entries((2, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        identity_row1_col1_content = SurroundingRectangle(identity_table.get_entries((2, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        identity_row1_col2_content = SurroundingRectangle(identity_table.get_entries((2, 3)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        
+        self.play(Create(identity_row1_col0_content), run_time=.5)
+        self.play(Create(identity_row1_col1_content),run_time=.5)
+        self.play(Create(identity_row1_col2_content),run_time=.5)
+        
+        self.wait(.5)
+        self.play(FadeOut(identity_row1_col0_content), FadeOut(identity_row1_col1_content),FadeOut(identity_row1_col2_content), run_time=.5)
+        self.wait(.5)
+
+        identity_row2_col0_content = SurroundingRectangle(identity_table.get_entries((3, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        identity_row2_col1_content = SurroundingRectangle(identity_table.get_entries((3, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        identity_row2_col2_content = SurroundingRectangle(identity_table.get_entries((3, 3)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        
+        self.play(Create(identity_row2_col0_content), run_time=.5)
+        self.play(Create(identity_row2_col1_content),run_time=.5)
+        self.play(Create(identity_row2_col2_content),run_time=.5)
+       
+        self.wait(.5)
+        self.play(FadeOut(identity_row2_col0_content), FadeOut(identity_row2_col1_content),FadeOut(identity_row2_col2_content),  run_time=.5)
+        self.wait(.5)
+        
+        identity_col1 = SurroundingRectangle(identity_table.get_columns()[0][1:], color=RED, buff=0.05, 
+                                             stroke_width= 1)
+        identity_col3 = SurroundingRectangle(identity_table.get_columns()[2][1:], color=RED, buff=0.05, 
+                                             stroke_width= 1)
+        self.add(identity_col1, identity_col3)
+        self.wait(.5)
+        self.play(FadeOut(identity_group), FadeOut(identity_col3), FadeOut(identity_col4),  FadeOut(identity_bullet_underline), run_time=1)
+        # self.play(FadeOut(identity_group), FadeOut(identity_col1), FadeOut(identity_col3), run_time=.5)
+        self.wait(1)
+
+        # Negation laws: p ∧ ¬p ≡ c
+        negation_title = Text("Negation law: p ∧ ¬p ≡ c", font_size=font_size + 8)
+        negation_underline = Line(LEFT*negation_title.width/2, RIGHT*negation_title.width/2, stroke_width=1, color=WHITE)
+        negation_underline.next_to(negation_title, DOWN, buff=0.2)        	
+
+        negation_bullet_underline = Line(LEFT*negation.width/2, RIGHT*negation.width/2, stroke_width=1, color=YELLOW)
+        negation_bullet_underline.next_to(negation, DOWN, buff=0.1)
+        negation_table = Table(
+            [["T", "F", "F", "F"],
+            ["F", "T", "F", "F"]],           
+            col_labels=[Text("P"),Text("¬p"), Text("c"), Text("p ∧ ¬p")],
+            include_outer_lines=False,
+            line_config={"stroke_width": 1},
+        ).scale(0.7).next_to(negation_underline, DOWN*2, buff=0.5)
+
+        negation_group = VGroup(negation_title, negation_underline, negation_table)
+        negation_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
+       
+        self.add(negation_title, negation_underline, negation_bullet_underline)
+        # self.add(negation_title, negation_underline)
+       
+        self.wait(.5)
+        self.play(FadeIn(negation_table), run_time=1)
+        self.wait(.5)
+       
+        negation_row1_col0_content = SurroundingRectangle(negation_table.get_entries((2, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        negation_row1_col1_content = SurroundingRectangle(negation_table.get_entries((2, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        negation_row1_col3_content = SurroundingRectangle(negation_table.get_entries((2, 4)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        
+        self.play(Create(negation_row1_col0_content), run_time=.5)
+        self.play(Create(negation_row1_col1_content),run_time=.5)
+        self.play(Create(negation_row1_col3_content),run_time=.5)
+        
+        self.wait(.5)
+        self.play(FadeOut(negation_row1_col0_content), FadeOut(negation_row1_col1_content),FadeOut(negation_row1_col3_content), run_time=.5)
+        self.wait(.5)
+
+        negation_row2_col0_content = SurroundingRectangle(negation_table.get_entries((3, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        negation_row2_col1_content = SurroundingRectangle(negation_table.get_entries((3, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        negation_row2_col3_content = SurroundingRectangle(negation_table.get_entries((3, 4)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        
+        self.play(Create(negation_row2_col0_content), run_time=.5)
+        self.play(Create(negation_row2_col1_content),run_time=.5)
+        self.play(Create(negation_row2_col3_content),run_time=.5)
+       
+        self.wait(.5)
+        self.play(FadeOut(negation_row2_col0_content), FadeOut(negation_row2_col1_content),FadeOut(negation_row2_col3_content),  run_time=.5)
+        self.wait(.5)
+
+        
+        negation_col3 = SurroundingRectangle(negation_table.get_columns()[2][1:], color=RED, buff=0.05, 
+                                             stroke_width= 1)
+        negation_col4 = SurroundingRectangle(negation_table.get_columns()[3][1:], color=RED, buff=0.05, 
+                                             stroke_width= 1)
+        self.add(negation_col3, negation_col4)
+        self.wait(.5)
+        self.play(FadeOut(negation_group), FadeOut(negation_col3), FadeOut(negation_col4),  FadeOut(negation_bullet_underline), run_time=1)
+        # self.play(FadeOut(negation_group), FadeOut(negation_col3), FadeOut(negation_col4), run_time=.5)
+        self.wait(1)
+
+        # Double Negation laws: ¬(¬p) ≡ p 
+        double_negation_title = Text("Double Negation law: ¬(¬p) ≡ p ", font_size=font_size + 8)
+        double_negation_underline = Line(LEFT*double_negation_title.width/2, RIGHT*double_negation_title.width/2, stroke_width=1, color=WHITE)
+        double_negation_underline.next_to(double_negation_title, DOWN, buff=0.2)        	
+
+        double_negation_bullet_underline = Line(LEFT*double_negation.width/2, RIGHT*double_negation.width/2, stroke_width=1, color=YELLOW)
+        double_negation_bullet_underline.next_to(double_negation, DOWN, buff=0.1)
+        double_negation_table = Table(
+            [["T", "F", "T"],
+            ["F", "T", "F"]],           
+            col_labels=[Text("P"),Text("¬p"), Text("¬(¬p)")],
+            include_outer_lines=False,
+            line_config={"stroke_width": 1},
+        ).scale(0.7).next_to(double_negation_underline, DOWN*2, buff=0.5)
+
+        double_negation_group = VGroup(double_negation_title, double_negation_underline, double_negation_table)
+        double_negation_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
+       
+        self.add(double_negation_title, double_negation_underline, double_negation_bullet_underline)
+        # self.add(double_negation_title, double_negation_underline)
+       
+        self.wait(.5)
+        self.play(FadeIn(double_negation_table), run_time=1)
+        self.wait(.5)
+       
+        double_negation_row1_col0_content = SurroundingRectangle(double_negation_table.get_entries((2, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        double_negation_row1_col1_content = SurroundingRectangle(double_negation_table.get_entries((2, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        double_negation_row1_col2_content = SurroundingRectangle(double_negation_table.get_entries((2, 3)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        
+        self.play(Create(double_negation_row1_col0_content), run_time=.5)
+        self.play(Create(double_negation_row1_col1_content),run_time=.5)
+        self.play(Create(double_negation_row1_col2_content),run_time=.5)
+        
+        self.wait(.5)
+        self.play(FadeOut(double_negation_row1_col0_content), FadeOut(double_negation_row1_col1_content),FadeOut(double_negation_row1_col2_content), run_time=.5)
+        self.wait(.5)
+
+        double_negation_row2_col0_content = SurroundingRectangle(double_negation_table.get_entries((3, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        double_negation_row2_col1_content = SurroundingRectangle(double_negation_table.get_entries((3, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        double_negation_row2_col2_content = SurroundingRectangle(double_negation_table.get_entries((3, 3)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        
+        self.play(Create(double_negation_row2_col0_content), run_time=.5)
+        self.play(Create(double_negation_row2_col1_content),run_time=.5)
+        self.play(Create(double_negation_row2_col2_content),run_time=.5)
+       
+        self.wait(.5)
+        self.play(FadeOut(double_negation_row2_col0_content), FadeOut(double_negation_row2_col1_content),FadeOut(double_negation_row2_col2_content),  run_time=.5)
+        self.wait(.5)
+
+        
+        double_negation_col1 = SurroundingRectangle(double_negation_table.get_columns()[0][1:], color=RED, buff=0.05, 
+                                             stroke_width= 1)
+        double_negation_col3 = SurroundingRectangle(double_negation_table.get_columns()[2][1:], color=RED, buff=0.05, 
+                                             stroke_width= 1)
+        self.add(double_negation_col1, double_negation_col3)
+        self.wait(.5)
+        self.play(FadeOut(double_negation_group), FadeOut(double_negation_col3), FadeOut(double_negation_col4),  FadeOut(double_negation_bullet_underline), run_time=1)
+        # self.play(FadeOut(double_negation_group), FadeOut(double_negation_col1), FadeOut(double_negation_col3), run_time=.5)
+        self.wait(1)
+
+        # Idempotent laws: p ∧ p ≡ p 
+        idempotent_title = Text("Idempotent law: p ∧ p ≡ p", font_size=font_size + 8)
+        idempotent_underline = Line(LEFT*idempotent_title.width/2, RIGHT*idempotent_title.width/2, stroke_width=1, color=WHITE)
+        idempotent_underline.next_to(idempotent_title, DOWN, buff=0.2)        	
+
+        idempotent_bullet_underline = Line(LEFT*idempotent.width/2, RIGHT*idempotent.width/2, stroke_width=1, color=YELLOW)
+        idempotent_bullet_underline.next_to(idempotent, DOWN, buff=0.1)
+        idempotent_table = Table(
+            [["T", "T"],
+            ["F", "F"]],           
+            col_labels=[Text("P"),Text("p ∧ p")],
+            include_outer_lines=False,
+            line_config={"stroke_width": 1},
+        ).scale(0.7).next_to(idempotent_underline, DOWN*2, buff=0.5)
+
+        idempotent_group = VGroup(idempotent_title, idempotent_underline, idempotent_table)
+        idempotent_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
+       
+        self.add(idempotent_title, idempotent_underline, idempotent_bullet_underline)
+        # self.add(idempotent_title, idempotent_underline)
+       
+        self.wait(.5)
+        self.play(FadeIn(idempotent_table), run_time=1)
+        self.wait(.5)
+       
+        idempotent_row1_col0_content = SurroundingRectangle(idempotent_table.get_entries((2, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        idempotent_row1_col1_content = SurroundingRectangle(idempotent_table.get_entries((2, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        
+        
+        self.play(Create(idempotent_row1_col0_content), run_time=.5)
+        self.play(Create(idempotent_row1_col1_content),run_time=.5)
+        
+        
+        self.wait(.5)
+        self.play(FadeOut(idempotent_row1_col0_content), FadeOut(idempotent_row1_col1_content), run_time=.5)
+        self.wait(.5)
+
+        idempotent_row2_col0_content = SurroundingRectangle(idempotent_table.get_entries((3, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        idempotent_row2_col1_content = SurroundingRectangle(idempotent_table.get_entries((3, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        
+        
+        self.play(Create(idempotent_row2_col0_content), run_time=.5)
+        self.play(Create(idempotent_row2_col1_content),run_time=.5)
+        
+       
+        self.wait(.5)
+        self.play(FadeOut(idempotent_row2_col0_content), FadeOut(idempotent_row2_col1_content),  run_time=.5)
+        self.wait(.5)
+
+        
+        idempotent_col1 = SurroundingRectangle(idempotent_table.get_columns()[0][1:], color=RED, buff=0.05, 
+                                             stroke_width= 1)
+        idempotent_col2 = SurroundingRectangle(idempotent_table.get_columns()[1][1:], color=RED, buff=0.05, 
+                                             stroke_width= 1)
+        self.add(idempotent_col1, idempotent_col2)
+        self.wait(.5)
+        self.play(FadeOut(idempotent_group), FadeOut(idempotent_col3), FadeOut(idempotent_col4),  FadeOut(idempotent_bullet_underline), run_time=1)
+        # self.play(FadeOut(idempotent_group), FadeOut(idempotent_col1), FadeOut(idempotent_col2), run_time=.5)
+        self.wait(1)
+
+         # De Morgan's law: p ∧ q  ≡ q ∧ p
+        deMorgan_title = Text("De Morgan's law:  ¬(p ∧ q) ≡ ¬p ∨ ¬q ", font_size=font_size + 8)
+        deMorgan_underline = Line(LEFT*deMorgan_title.width/2, RIGHT*deMorgan_title.width/2, stroke_width=1, color=WHITE)
+        deMorgan_underline.next_to(deMorgan_title, DOWN, buff=0.2)        	
+
+        deMorgan_bullet_underline = Line(LEFT*deMorgan.width/2, RIGHT*deMorgan.width/2, stroke_width=1, color=YELLOW)
+        deMorgan_bullet_underline.next_to(deMorgan, DOWN, buff=0.1)
+        deMorgan_table = Table(
+            [ ["T", "T", "F", "F", "T", "F", "F"],
+            ["T", "F", "F", "T", "F", "T", "T"],
+            ["F", "T", "T", "F", "F", "T", "T"],
+            ["F", "F", "T", "T", "F", "T", "T"]],           
+            col_labels=[Text("P"), Text("q"), Text("¬P"), Text("¬q"), Text("p ∧ q"), Text("¬(p ∧ q)"), Text("¬p ∨ ¬q")],
+            include_outer_lines=False,
+            line_config={"stroke_width": 1},
+        ).scale(0.7).next_to(deMorgan_underline, DOWN*2, buff=0.5)
+
+        deMorgan_group = VGroup(deMorgan_title, deMorgan_underline, deMorgan_table)
+        deMorgan_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
+       
+        self.add(deMorgan_title, deMorgan_underline, deMorgan_bullet_underline)
+        # self.add(deMorgan_title, deMorgan_underline)
+       
+        self.wait(2)
+        self.play(FadeIn(deMorgan_table), run_time=1)
+        self.wait(1)
+
+        # p ∧ q 
+        deMorgan_row1_col0_content = SurroundingRectangle(deMorgan_table.get_entries((2, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        deMorgan_row1_col1_content = SurroundingRectangle(deMorgan_table.get_entries((2, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        deMorgan_row1_col4_content = SurroundingRectangle(deMorgan_table.get_entries((2, 5)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        
+        self.play(Create(deMorgan_row1_col0_content), run_time=.5)
+        self.play(Create(deMorgan_row1_col1_content),run_time=.5)
+        self.play(Create(deMorgan_row1_col4_content), run_time=.5)
+        
+        self.wait(.5)
+        self.play(FadeOut(deMorgan_row1_col0_content), FadeOut(deMorgan_row1_col1_content), FadeOut(deMorgan_row1_col4_content),  run_time=.5)
+        self.wait(.5)
+        deMorgan_row2_col0_content = SurroundingRectangle(deMorgan_table.get_entries((3, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        deMorgan_row2_col1_content = SurroundingRectangle(deMorgan_table.get_entries((3, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        deMorgan_row2_col4_content = SurroundingRectangle(deMorgan_table.get_entries((3, 5)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        
+        self.play(Create(deMorgan_row2_col0_content), run_time=.5)
+        self.play(Create(deMorgan_row2_col1_content),run_time=.5)
+        self.play(Create(deMorgan_row2_col4_content), run_time=.5)
+        
+        self.wait(.5)
+        self.play(FadeOut(deMorgan_row2_col0_content), FadeOut(deMorgan_row2_col1_content), FadeOut(deMorgan_row2_col4_content),  run_time=.5)
+        self.wait(.5)
+
+        deMorgan_row3_col0_content = SurroundingRectangle(deMorgan_table.get_entries((4, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        deMorgan_row3_col1_content = SurroundingRectangle(deMorgan_table.get_entries((4, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        deMorgan_row3_col4_content = SurroundingRectangle(deMorgan_table.get_entries((4, 5)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+       
+        self.play(Create(deMorgan_row3_col0_content), run_time=.5)
+        self.play(Create(deMorgan_row3_col1_content),run_time=.5)
+        self.play(Create(deMorgan_row3_col4_content), run_time=.5)
+        
+        self.wait(.5)
+        self.play(FadeOut(deMorgan_row3_col0_content), FadeOut(deMorgan_row3_col1_content), FadeOut(deMorgan_row3_col4_content),  run_time=.5)
+        self.wait(.5)
+
+        deMorgan_row4_col0_content = SurroundingRectangle(deMorgan_table.get_entries((5, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        deMorgan_row4_col1_content = SurroundingRectangle(deMorgan_table.get_entries((5, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        deMorgan_row4_col4_content = SurroundingRectangle(deMorgan_table.get_entries((5, 5)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        
+        self.play(Create(deMorgan_row4_col0_content), run_time=.5)
+        self.play(Create(deMorgan_row4_col1_content),run_time=.5)
+        self.play(Create(deMorgan_row4_col4_content), run_time=.5)
+        
+        self.wait(.5)
+        self.play(FadeOut(deMorgan_row4_col0_content), FadeOut(deMorgan_row4_col1_content), FadeOut(deMorgan_row4_col4_content),  run_time=.5)
+        self.wait(.5)
+        
+        # ¬(p ∧ q)
+        deMorgan_row1_col4_content = SurroundingRectangle(deMorgan_table.get_entries((2, 5)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        deMorgan_row1_col5_content = SurroundingRectangle(deMorgan_table.get_entries((2, 6)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        self.play(Create(deMorgan_row1_col4_content), run_time=.5)
+        self.play(Create(deMorgan_row1_col5_content),run_time=.5)        
+        self.wait(.5)
+        self.play(FadeOut(deMorgan_row1_col4_content), FadeOut(deMorgan_row1_col5_content), run_time=.5)
+        self.wait(.5)
+
+        
+        deMorgan_row2_col4_content = SurroundingRectangle(deMorgan_table.get_entries((3, 5)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        deMorgan_row2_col5_content = SurroundingRectangle(deMorgan_table.get_entries((3, 6)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        self.play(Create(deMorgan_row2_col4_content), run_time=.5)
+        self.play(Create(deMorgan_row2_col5_content),run_time=.5)        
+        self.wait(.5)
+        self.play(FadeOut(deMorgan_row2_col4_content), FadeOut(deMorgan_row2_col5_content),  run_time=.5)
+        self.wait(.5)
+
+        
+        deMorgan_row3_col4_content = SurroundingRectangle(deMorgan_table.get_entries((4, 5)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        deMorgan_row3_col5_content = SurroundingRectangle(deMorgan_table.get_entries((4, 6)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        self.play(Create(deMorgan_row3_col4_content), run_time=.5)
+        self.play(Create(deMorgan_row3_col5_content),run_time=.5)        
+        self.wait(.5)
+        self.play(FadeOut(deMorgan_row3_col4_content), FadeOut(deMorgan_row3_col5_content),  run_time=.5)
+        self.wait(.5)
+
+        deMorgan_row4_col4_content = SurroundingRectangle(deMorgan_table.get_entries((5, 5)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        deMorgan_row4_col5_content = SurroundingRectangle(deMorgan_table.get_entries((5, 6)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        
+        self.play(Create(deMorgan_row4_col4_content), run_time=.5)
+        self.play(Create(deMorgan_row4_col5_content),run_time=.5)        
+        self.wait(.5)
+        self.play(FadeOut(deMorgan_row4_col4_content), FadeOut(deMorgan_row4_col5_content), run_time=.5)
+        self.wait(.5)
+
+        # ¬p ∨ ¬q
+        deMorgan_row1_col3_content = SurroundingRectangle(deMorgan_table.get_entries((2, 3)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        deMorgan_row1_col4_content = SurroundingRectangle(deMorgan_table.get_entries((2, 4)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        deMorgan_row1_col7_content = SurroundingRectangle(deMorgan_table.get_entries((2, 7)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)       
+        self.play(Create(deMorgan_row1_col3_content), run_time=.5)
+        self.play(Create(deMorgan_row1_col4_content),run_time=.5)
+        self.play(Create(deMorgan_row1_col7_content), run_time=.5)
+        
+        self.wait(.5)
+        self.play(FadeOut(deMorgan_row1_col3_content), FadeOut(deMorgan_row1_col4_content),  FadeOut(deMorgan_row1_col7_content),  run_time=.5)
+        self.wait(.5)
+
+        deMorgan_row2_col3_content = SurroundingRectangle(deMorgan_table.get_entries((3, 3)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        deMorgan_row2_col4_content = SurroundingRectangle(deMorgan_table.get_entries((3, 4)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        deMorgan_row2_col7_content = SurroundingRectangle(deMorgan_table.get_entries((3, 7)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+       
+        self.play(Create(deMorgan_row2_col3_content), run_time=.5)
+        self.play(Create(deMorgan_row2_col4_content),run_time=.5)
+        self.play(Create(deMorgan_row2_col7_content), run_time=.5)
+        
+        self.wait(.5)
+        self.play(FadeOut(deMorgan_row2_col3_content), FadeOut(deMorgan_row2_col4_content), FadeOut(deMorgan_row2_col7_content),  run_time=.5)
+        self.wait(.5)
+
+        deMorgan_row3_col3_content = SurroundingRectangle(deMorgan_table.get_entries((4, 3)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        deMorgan_row3_col4_content = SurroundingRectangle(deMorgan_table.get_entries((4, 4)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        deMorgan_row3_col7_content = SurroundingRectangle(deMorgan_table.get_entries((4, 7)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        
+        self.play(Create(deMorgan_row3_col3_content), run_time=.5)
+        self.play(Create(deMorgan_row3_col4_content),run_time=.5)
+        self.play(Create(deMorgan_row3_col7_content), run_time=.5)
+        
+        self.wait(.5)
+        self.play(FadeOut(deMorgan_row3_col3_content), FadeOut(deMorgan_row3_col4_content), FadeOut(deMorgan_row3_col7_content),  run_time=.5)
+        self.wait(.5)
+
+        deMorgan_row4_col3_content = SurroundingRectangle(deMorgan_table.get_entries((5, 3)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        deMorgan_row4_col4_content = SurroundingRectangle(deMorgan_table.get_entries((5, 4)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        deMorgan_row4_col7_content = SurroundingRectangle(deMorgan_table.get_entries((5, 7)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        
+        self.play(Create(deMorgan_row4_col3_content), run_time=1)
+        self.play(Create(deMorgan_row4_col4_content),run_time=1)
+        self.play(Create(deMorgan_row4_col7_content), run_time=1)
+       
+        self.wait(.5)
+        self.play(FadeOut(deMorgan_row4_col3_content), FadeOut(deMorgan_row4_col4_content), FadeOut(deMorgan_row4_col7_content),  run_time=.5)
+        self.wait(.5)
+
+        deMorgan_col6 = SurroundingRectangle(deMorgan_table.get_columns()[5][1:], color=RED, buff=0.05, fill_color=ORANGE, fill_opacity=0.05, 
+                                             stroke_width= 1)
+        deMorgan_col7 = SurroundingRectangle(deMorgan_table.get_columns()[6][1:], color=RED, buff=0.05, fill_color=ORANGE, fill_opacity=0.05,
+                                             stroke_width= 1)
+        self.add(deMorgan_col6, deMorgan_col7)
+        self.wait(.5)
+        self.play(FadeOut(deMorgan_group), FadeOut(deMorgan_col6), FadeOut(deMorgan_col7),  FadeOut(deMorgan_bullet_underline), run_time=1)
+        # self.play(FadeOut(deMorgan_group), FadeOut(deMorgan_col6), FadeOut(deMorgan_col7), run_time=.5)
+        self.wait(1)
+
+        # Universal bound law: p ∨ t ≡ t
+        universal_title = Text("Universal bound law: p ∨ t ≡ t", font_size=font_size + 8)
+        universal_underline = Line(LEFT*universal_title.width/2, RIGHT*universal_title.width/2, stroke_width=1, color=WHITE)
+        universal_underline.next_to(universal_title, DOWN, buff=0.2)        	
+
+        universal_bullet_underline = Line(LEFT*universal.width/2, RIGHT*universal.width/2, stroke_width=1, color=YELLOW)
+        universal_bullet_underline.next_to(universal, DOWN, buff=0.1)
+        universal_table = Table(
+            [["T", "T", "T"],
+            ["F", "T", "T"]],           
+            col_labels=[Text("P"), Text("t"), Text("p ∨ t")],
+            include_outer_lines=False,
+            line_config={"stroke_width": 1},
+        ).scale(0.7).next_to(universal_underline, DOWN*2, buff=0.5)
+
+        universal_group = VGroup(universal_title, universal_underline, universal_table)
+        universal_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
+       
+        self.add(universal_title, universal_underline, universal_bullet_underline)
+        # self.add(universal_title, universal_underline)
+       
+        self.wait(.5)
+        self.play(FadeIn(universal_table), run_time=1)
+        self.wait(.5)
+       
+        universal_row1_col0_content = SurroundingRectangle(universal_table.get_entries((2, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        universal_row1_col1_content = SurroundingRectangle(universal_table.get_entries((2, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        universal_row1_col2_content = SurroundingRectangle(universal_table.get_entries((2, 3)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        
+        self.play(Create(universal_row1_col0_content), run_time=.5)
+        self.play(Create(universal_row1_col1_content),run_time=.5)
+        self.play(Create(universal_row1_col2_content),run_time=.5)
+        
+        self.wait(.5)
+        self.play(FadeOut(universal_row1_col0_content), FadeOut(universal_row1_col1_content),FadeOut(universal_row1_col2_content), run_time=.5)
+        self.wait(.5)
+
+        universal_row2_col0_content = SurroundingRectangle(universal_table.get_entries((3, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        universal_row2_col1_content = SurroundingRectangle(universal_table.get_entries((3, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        universal_row2_col2_content = SurroundingRectangle(universal_table.get_entries((3, 3)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        
+        self.play(Create(universal_row2_col0_content), run_time=.5)
+        self.play(Create(universal_row2_col1_content),run_time=.5)
+        self.play(Create(universal_row2_col2_content),run_time=.5)
+       
+        self.wait(.5)
+        self.play(FadeOut(universal_row2_col0_content), FadeOut(universal_row2_col1_content),FadeOut(universal_row2_col2_content),  run_time=.5)
+        self.wait(.5)
+        
+        universal_col1 = SurroundingRectangle(universal_table.get_columns()[1][1:], color=RED, buff=0.05, fill_color=ORANGE, fill_opacity=0.05,  stroke_width= 1)
+        universal_col3 = SurroundingRectangle(universal_table.get_columns()[2][1:], color=RED, buff=0.05, fill_color=ORANGE, fill_opacity=0.05,  stroke_width= 1)
+        self.add(universal_col1, universal_col3)
+        self.wait(.5)
+        self.play(FadeOut(universal_group), FadeOut(universal_col1), FadeOut(universal_col3),  FadeOut(universal_bullet_underline), run_time=1)
+        # self.play(FadeOut(universal_group), FadeOut(universal_col1), FadeOut(universal_col3), run_time=.5)
+        self.wait(1)
+      
+      
         
 # manim -ql -p --disable_caching logic.py Equivalence

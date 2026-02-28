@@ -85,15 +85,15 @@
 - Definition: Two propositions involving the same component proposition are said to be equivalent iff they have identical truth tables. We will denote logical equivalent by the symbol "≡"
 - Let's consider the proposition ¬(p ∧ q) and ¬p ∨ ¬q. As can be seen from their corrosponding truth tables, they are equivalent.
 - Given arbitrary propositions p, q, r, the following propositional identities are algebraic laws. 
-  - Commutative laws: p ∧ q  ≡ q ∧ p
-  - Associative laws: (p ∧ q) ∧ r ≡ p ∧ (q ∧ r)
-  - Distributive laws: p ∧ (q ∨ r) ≡ (p ∧ q) ∨ (p ∧ r)    
-  - Identity laws: p ∧ t ≡ p    
-  - Negation laws: p ∧ ¬p ≡ c
-  - Double Negation laws: ¬(¬p) ≡ p 
-  - Idempotent laws:  p ∧ p ≡ p  
+  - Commutative law: p ∧ q  ≡ q ∧ p
+  - Associative law: (p ∧ q) ∧ r ≡ p ∧ (q ∧ r)
+  - Distributive law: p ∧ (q ∨ r) ≡ (p ∧ q) ∨ (p ∧ r)    
+  - Identity law: p ∧ t ≡ p    
+  - Negation law: p ∧ ¬p ≡ c
+  - Double Negation law: ¬(¬p) ≡ p 
+  - Idempotent law:  p ∧ p ≡ p  
   - De Morgan's law: ¬(p ∧ q) ≡ ¬p ∨ ¬q   
-  - Universal bound laws: p ∨ t ≡ t
-  - Absorption laws: p ∧ (p ∨ q) ≡ p
+  - Universal bound law: p ∨ t ≡ t
+  - Absorption law: p ∧ (p ∨ q) ≡ p
   - Negations of t and c:  ¬t ≡ c
     
