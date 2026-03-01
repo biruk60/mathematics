@@ -190,61 +190,50 @@ class EquivalenceScene(Scene):
         font_size =20
 
        
-        # Universal bound law: p ∨ t ≡ t
-        universal_title = Text("Universal bound law: p ∨ t ≡ t", font_size=font_size + 8)
-        universal_underline = Line(LEFT*universal_title.width/2, RIGHT*universal_title.width/2, stroke_width=1, color=WHITE)
-        universal_underline.next_to(universal_title, DOWN, buff=0.2)        	
+        # Negation of t and c:  ¬t ≡ c
+        tandc_title = Text("Negation of t and c: ¬t ≡ c", font_size=font_size + 8)
+        tandc_underline = Line(LEFT*tandc_title.width/2, RIGHT*tandc_title.width/2, stroke_width=1, color=WHITE)
+        tandc_underline.next_to(tandc_title, DOWN, buff=0.2)        	
 
-        universal_bullet_underline = Line(LEFT*universal.width/2, RIGHT*universal.width/2, stroke_width=1, color=YELLOW)
-        universal_bullet_underline.next_to(universal, DOWN, buff=0.1)
-        universal_table = Table(
-            [["T", "T", "T"],
-            ["F", "T", "T"]],           
-            col_labels=[Text("P"), Text("t"), Text("p ∨ t")],
+        # tandc_bullet_underline = Line(LEFT*tandc.width/2, RIGHT*tandc.width/2, stroke_width=1, color=YELLOW)
+        # tandc_bullet_underline.next_to(tandc, DOWN, buff=0.1)
+        tandc_table = Table(
+            [["T", "F", "F"]           ],           
+            col_labels=[Text("t"), Text("c"), Text("¬t")],
             include_outer_lines=False,
             line_config={"stroke_width": 1},
-        ).scale(0.7).next_to(universal_underline, DOWN*2, buff=0.5)
+        ).scale(0.7).next_to(tandc_underline, DOWN*2, buff=0.5)
 
-        universal_group = VGroup(universal_title, universal_underline, universal_table)
-        universal_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
+        tandc_group = VGroup(tandc_title, tandc_underline, tandc_table)
+        tandc_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
        
-        self.add(universal_title, universal_underline, universal_bullet_underline)
-        # self.add(universal_title, universal_underline)
-       
-        self.wait(.5)
-        self.play(FadeIn(universal_table), run_time=1)
-        self.wait(.5)
-       
-        universal_row1_col0_content = SurroundingRectangle(universal_table.get_entries((2, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
-        universal_row1_col1_content = SurroundingRectangle(universal_table.get_entries((2, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
-        universal_row1_col2_content = SurroundingRectangle(universal_table.get_entries((2, 3)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
-        
-        self.play(Create(universal_row1_col0_content), run_time=.5)
-        self.play(Create(universal_row1_col1_content),run_time=.5)
-        self.play(Create(universal_row1_col2_content),run_time=.5)
-        
-        self.wait(.5)
-        self.play(FadeOut(universal_row1_col0_content), FadeOut(universal_row1_col1_content),FadeOut(universal_row1_col2_content), run_time=.5)
-        self.wait(.5)
-
-        universal_row2_col0_content = SurroundingRectangle(universal_table.get_entries((3, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
-        universal_row2_col1_content = SurroundingRectangle(universal_table.get_entries((3, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
-        universal_row2_col2_content = SurroundingRectangle(universal_table.get_entries((3, 3)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
-        
-        self.play(Create(universal_row2_col0_content), run_time=.5)
-        self.play(Create(universal_row2_col1_content),run_time=.5)
-        self.play(Create(universal_row2_col2_content),run_time=.5)
+        # self.add(tandc_title, tandc_underline, tandc_bullet_underline)
+        self.add(tandc_title, tandc_underline)
        
         self.wait(.5)
-        self.play(FadeOut(universal_row2_col0_content), FadeOut(universal_row2_col1_content),FadeOut(universal_row2_col2_content),  run_time=.5)
+        self.play(FadeIn(tandc_table), run_time=.5)
         self.wait(.5)
+		
+        # "p ∨ q
+        tandc_row1_col0_content = SurroundingRectangle(tandc_table.get_entries((2, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
+        tandc_row1_col1_content = SurroundingRectangle(tandc_table.get_entries((2, 3)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
         
-        universal_col1 = SurroundingRectangle(universal_table.get_columns()[1][1:], color=RED, buff=0.05, fill_color=ORANGE, fill_opacity=0.05,  stroke_width= 1)
-        universal_col3 = SurroundingRectangle(universal_table.get_columns()[2][1:], color=RED, buff=0.05, fill_color=ORANGE, fill_opacity=0.05,  stroke_width= 1)
-        self.add(universal_col1, universal_col3)
+        self.play(Create(tandc_row1_col0_content), run_time=.5)
+        self.play(Create(tandc_row1_col1_content),run_time=.5)
+        
         self.wait(.5)
-        self.play(FadeOut(universal_group), FadeOut(universal_col1), FadeOut(universal_col3),  FadeOut(universal_bullet_underline), run_time=1)
-        # self.play(FadeOut(universal_group), FadeOut(universal_col1), FadeOut(universal_col3), run_time=.5)
+        self.play(FadeOut(tandc_row1_col0_content), FadeOut(tandc_row1_col1_content), run_time=.5)
+        self.wait(.5)
+		
+        
+		
+        tandc_col0 = SurroundingRectangle(tandc_table.get_columns()[1][1:], color=RED, buff=0.05, fill_color=ORANGE, fill_opacity=0.075, stroke_width= 1)
+        tandc_col2 = SurroundingRectangle(tandc_table.get_columns()[2][1:], color=RED, buff=0.05, fill_color=ORANGE, fill_opacity=0.075,  stroke_width= 1)
+        self.add(tandc_col0, tandc_col2)
+        self.wait(.5)
+        # self.play(FadeOut(tandc_group), FadeOut(tandc_col3), FadeOut(tandc_col4),  FadeOut(tandc_bullet_underline), run_time=.5)
+        self.play(FadeOut(tandc_group), FadeOut(tandc_col0), FadeOut(tandc_col2), run_time=.5)
         self.wait(1)
+
 
         # manim -ql -p  .\lab.py EquivalenceScene
