@@ -10,7 +10,7 @@ class Introduction(Scene):
         self.add(bg_text)        
                
         # Title
-        title = Text("መእተዊ", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        title = Text("መእተዊ / Introduction", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
         underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
         underline.next_to(title, DOWN, buff=0.2)
 
@@ -105,22 +105,41 @@ class Introduction(Scene):
             for _ in range(3)
         ]
     )  )
-        self.wait(3)
- # manim -ql -p --disable_caching logic.py Introduction
+    
+        self.wait()
+        self.play(FadeOut(brain), FadeOut(starting_group), run_time=.5)
+        self.wait()
+ # manim -ql -p --disable_caching  logic.py Introduction
 
 class Statement(Scene):
     def construct(self):
         background, bg_text = layout()
         self.add(background)
         self.add(bg_text)  
-        title = Text("ሓረግ", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        title = Text("ሓሳብ / Proposition", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
         underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
         underline.next_to(title, DOWN, buff=0.2)
         self.add(title)
         self.add(underline)
+
+        statement_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")       
+        statement_definition_1 = MarkupText("ሓሳብ (proposition)፣ ዝኾነ ትርጉም ዘለዎ፣ ንፁርን ዘየሻሚን ሓረግ እዩ።",font_size=30, color=WHITE, font="Nyala")
+        statement_definition_2 = MarkupText("እቲ ሓረግ፣ ወይ ሓቂ ወይ ሓሶት ክኾን ይኽእል እዪ። ኣብ ሓደ እዋን ግን፣",font_size=30, color=WHITE, font="Nyala")
+        statement_definition_3 = MarkupText("ሓቂን ሓሶትን ክኾን ኣይኽእልን።",font_size=30, color=WHITE, font="Nyala")
+        statement_definition = VGroup(statement_definition_title, statement_definition_1, statement_definition_2, statement_definition_3).scale(.7).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        
+        statement_box = SurroundingRectangle(statement_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
+        self.add(statement_definition_title,
+                  statement_definition_1,
+                  statement_definition_2,
+                  statement_definition_3,statement_box)
+        self.wait(2)
+        
+        self.play(FadeOut(statement_definition), FadeOut(statement_box))
+        self.wait(2)
         font_size =28
         first_sentence = MarkupText("1. እዙይ ሕብሪ ፃዕዳ እዩ።", font_size=font_size, font="Nyala")
-        second_sentence = MarkupText("2. በይዛኻ እንዶ ተማላኣኒ!?", font_size=font_size, font="Nyala")
+        second_sentence = MarkupText("2. ጠጠው በል!", font_size=font_size, font="Nyala")
         third_sentence = MarkupText("3. ፈጣሪ ይሓግዝካ!", font_size=font_size, font="Nyala")
         fourth_sentence = MarkupText("4. ናበይ ትኸይድ ኣለኻ?", font_size=font_size, font="Nyala")
 
@@ -135,27 +154,30 @@ class Statement(Scene):
         self.play(Write(fourth_sentence))
         self.wait(2)
 
-        box_one = SurroundingRectangle(first_sentence, color=YELLOW, buff=.1)        
+        box_one = SurroundingRectangle(first_sentence, color=YELLOW, buff=.1, stroke_width=1)        
         self.play(Create(box_one))
         self.wait(2)
 
         self.play(FadeOut(BulletedList), FadeOut(box_one))
         self.wait(2)     
-        statement_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")       
-        statement_definition_1 = MarkupText("proposition (ሓሳብ)፣ ዝኾነ ትርጉም ዘለዎ፣ ንፁርን ዘየሻሚን ሓረግ እዩ።",font_size=30, color=WHITE, font="Nyala")
-        statement_definition_2 = MarkupText("እቲ ሓረግ፣ ወይ ሓቂ ወይ ሓሶት ክኾን ይኽእል እዪ።",font_size=30, color=WHITE, font="Nyala")
-        statement_definition_3 = MarkupText("ኣብ ሓደ እዋን ግን ክልቲኡ (ወይ ሓቂ ወይ ሓሶት) ክኾን ኣይኽእልን።",font_size=30, color=WHITE, font="Nyala")
-        statement_definition = VGroup(statement_definition_title, statement_definition_1, statement_definition_2, statement_definition_3).scale(.7).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+       
+
+        open_statement_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")       
+        open_statement_definition_1 = MarkupText("ኽፉት ሓሳብ(open proposition)፣ ሓደ ወይ ልዕሊ ሓደ ተለዋወጥቲ ወይ ተውላጠ-ስማት ዝሓዘ ሓረግ ኮይኑ፣",font_size=30, color=WHITE, font="Nyala")
+        open_statement_definition_2 = MarkupText("ሕድ ሕድ ተለዋዋጢ ወይ ተውላጠ-ስም ብፍሉይ ዋጋ ወይ ብውልቀ-ሰብ ምስ ዝትካእ፣ ሓሳብ ይኸውን።",font_size=30, color=WHITE, font="Nyala")
         
-        statement_box = SurroundingRectangle(statement_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
-        self.add(statement_definition_title,
-                  statement_definition_1,
-                  statement_definition_2,
-                  statement_definition_3,statement_box)
-        self.wait(2)
+        open_statement_definition = VGroup(open_statement_definition_title, open_statement_definition_1, 
+                                           open_statement_definition_2 ).scale(.7).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
         
-        self.play(FadeOut(statement_definition), FadeOut(statement_box))
-        self.wait(2)
+        open_statement_box = SurroundingRectangle(open_statement_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
+        self.add(open_statement_definition_title,
+                  open_statement_definition_1,
+                  open_statement_definition_2,                 
+                  open_statement_box)
+        self.wait(1)
+        self.play(FadeOut(open_statement_definition), FadeOut(open_statement_box))
+        self.wait(1)
+        
         x = MarkupText(
             "ሀ",
             font_size=30, font="Nyala"
@@ -182,37 +204,14 @@ class Statement(Scene):
         self.play(Write(he_statement))
         self.wait(2)
 
-        x_box = SurroundingRectangle(x, color=RED, buff=.1,
-                                             stroke_width= 1)        
+        x_box = SurroundingRectangle(x, color=RED, buff=0.05, stroke_width= 1)        
         self.play(Create(x_box))
         self.wait(2)
-        he_box = SurroundingRectangle(he, color=RED, buff=.1, 
-                                             stroke_width= 1)        
+        he_box = SurroundingRectangle(he, color=RED, buff=0.05,  stroke_width= 1)        
         self.play(Create(he_box))
         self.wait(2)
         self.play(FadeOut(variables), FadeOut(x_box), FadeOut(he_box))
-        self.wait(2)
-       
-        open_statement_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")       
-        open_statement_definition_1 = MarkupText("proposition (ሓሳብ)፣ ዝኾነ ትርጉም ዘለዎ፣ ንፁርን ዘየሻሚን ሓረግ እዩ።",font_size=30, color=WHITE, font="Nyala")
-        open_statement_definition_2 = MarkupText("እቲ ሓረግ፣ ወይ ሓቂ ወይ ሓሶት ክኾን ይኽእል እዪ።",font_size=30, color=WHITE, font="Nyala")
-        open_statement_definition_3 = MarkupText("ኣብ ሓደ እዋን ግን ክልቲኡ (ወይ ሓቂ ወይ ሓሶት) ክኾን ኣይኽእልን።",font_size=30, color=WHITE, font="Nyala")
-        open_statement_definition_4 = MarkupText("ኣብ ሓደ እዋን ግን ክልቲኡ (ወይ ሓቂ ወይ ሓሶት) ክኾን ኣይኽእልን።",font_size=30, color=WHITE, font="Nyala")
-        open_statement_definition = VGroup(open_statement_definition_title, open_statement_definition_1, 
-                                           open_statement_definition_2, open_statement_definition_3,
-                                           open_statement_definition_4).scale(.7).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
-        
-        open_statement_box = SurroundingRectangle(open_statement_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
-        self.add(statement_definition_title,
-                  statement_definition_1,
-                  statement_definition_2,
-                  statement_definition_3,
-                  open_statement_definition_4,
-                  open_statement_box)
-        self.wait(2)
-        
-        
-# manim -ql -p --disable_caching logic.py Statement
+        self.wait(2)      
 
 
 class Propositions(Scene):
@@ -222,7 +221,7 @@ class Propositions(Scene):
         self.add(bg_text)        
                
         # Title
-        title = Text("ዓይነታት ሓሳባት", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        title = Text("ዓይነታት ሓሳባት / Types of Propositions ", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
         underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
         underline.next_to(title, DOWN, buff=0.2)
 
@@ -274,20 +273,19 @@ class Propositions(Scene):
                   compound_box)
         self.wait(2)
         self.wait(2)
-        third_statement_1 = MarkupText(
-            "ሀ. ናይ 1 ርብዒ ሱር 1 ኮይኑ",
-            font_size=30, font="Nyala"
-        )
+        text_a = MarkupText("ሀ. ", font_size=30, font="Nyala")
+        text_b = MarkupText("ለ. ", font_size=30, font="Nyala")
+        third_statement_1 = MarkupText("<span font_family='Sans'>√1 = 1 </span>", font_size=30, font="Nyala")
         third_statement_2 = MarkupText(
             " ከምኡውን",
             font_size=30, font="Nyala"
         )
         third_statement_3 = MarkupText(
-            " ሰለስተ ካብ ኣርባዕተ ዝነኣሰ እዩ።",
+            " <span font_family='Sans'> 3 &lt; 4 </span> እዩ።",
             font_size=30, font="Nyala"
         )
         fourth_statement_1 = MarkupText(
-            "ለ. ድሕሪ ሰሉስ ዘሎ መዓልቲ ረቡዕ",
+            "ድሕሪ ሰሉስ ዘሎ መዓልቲ ረቡዕ",
             font_size=30, font="Nyala"
         ) 
         fourth_statement_2 = MarkupText(
@@ -295,13 +293,13 @@ class Propositions(Scene):
             font_size=30, font="Nyala"
         )  
         fourth_statement_3 = MarkupText(
-            " ክልተ ክድመር ክልተ ኣርባዕተ እዩ።",
+            " 2 + 2 = 4 እዩ።",
             font_size=30, font="Nyala"
         )   
-        third_statement =VGroup(third_statement_1, third_statement_2, third_statement_3).arrange(RIGHT)
-        fourth_statement =VGroup(fourth_statement_1, fourth_statement_2, fourth_statement_3).arrange(RIGHT)
+        third_statement =VGroup(text_a, third_statement_1, third_statement_2, third_statement_3).arrange(RIGHT)
+        fourth_statement =VGroup(text_b, fourth_statement_1, fourth_statement_2, fourth_statement_3).arrange(RIGHT)
         compound_sentences = VGroup(third_statement, fourth_statement).arrange(DOWN*4, aligned_edge=LEFT, buff=0.5).scale(.5).next_to(compound_statement_definition, DOWN*3, buff=0.5)      
-        self.play(FadeIn(third_statement_1), FadeIn(third_statement_2), FadeIn(third_statement_3))
+        self.play(FadeIn(text_a),FadeIn(third_statement_1), FadeIn(third_statement_2), FadeIn(third_statement_3))
         self.wait(2)
        
         underline_third_statement_1 = Line(LEFT*third_statement_1.width/2, RIGHT*third_statement_1.width/2, stroke_width=1, color=YELLOW)
@@ -314,12 +312,11 @@ class Propositions(Scene):
         self.play(Create(underline_third_statement_3))
         self.wait(2)
        
-        third_box = SurroundingRectangle(third_statement_2, color=RED, buff=.1,
-                                             stroke_width= 1)        
+        third_box = SurroundingRectangle(third_statement_2, color=RED, buff=.05, stroke_width= 1)        
         self.play(Create(third_box))
         
         self.wait(2)
-        self.play(FadeIn(fourth_statement_1), FadeIn(fourth_statement_2), FadeIn(fourth_statement_3))
+        self.play(FadeIn(text_b),FadeIn(fourth_statement_1), FadeIn(fourth_statement_2), FadeIn(fourth_statement_3))
         self.wait(2) 
         
         underline_fourth_statement_1 = Line(LEFT*fourth_statement_1.width/2, RIGHT*fourth_statement_1.width/2, stroke_width=1, color=YELLOW)
@@ -335,8 +332,7 @@ class Propositions(Scene):
         # self.play(Uncreate(underline_fourth_statement_3))
         # self.wait(2)
         
-        fourth_box = SurroundingRectangle(fourth_statement_2, color=RED, buff=.1, 
-                                             stroke_width= 1)        
+        fourth_box = SurroundingRectangle(fourth_statement_2, color=RED, buff=.05, stroke_width= 1)        
         self.play(Create(fourth_box))
         self.wait(2)
 # manim -ql -p --disable_caching logic.py Propositions
@@ -348,18 +344,18 @@ class Connectives(Scene):
         self.add(bg_text)        
                
         # Title
-        title = Text("መጥመርቲ", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        title = Text("መጥመርቲ / Connectives", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
         underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
         underline.next_to(title, DOWN, buff=0.2)
 
         self.add(title)
         self.add(underline)
         font_size =28
-        negation = MarkupText("1. Negation", font_size=font_size)
-        conjunction = MarkupText("2. Conjunction", font_size=font_size)
-        disjunction = MarkupText("3. Disjunction", font_size=font_size)
-        implication = MarkupText("4. Implication", font_size=font_size)
-        biImplication = MarkupText("5. Bi-implication", font_size=font_size)
+        negation = MarkupText("1. ኣንፃር / Negation", font_size=font_size, font="Nyala")
+        conjunction = MarkupText("2. መስተፃምር / Conjunction", font_size=font_size, font="Nyala")
+        disjunction = MarkupText("3. ፍልያ / Disjunction", font_size=font_size, font="Nyala")
+        implication = MarkupText("4. ዝተኣመተ / Implication", font_size=font_size, font="Nyala")
+        biImplication = MarkupText("5. ድርብ ዝተኣመተ / Bi-implication", font_size=font_size, font="Nyala")
 
         BulletedList = VGroup(negation, conjunction, disjunction, implication, biImplication)
         BulletedList.arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(underline, DOWN, buff=0.5)
@@ -385,7 +381,7 @@ class Negation(Scene):
         self.add(bg_text)        
                
         # Title
-        title = Text("Negation", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        title = Text("ኣንፃር / Negation", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
         underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
         underline.next_to(title, DOWN, buff=0.2)
 
@@ -394,12 +390,14 @@ class Negation(Scene):
         
         negation_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
        
-        negation_definition_1 = MarkupText("p ዝባሃል ሓሳብ እንተልዩ፣ <span fgcolor='{ORANGE}'>¬p</span> ናይ p ምኽሓድ ምልክት እዩ።",font_size=30, color=WHITE, font="Nyala")
-        negation_definition_2 = MarkupText("'p ኣይኾነን እዩ' ብዝብል ሓሳብ ኢልና ንገልፆ።",font_size=30, color=WHITE, font="Nyala")
+        negation_definition_1 = MarkupText("p ዝባሃል ሓሳብ እንተልዩ፣ <span fgcolor='ORANGE'>¬p</span> ናይ p ኣንፃር ምልክት እዩ።",font_size=30, color=WHITE, font="Nyala")
+        negation_definition_2 = MarkupText("'p ኣይኾነን እዩ' ዝብል ሓሳብ ኢልና ንገልፆ።",font_size=30, color=WHITE, font="Nyala")
         
-        disjunction_definition = VGroup(negation_definition_title, negation_definition_1, negation_definition_2).scale(.7).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        negation_definition = VGroup(negation_definition_title, negation_definition_1, negation_definition_2).scale(.7).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
         
-        box = SurroundingRectangle(disjunction_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2)
+        box = SurroundingRectangle(negation_definition, color=YELLOW, buff=0.4, 
+                                          fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2
+                                          ,stroke_width= 1)
         self.add(negation_definition_title,
                   negation_definition_1,
                   negation_definition_2,
@@ -409,14 +407,14 @@ class Negation(Scene):
         ex_one = MarkupText("P = እቲ ቤተ መፃሕፍቲ ሕዚ ኽፉት እዩ።", font_size=font_size, font="Nyala")
         ex_one_not = MarkupText("¬P = እቲ ቤተ መፃሕፍቲ ሕዚ ኽፉት ኣይኾነን እዩ።", font_size=font_size, font="Nyala")
         ex = VGroup(ex_one, ex_one_not)
-        ex.arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(disjunction_definition, DOWN, buff=0.5)
+        ex.arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(negation_definition, DOWN*2, buff=0.5)
 
         self.play(FadeIn(ex_one))
-        self.wait(2) 
+        self.wait(1) 
         self.play(FadeIn(ex_one_not))
-        self.wait(2)
-        self.play(FadeOut(ex), FadeOut(disjunction_definition), FadeOut(box))
-        self.wait(2)
+        self.wait(1)
+        self.play(FadeOut(ex), FadeOut(negation_definition), FadeOut(box))
+        self.wait(1)
         # Table content
         headers = ["p", "¬p"]
         table_data = [
@@ -456,11 +454,96 @@ class Negation(Scene):
             self.play(cell.animate.set_opacity(1))
             self.wait(0.3)
             
-        self.wait(2) 
+        self.wait(1) 
+        self.play(table.animate.set_opacity(0)) 
+        self.wait(1)
+
+# manim -ql -p --disable_caching logic.py Negation
+
+class Conjunction(Scene):
+    def construct(self):
+        background, bg_text = layout()
+        self.add(background)
+        self.add(bg_text)        
+               
+        # Title
+        title = Text("መስተፃምር / Conjunction", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
+        underline.next_to(title, DOWN, buff=0.2)
+
+        self.add(title)
+        self.add(underline)
+        self.wait(2)
+        conjunction_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
+       
+        conjunction_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ pን qን ክልቲኦም ሓቂ እንተኾይኖም ጥራሕ እዩ፣ ",font_size=30, color=WHITE, font="Nyala")
+        conjunction_definition_2 = MarkupText("ናይ pን qን መስተፃምር / conjunction ሓቂ ዝኾን።",font_size=30, color=WHITE, font="Nyala")
+        conjunction_definition_3 = MarkupText("ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>p ∧ q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
+        conjunction_definition = VGroup(conjunction_definition_title, conjunction_definition_1, conjunction_definition_2, conjunction_definition_3).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        
+        box = SurroundingRectangle(conjunction_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
+        self.add(conjunction_definition_title,
+                  conjunction_definition_1,
+                  conjunction_definition_2,
+                  conjunction_definition_3,box)
+        self.wait()
+       
+        self.play(FadeOut(conjunction_definition),FadeOut(box))
+        self.wait()
+        # Table content
+        headers = ["p", "q", "p ∧ q"]
+        table_data = [
+            ["T", "T", "T"],
+            ["T", "F", "F"],
+            ["F", "T", "F"],
+            ["F", "F", "F"],          
+        ]
+
+        # Create table object without MathTex
+        table = Table(
+            table_data,
+            col_labels=[Text(h) for h in headers],  # Use Text here
+            include_outer_lines=False,
+            line_config={"stroke_width": 1},
+        )            
+        table.scale(.5).next_to(underline, DOWN, buff=0.5).center()
+        # Get each column as a VGroup
+        first_col = VGroup(table.get_columns()[0], table.get_col_labels()[0])
+        second_col = VGroup(table.get_columns()[1], table.get_col_labels()[1])
+        third_col = VGroup(table.get_columns()[2], table.get_col_labels()[2])
+        # Add to scene
+        
+        # Hide all columns initially
+        for col in [first_col, second_col,third_col]:
+            col.set_opacity(0)
+        
+        self.add(table)
+        self.play(first_col[1].animate.set_opacity(1))
+        self.wait(.5)
+        self.play(second_col[1].animate.set_opacity(1))
+        self.wait(.5)
+        self.play(third_col[1].animate.set_opacity(1))
+        self.wait(.5)
+    
+        for cell in first_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(.5)
+        
+        for cell in second_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(.5) 
+
+        for cell in third_col[0]:
+            self.play(cell.animate.set_opacity(1))
+            self.wait(0.3)            
+        self.wait(.5)
+
         self.play(table.animate.set_opacity(0)) 
         self.wait(2)
 
-# manim -ql -p --disable_caching logic.py Negation
+# manim -ql -p --disable_caching logic.py Conjunction
 
 class Disjunction(Scene):
     def construct(self):
@@ -469,17 +552,16 @@ class Disjunction(Scene):
         self.add(bg_text)        
                
         # Title
-        title = Text("Disjunction", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        title = Text("ፍልያ / Disjunction", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
         underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
         underline.next_to(title, DOWN, buff=0.2)
 
         self.add(title)
         self.add(underline)
         self.wait(2)
-        disjunction_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
-       
-        disjunction_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ ናይ pን qን disjunction፣",font_size=30, color=WHITE, font="Nyala")
-        disjunction_definition_2 = MarkupText("ወይ p ሓቂ እንተኾይኑ ወይ q ሓቂ እንተኾይኑ ወይ pን qን ክልቲኦም ሓቂ እንተኾይኖም፣ <span font_family='Sans' fgcolor='ORANGE'>p ∨ q</span> ሓቂ እዩ ብይብል።",font_size=30, color=WHITE, font="Nyala")
+        disjunction_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")        
+        disjunction_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ pን qን ክልቲኦም ሓሶት እንተኾይኖም ጥራሕ እዩ፣ ",font_size=30, color=WHITE, font="Nyala")
+        disjunction_definition_2 = MarkupText("ናይ pን qን ፍልያ / disjunction ሓሶት ዝኾን።",font_size=30, color=WHITE, font="Nyala")
         disjunction_definition_3 = MarkupText("ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>p ∨ q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
         disjunction_definition = VGroup(disjunction_definition_title, disjunction_definition_1, disjunction_definition_2, disjunction_definition_3).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
         
@@ -521,116 +603,32 @@ class Disjunction(Scene):
         
         self.add(table)
         self.play(first_col[1].animate.set_opacity(1))
-        self.wait(1)
+        self.wait()
         self.play(second_col[1].animate.set_opacity(1))
-        self.wait(1)
+        self.wait()
         self.play(third_col[1].animate.set_opacity(1))
-        self.wait(1)
+        self.wait()
     
         for cell in first_col[0]:
             self.play(cell.animate.set_opacity(1))
             self.wait(0.3)            
-        self.wait(2)
+        self.wait()
         
         for cell in second_col[0]:
             self.play(cell.animate.set_opacity(1))
             self.wait(0.3)            
-        self.wait(2) 
+        self.wait() 
 
         for cell in third_col[0]:
             self.play(cell.animate.set_opacity(1))
             self.wait(0.3)            
-        self.wait(2)
+        self.wait()
 
         self.play(table.animate.set_opacity(0)) 
         self.wait(2)
 
 # manim -ql -p --disable_caching logic.py Disjunction
 
-class Conjunction(Scene):
-    def construct(self):
-        background, bg_text = layout()
-        self.add(background)
-        self.add(bg_text)        
-               
-        # Title
-        title = Text("Conjunction", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
-        underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
-        underline.next_to(title, DOWN, buff=0.2)
-
-        self.add(title)
-        self.add(underline)
-        self.wait(2)
-        conjunction_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
-       
-        conjunction_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ ናይ pን qን conjunction",font_size=30, color=WHITE, font="Nyala")
-        conjunction_definition_2 = MarkupText("ወይ p ሓቂ እንተኾይኑ ወይ q ሓቂ እንተኾይኑ ወይ pን qን ክልቲኦም ሓቂ እንተኾይኖም፣ <span font_family='Sans' fgcolor='ORANGE'>p ∧ q</span> ሓቂ እዩ ብይብል።",font_size=30, color=WHITE, font="Nyala")
-        conjunction_definition_3 = MarkupText("ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>p ∧ q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
-        conjunction_definition = VGroup(conjunction_definition_title, conjunction_definition_1, conjunction_definition_2, conjunction_definition_3).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
-        
-        box = SurroundingRectangle(conjunction_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
-        self.add(conjunction_definition_title,
-                  conjunction_definition_1,
-                  conjunction_definition_2,
-                  conjunction_definition_3,box)
-        self.wait(2)
-       
-        self.play(FadeOut(conjunction_definition),FadeOut(box))
-        self.wait(2)
-        # Table content
-        headers = ["p", "q", "p ∧ q"]
-        table_data = [
-            ["T", "T", "T"],
-            ["T", "F", "F"],
-            ["F", "T", "F"],
-            ["F", "F", "F"],          
-        ]
-
-        # Create table object without MathTex
-        table = Table(
-            table_data,
-            col_labels=[Text(h) for h in headers],  # Use Text here
-            include_outer_lines=False,
-            line_config={"stroke_width": 1},
-        )            
-        table.scale(.5).next_to(underline, DOWN, buff=0.5).center()
-        # Get each column as a VGroup
-        first_col = VGroup(table.get_columns()[0], table.get_col_labels()[0])
-        second_col = VGroup(table.get_columns()[1], table.get_col_labels()[1])
-        third_col = VGroup(table.get_columns()[2], table.get_col_labels()[2])
-        # Add to scene
-        
-        # Hide all columns initially
-        for col in [first_col, second_col,third_col]:
-            col.set_opacity(0)
-        
-        self.add(table)
-        self.play(first_col[1].animate.set_opacity(1))
-        self.wait(1)
-        self.play(second_col[1].animate.set_opacity(1))
-        self.wait(1)
-        self.play(third_col[1].animate.set_opacity(1))
-        self.wait(1)
-    
-        for cell in first_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
-        self.wait(2)
-        
-        for cell in second_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
-        self.wait(2) 
-
-        for cell in third_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
-        self.wait(2)
-
-        self.play(table.animate.set_opacity(0)) 
-        self.wait(2)
-
-# manim -ql -p --disable_caching logic.py Conjunction
 
 class Implication(Scene):
     def construct(self):
@@ -639,17 +637,16 @@ class Implication(Scene):
         self.add(bg_text)        
                
         # Title
-        title = Text("Implication", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        title = Text("ዝተኣመተ / Implication", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
         underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
         underline.next_to(title, DOWN, buff=0.2)
 
         self.add(title)
         self.add(underline)
         self.wait(2)
-        implication_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
-       
-        implication_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ ናይ pን qን implication",font_size=30, color=WHITE, font="Nyala")
-        implication_definition_2 = MarkupText("ወይ p ሓቂ እንተኾይኑ ወይ q ሓቂ እንተኾይኑ ወይ pን qን ክልቲኦም ሓቂ እንተኾይኖም፣ <span font_family='Sans' fgcolor='ORANGE'>p → q</span> ሓቂ እዩ ብይብል።",font_size=30, color=WHITE, font="Nyala")
+        implication_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")       
+        implication_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ p ሓቂ ን q ሓሶት ን እንተኾይኖም ጥራሕ እዩ፣ ",font_size=30, color=WHITE, font="Nyala")
+        implication_definition_2 = MarkupText("ናይ pን qን ዝተኣመተ / Implication ሓሶት ዝኾን።",font_size=30, color=WHITE, font="Nyala")
         implication_definition_3 = MarkupText("ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>p → q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
         implication_definition = VGroup(implication_definition_title, implication_definition_1, implication_definition_2, implication_definition_3).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
         
@@ -691,28 +688,73 @@ class Implication(Scene):
         
         self.add(table)
         self.play(first_col[1].animate.set_opacity(1))
-        self.wait(1)
+        self.wait()
         self.play(second_col[1].animate.set_opacity(1))
-        self.wait(1)
+        self.wait()
         self.play(third_col[1].animate.set_opacity(1))
-        self.wait(1)
+        self.wait()
     
         for cell in first_col[0]:
             self.play(cell.animate.set_opacity(1))
             self.wait(0.3)            
-        self.wait(2)
+        self.wait(.5)
         
         for cell in second_col[0]:
             self.play(cell.animate.set_opacity(1))
             self.wait(0.3)            
-        self.wait(2) 
+        self.wait(.5) 
 
         for cell in third_col[0]:
             self.play(cell.animate.set_opacity(1))
             self.wait(0.3)            
-        self.wait(2)
+        self.wait(.5)
 
         self.play(table.animate.set_opacity(0)) 
+        self.wait(1)
+        implication_explanation = MarkupText("p → q",font_size=30, color=WHITE)
+        antecedent = MarkupText("<span font_family='Sans'>p =</span> ቅድመ ፍጻመ <span font_family='Sans'>/ antecedent</span>",font_size=30, color=WHITE, font="Nyala")
+        consequent = MarkupText("<span font_family='Sans'>q =</span> ዝስዕብ <span font_family='Sans'>/ consequent</span>",font_size=30, color=WHITE, font="Nyala")
+        antecedent_consequent = VGroup(implication_explanation,antecedent, consequent)
+        antecedent_consequent.arrange(DOWN, aligned_edge=LEFT, buff=0.5)
+        self.play(Write(implication_explanation), run_time=.5)
+        self.wait(.5)
+        self.play(Write(antecedent), run_time=.5)
+        self.wait(.5)
+        self.play(Write(consequent), run_time=.5)
+        self.wait(.5)
+        self.play(FadeOut(antecedent_consequent), run_time=.5)
+
+        example_line_one = Text("p = 2 < -2",font_size=30, color=WHITE)
+        example_line_two = Text("p = 4 > 1",font_size=30, color=WHITE)
+        example_line_three = Text("p → q  ≡ T",font_size=30, color=WHITE)
+
+        example = VGroup(example_line_one,example_line_two, example_line_three)
+        example.arrange(DOWN, aligned_edge=LEFT, buff=0.5)
+        self.play(Write(example_line_one), run_time=.5)
+        self.wait(.5)
+        self.play(Write(example_line_two), run_time=.5)
+        self.wait(.5)
+        self.play(Write(example_line_three), run_time=.5)
+        self.wait(.5)
+        self.play(FadeOut(example), run_time=.5)
+
+             
+        note_implication = MarkupText("p → q",font_size=30, color=WHITE)
+        note_converse = MarkupText("q → p = Converse ",font_size=30, color=WHITE)
+        note_inverse = MarkupText("¬p → ¬q = Inverse",font_size=30, color=WHITE)
+        note_contrapositive = MarkupText("¬q → ¬p = Contrapositive ",font_size=30, color=WHITE)
+        note_definition = VGroup(note_implication, note_converse, note_inverse,note_contrapositive )
+
+        note_definition.arrange(DOWN, aligned_edge=LEFT, buff=0.5)
+        self.play(Write(note_implication), run_time=.5)
+        self.wait(.5)
+        self.play(Write(note_converse), run_time=.5)
+        self.wait(.5)
+        self.play(Write(note_inverse), run_time=.5)
+        self.wait(.5)
+        self.play(Write(note_contrapositive), run_time=.5)
+        self.wait(.5)
+        self.play(FadeOut(note_definition))
         self.wait(2)
 
 # manim -ql -p --disable_caching logic.py Implication
@@ -724,17 +766,16 @@ class BiImplication(Scene):
         self.add(bg_text)        
                
         # Title
-        title = Text("Bi-Implication", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        title = Text("ድርብ ዝተኣመተ / Bi-Implication", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
         underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
         underline.next_to(title, DOWN, buff=0.2)
 
         self.add(title)
         self.add(underline)
         self.wait(2)
-        biImplication_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
-       
-        biImplication_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ ናይ pን qን bi-implication",font_size=30, color=WHITE, font="Nyala")
-        biImplication_definition_2 = MarkupText("ወይ p ሓቂ እንተኾይኑ ወይ q ሓቂ እንተኾይኑ ወይ pን qን ክልቲኦም ሓቂ እንተኾይኖም፣ <span font_family='Sans' fgcolor='ORANGE'>p ↔ q</span> ሓቂ እዩ ብይብል።",font_size=30, color=WHITE, font="Nyala")
+        biImplication_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")       
+        biImplication_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ pን qን ክልቲኦም ሓቂ እንተኾይኖም ወይ ክልቲኦም ሓሶት እንተኾይኖም ጥራሕ እዩ፣ ",font_size=30, color=WHITE, font="Nyala")
+        biImplication_definition_2 = MarkupText("ናይ pን qን ድርብ ዝተኣመተ / bi-implication ሓቂ ዝኾን።",font_size=30, color=WHITE, font="Nyala")
         biImplication_definition_3 = MarkupText("ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>p ↔ q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
         biImplication_definition = VGroup(biImplication_definition_title, biImplication_definition_1, biImplication_definition_2, biImplication_definition_3).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
         
@@ -743,10 +784,10 @@ class BiImplication(Scene):
                   biImplication_definition_1,
                   biImplication_definition_2,
                   biImplication_definition_3,box)
-        self.wait(2)
+        self.wait(1)
        
         self.play(FadeOut(biImplication_definition),FadeOut(box))
-        self.wait(2)
+        self.wait(1)
         # Table content
         headers = ["p", "q", "p ↔ q"]
         table_data = [
@@ -776,29 +817,29 @@ class BiImplication(Scene):
         
         self.add(table)
         self.play(first_col[1].animate.set_opacity(1))
-        self.wait(1)
+        self.wait()
         self.play(second_col[1].animate.set_opacity(1))
-        self.wait(1)
+        self.wait()
         self.play(third_col[1].animate.set_opacity(1))
-        self.wait(1)
+        self.wait()
     
         for cell in first_col[0]:
             self.play(cell.animate.set_opacity(1))
             self.wait(0.3)            
-        self.wait(2)
+        self.wait(.5)
         
         for cell in second_col[0]:
             self.play(cell.animate.set_opacity(1))
             self.wait(0.3)            
-        self.wait(2) 
+        self.wait(.5) 
 
         for cell in third_col[0]:
             self.play(cell.animate.set_opacity(1))
             self.wait(0.3)            
-        self.wait(2)
+        self.wait(.5)
 
         self.play(table.animate.set_opacity(0)) 
-        self.wait(2)
+        self.wait(1)
 
 # manim -ql -p --disable_caching logic.py BiImplication
 
@@ -809,7 +850,7 @@ class TautologyAndContradiction(Scene):
         self.add(bg_text)        
                
         # Title
-        title = Text("Tautology and Contradiction", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        title = Text("ህውላለ ወ ግርጭት / Tautology and Contradiction", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
         underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
         underline.next_to(title, DOWN, buff=0.2)
 
@@ -964,27 +1005,27 @@ class Equivalence(Scene):
         self.add(bg_text)        
                
         # Title
-        title = Text("Logical Equivalence", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        title = Text("ስነ-መጐታዊ መዓርነት / Logical Equivalence", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
         underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
         underline.next_to(title, DOWN, buff=0.2)
 
         self.add(title)
         self.add(underline)
         self.wait(2)
-        implication_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
+        equivalence_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
        
-        implication_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ ናይ pን qን logical equivalence",font_size=30, color=WHITE, font="Nyala")
-        implication_definition_2 = MarkupText("ወይ p ሓቂ እንተኾይኑ ወይ q ሓቂ እንተኾይኑ ወይ pን qን ክልቲኦም ሓቂ እንተኾይኖም፣ <span font_family='Sans' fgcolor='ORANGE'>p → q</span> ሓቂ እዩ ብይብል።",font_size=30, color=WHITE, font="Nyala")
-        implication_definition_3 = MarkupText("ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>≡</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
-        implication_definition = VGroup(implication_definition_title, implication_definition_1, implication_definition_2, implication_definition_3).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        equivalence_definition_1 = MarkupText("ክልተ ሓደ ዓይነት ባእታ ሓሳብ ዘጠቓልሉ ሓሳባት ተመሳሳሊ ናይ ሓቂ ሰደቓታት እንተሃልይዎም፣ ስነ-መጐታዊ ማዕረ እዮም ይበሃል።",font_size=30, color=WHITE, font="Nyala")
+        equivalence_definition_2 = MarkupText("ናይ እዙይ ስነ-መጐታዊ መዓርነት ምልክት ድማ <span font_family='Sans' fgcolor='ORANGE'>≡</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
         
-        box = SurroundingRectangle(implication_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
-        self.add(implication_definition_title,
-                  implication_definition_1,
-                  implication_definition_2,
-                  implication_definition_3,box)
+        equivalence_definition = VGroup(equivalence_definition_title, equivalence_definition_1, equivalence_definition_2).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        
+        box = SurroundingRectangle(equivalence_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
+        self.add(equivalence_definition_title,
+                 equivalence_definition_1,
+                  equivalence_definition_2,
+                 box)
         self.wait(2)       
-        self.play(FadeOut(implication_definition),FadeOut(box))
+        self.play(FadeOut(equivalence_definition),FadeOut(box))
         self.wait(2)
         font_size =20
         commutative = Text("1. Commutative law: p ∧ q  ≡ q ∧ p", font_size=font_size)
@@ -1051,7 +1092,7 @@ class Equivalence(Scene):
         box.remove_updater(box.updaters[0])
         self.wait(1)
         HORIZONTAL_OFFSET =  RIGHT
-   
+        '''
         # Commutative law: p ∧ q  ≡ q ∧ p
         commutative_title = Text("Commutative law: p ∧ q  ≡ q ∧ p", font_size=font_size + 8)
         commutative_underline = Line(LEFT*commutative_title.width/2, RIGHT*commutative_title.width/2, stroke_width=1, color=WHITE)
@@ -1070,7 +1111,7 @@ class Equivalence(Scene):
         ).scale(0.5).next_to(commutative_underline, DOWN*1.5, buff=0.5)
 
         commutative_group = VGroup(commutative_title, commutative_underline, commutative_table)
-        commutative_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).scale(0.6).next_to(box, RIGHT).shift(UP*0.5) 
+        commutative_group.arrange(DOWN, aligned_edge=LEFT, buff=0.20).scale(0.6).next_to(box, RIGHT*3) 
         commutative_group.align_to(box, UP)
          
           # or any vector             
@@ -1137,8 +1178,8 @@ class Equivalence(Scene):
         self.wait(.5)
         self.play(FadeOut(commutative_group), FadeOut(commutative_col3), FadeOut(commutative_col4),  FadeOut(commutative_bullet_underline), run_time=.5)
         self.wait(1)
-
-    '''            
+         
+              
 		# Associative law: (p ∧ q) ∧ r ≡ p ∧ (q ∧ r)
         associative_title = Text("Associative laws: (p ∧ q) ∧ r ≡ p ∧ (q ∧ r)", font_size=font_size + 8)
         associative_underline = Line(LEFT*associative_title.width/2, RIGHT*associative_title.width/2, stroke_width=1, color=WHITE)
@@ -1162,9 +1203,8 @@ class Equivalence(Scene):
         ).scale(0.5).next_to(associative_underline, DOWN*1.5, buff=0.5)
 
         associative_group = VGroup(associative_title, associative_underline, associative_table)
-        associative_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).scale(0.6) 
-        associative_group.align_to(box, UP) 
-        associative_group.next_to(box, RIGHT, buff=0.15)       
+        associative_group.arrange(DOWN, aligned_edge=LEFT, buff=0.20).scale(0.6).next_to(box, RIGHT*3) 
+        associative_group.align_to(box, UP)     
         self.add(associative_title, associative_underline, associative_bullet_underline)
         # self.add(associative_title, associative_underline)
        
@@ -1504,6 +1544,8 @@ class Equivalence(Scene):
         
         self.wait(1)
 
+          
+
         # Distributive law: p ∧ (q ∨ r) ≡ (p ∧ q) ∨ (p ∧ r)
         distributive_title = Text("Distributive laws: p ∧ (q ∨ r) ≡ (p ∧ q) ∨ (p ∧ r) ", font_size=font_size + 8)
         distributive_underline = Line(LEFT*distributive_title.width/2, RIGHT*distributive_title.width/2, stroke_width=1, color=WHITE)
@@ -1527,7 +1569,8 @@ class Equivalence(Scene):
         ).scale(0.5).next_to(distributive_underline, DOWN, buff=0.5)
 
         distributive_group = VGroup(distributive_title, distributive_underline, distributive_table)
-        distributive_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
+        distributive_group.arrange(DOWN, aligned_edge=LEFT, buff=0.20).scale(0.6).next_to(box, RIGHT*3) 
+        distributive_group.align_to(box, UP) 
        
         self.add(distributive_title, distributive_underline, distributive_bullet_underline)        
        
@@ -1948,7 +1991,7 @@ class Equivalence(Scene):
         self.wait(1)
         self.play(FadeOut(distributive_group), FadeOut(distributive_col6), FadeOut(distributive_col7),  FadeOut(distributive_bullet_underline), run_time=.5)        
         self.wait(1)
-
+    
         # Identity laws: p ∧ t ≡ p
         identity_title = Text("Identity law: p ∧ t ≡ p", font_size=font_size + 8)
         identity_underline = Line(LEFT*identity_title.width/2, RIGHT*identity_title.width/2, stroke_width=1, color=WHITE)
@@ -1962,10 +2005,11 @@ class Equivalence(Scene):
             col_labels=[Text("P"), Text("t"), Text("p ∧ t")],
             include_outer_lines=False,
             line_config={"stroke_width": 1},
-        ).scale(0.7).next_to(identity_underline, DOWN*2, buff=0.5)
+        ).scale(0.5).next_to(identity_underline, DOWN*2, buff=0.5)
 
         identity_group = VGroup(identity_title, identity_underline, identity_table)
-        identity_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
+        identity_group.arrange(DOWN, aligned_edge=LEFT, buff=0.20).scale(0.6).next_to(box, RIGHT*3) 
+        identity_group.align_to(box, UP)
        
         self.add(identity_title, identity_underline, identity_bullet_underline)        
        
@@ -1985,8 +2029,8 @@ class Equivalence(Scene):
         self.play(FadeOut(identity_row1_col0_content), FadeOut(identity_row1_col1_content),FadeOut(identity_row1_col2_content), run_time=.5)
         self.wait(.5)
 
-        identity_row2_col0_content = SurroundingRectangle(identity_table.get_entries((3, 1)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
-        identity_row2_col1_content = SurroundingRectangle(identity_table.get_entries((3, 2)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        identity_row2_col0_content = SurroundingRectangle(identity_table.get_entries((3, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
+        identity_row2_col1_content = SurroundingRectangle(identity_table.get_entries((3, 2)),buff=0.05,  color=GREEN, corner_radius=0.02, stroke_width=1)
         identity_row2_col2_content = SurroundingRectangle(identity_table.get_entries((3, 3)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
         
         self.play(Create(identity_row2_col0_content), run_time=.5)
@@ -2017,10 +2061,11 @@ class Equivalence(Scene):
             col_labels=[Text("P"),Text("¬p"), Text("c"), Text("p ∧ ¬p")],
             include_outer_lines=False,
             line_config={"stroke_width": 1},
-        ).scale(0.7).next_to(negation_underline, DOWN*2, buff=0.5)
+        ).scale(0.5).next_to(negation_underline, DOWN*2, buff=0.5)
 
         negation_group = VGroup(negation_title, negation_underline, negation_table)
-        negation_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
+        negation_group.arrange(DOWN, aligned_edge=LEFT, buff=0.20).scale(0.6).next_to(box, RIGHT*3) 
+        negation_group.align_to(box, UP)
        
         self.add(negation_title, negation_underline, negation_bullet_underline)        
        
@@ -2073,10 +2118,11 @@ class Equivalence(Scene):
             col_labels=[Text("P"),Text("¬p"), Text("¬(¬p)")],
             include_outer_lines=False,
             line_config={"stroke_width": 1},
-        ).scale(0.7).next_to(doubleNegation_underline, DOWN*2, buff=0.5)
+        ).scale(0.5).next_to(doubleNegation_underline, DOWN*2, buff=0.5)
 
         doubleNegation_group = VGroup(doubleNegation_title,doubleNegation_underline,doubleNegation_table)
-        doubleNegation_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
+        doubleNegation_group.arrange(DOWN, aligned_edge=LEFT, buff=0.20).scale(0.6).next_to(box, RIGHT*3) 
+        doubleNegation_group.align_to(box, UP)
        
         self.add(doubleNegation_title,doubleNegation_underline,doubleNegation_bullet_underline)
         
@@ -2130,10 +2176,11 @@ class Equivalence(Scene):
             col_labels=[Text("P"),Text("p ∧ p")],
             include_outer_lines=False,
             line_config={"stroke_width": 1},
-        ).scale(0.7).next_to(idempotent_underline, DOWN*2, buff=0.5)
+        ).scale(0.5).next_to(idempotent_underline, DOWN*2, buff=0.5)
 
         idempotent_group = VGroup(idempotent_title, idempotent_underline, idempotent_table)
-        idempotent_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
+        idempotent_group.arrange(DOWN, aligned_edge=LEFT, buff=0.20).scale(0.6).next_to(box, RIGHT*3) 
+        idempotent_group.align_to(box, UP)
        
         self.add(idempotent_title, idempotent_underline, idempotent_bullet_underline)        
        
@@ -2189,10 +2236,11 @@ class Equivalence(Scene):
             col_labels=[Text("P"), Text("q"), Text("¬P"), Text("¬q"), Text("p ∧ q"), Text("¬(p ∧ q)"), Text("¬p ∨ ¬q")],
             include_outer_lines=False,
             line_config={"stroke_width": 1},
-        ).scale(0.7).next_to(deMorgan_underline, DOWN*2, buff=0.5)
+        ).scale(0.5).next_to(deMorgan_underline, DOWN*2, buff=0.5)
 
         deMorgan_group = VGroup(deMorgan_title, deMorgan_underline, deMorgan_table)
-        deMorgan_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
+        deMorgan_group.arrange(DOWN, aligned_edge=LEFT, buff=0.20).scale(0.6).next_to(box, RIGHT*3) 
+        deMorgan_group.align_to(box, UP)
        
         self.add(deMorgan_title, deMorgan_underline, deMorgan_bullet_underline)
         
@@ -2357,7 +2405,8 @@ class Equivalence(Scene):
         ).scale(0.7).next_to(universal_underline, DOWN*2, buff=0.5)
 
         universal_group = VGroup(universal_title, universal_underline, universal_table)
-        universal_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
+        universal_group.arrange(DOWN, aligned_edge=LEFT, buff=0.20).scale(0.6).next_to(box, RIGHT*3) 
+        universal_group.align_to(box, UP)
        
         self.add(universal_title, universal_underline, universal_bullet_underline)
         
@@ -2416,7 +2465,8 @@ class Equivalence(Scene):
         ).scale(0.7).next_to(absorption_underline, DOWN*2, buff=0.5)
 
         absorption_group = VGroup(absorption_title, absorption_underline, absorption_table)
-        absorption_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
+        absorption_group.arrange(DOWN, aligned_edge=LEFT, buff=0.20).scale(0.6).next_to(box, RIGHT*3) 
+        absorption_group.align_to(box, UP)
        
         self.add(absorption_title, absorption_underline, absorption_bullet_underline)
         
@@ -2496,7 +2546,7 @@ class Equivalence(Scene):
         self.play(Create(absorption_row2_col3_content), run_time=.5)
         
         self.wait(.5)
-        self.play(FadeOut(absorption_row2_col0_content), FadeOut(absorption_row2_col1_content),FadeOut(absorption_row2_col2_content),  run_time=.5)
+        self.play(FadeOut(absorption_row2_col0_content), FadeOut(absorption_row2_col2_content),FadeOut(absorption_row2_col3_content),  run_time=.5)
         self.wait(.5)
 
         absorption_row3_col0_content = SurroundingRectangle(absorption_table.get_entries((4, 1)),buff=0.05,  color=RED, corner_radius=0.02, stroke_width=1)
@@ -2548,7 +2598,8 @@ class Equivalence(Scene):
         ).scale(0.7).next_to(tandc_underline, DOWN*2, buff=0.5)
 
         tandc_group = VGroup(tandc_title, tandc_underline, tandc_table)
-        tandc_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
+        tandc_group.arrange(DOWN, aligned_edge=LEFT, buff=0.20).scale(0.6).next_to(box, RIGHT*3) 
+        tandc_group.align_to(box, UP)
        
         self.add(tandc_title, tandc_underline, tandc_bullet_underline)
         
@@ -2576,7 +2627,7 @@ class Equivalence(Scene):
         self.play(FadeOut(tandc_group), FadeOut(tandc_col0), FadeOut(tandc_col2),  FadeOut(tandc_bullet_underline), run_time=.5)
         
         self.wait(1)
-
- '''
+''' 
+ 
 # manim -ql -p --disable_caching logic.py Equivalence
 # manim -ql -p logic.py Equivalence
