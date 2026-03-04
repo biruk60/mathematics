@@ -1002,15 +1002,15 @@ class Equivalence(Scene):
         BulletedList = VGroup(commutative, associative, distributive, identity, negation, doubleNegation,
                                idempotent, deMorgan, universal, absorption, tandc)
         BulletedList.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25)
-
+        
         BulletedList.generate_target()        
         BulletedList.target.shift(4.5*LEFT).scale(0.6)
         self.play(FadeIn(commutative))
-        self.wait() 
+        self.wait(2) 
         self.play(FadeIn(associative))
-        self.wait()
+        self.wait(2)
         self.play(FadeIn(distributive))
-        self.wait()
+        self.wait(2)
         self.play(FadeIn(identity))
         self.wait(2)
         self.play(FadeIn(negation))
@@ -1028,15 +1028,30 @@ class Equivalence(Scene):
         self.play(FadeIn(tandc))
         self.wait(2)   
        
-        box = SurroundingRectangle(BulletedList.target, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
+        box = SurroundingRectangle(BulletedList.target, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)        
        
+        box.add_updater(lambda b: b.become(
+            SurroundingRectangle(
+                BulletedList,
+                color=YELLOW,
+                buff=0.4,
+                fill_color=ORANGE,
+                fill_opacity=0.05,
+                corner_radius=0.2,
+                stroke_width=1
+            )
+        ))
+
+        self.add(box)
         self.play(
             MoveToTarget(BulletedList),
-            Create(box),
             run_time=1
         )
-        self.wait(1)
 
+        box.remove_updater(box.updaters[0])
+        self.wait(1)
+        HORIZONTAL_OFFSET =  RIGHT
+   
         # Commutative law: p ∧ q  ≡ q ∧ p
         commutative_title = Text("Commutative law: p ∧ q  ≡ q ∧ p", font_size=font_size + 8)
         commutative_underline = Line(LEFT*commutative_title.width/2, RIGHT*commutative_title.width/2, stroke_width=1, color=WHITE)
@@ -1052,10 +1067,13 @@ class Equivalence(Scene):
             col_labels=[Text("P"), Text("q"), Text("p ∧ q"), Text("q ∧ p")],
             include_outer_lines=False,
             line_config={"stroke_width": 1},
-        ).scale(0.7).next_to(commutative_underline, DOWN*2, buff=0.5)
+        ).scale(0.5).next_to(commutative_underline, DOWN*1.5, buff=0.5)
 
         commutative_group = VGroup(commutative_title, commutative_underline, commutative_table)
-        commutative_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
+        commutative_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).scale(0.6).next_to(box, RIGHT).shift(UP*0.5) 
+        commutative_group.align_to(box, UP)
+         
+          # or any vector             
        
         self.add(commutative_title, commutative_underline, commutative_bullet_underline)
        
@@ -1120,7 +1138,7 @@ class Equivalence(Scene):
         self.play(FadeOut(commutative_group), FadeOut(commutative_col3), FadeOut(commutative_col4),  FadeOut(commutative_bullet_underline), run_time=.5)
         self.wait(1)
 
-                
+    '''            
 		# Associative law: (p ∧ q) ∧ r ≡ p ∧ (q ∧ r)
         associative_title = Text("Associative laws: (p ∧ q) ∧ r ≡ p ∧ (q ∧ r)", font_size=font_size + 8)
         associative_underline = Line(LEFT*associative_title.width/2, RIGHT*associative_title.width/2, stroke_width=1, color=WHITE)
@@ -1141,11 +1159,12 @@ class Equivalence(Scene):
             col_labels=[Text("P"), Text("q"), Text("r"), Text("p ∧ q"), Text("q ∧ r"), Text("(p ∧ q) ∧ r"), Text("p ∧ (q ∧ r)")],
             include_outer_lines=False,
             line_config={"stroke_width": 1},
-        ).scale(0.5).next_to(associative_underline, DOWN, buff=0.5)
+        ).scale(0.5).next_to(associative_underline, DOWN*1.5, buff=0.5)
 
         associative_group = VGroup(associative_title, associative_underline, associative_table)
-        associative_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(underline, DOWN, buff=0.25).scale(0.6).shift(2*RIGHT)
-       
+        associative_group.arrange(DOWN, aligned_edge=LEFT, buff=0.25).scale(0.6) 
+        associative_group.align_to(box, UP) 
+        associative_group.next_to(box, RIGHT, buff=0.15)       
         self.add(associative_title, associative_underline, associative_bullet_underline)
         # self.add(associative_title, associative_underline)
        
@@ -1481,7 +1500,7 @@ class Equivalence(Scene):
         associative_col6 = SurroundingRectangle(associative_table.get_columns()[6][1:], color=RED, buff=0.05,fill_color=ORANGE, fill_opacity=0.075,   stroke_width= 1)
         self.add(associative_col5, associative_col6)
         self.wait(.5)
-        self.play(FadeOut(associative_group), FadeOut(associative_col6), FadeOut(associative_col6),  FadeOut(associative_bullet_underline), run_time=1)
+        self.play(FadeOut(associative_group), FadeOut(associative_col5), FadeOut(associative_col6),  FadeOut(associative_bullet_underline), run_time=.5)
         
         self.wait(1)
 
@@ -1982,7 +2001,7 @@ class Equivalence(Scene):
         identity_col3 = SurroundingRectangle(identity_table.get_columns()[2][1:], color=RED, buff=0.05,fill_color=ORANGE, fill_opacity=0.075, stroke_width= 1)
         self.add(identity_col1, identity_col3)
         self.wait(.5)
-        self.play(FadeOut(identity_group), FadeOut(identity_col3),  FadeOut(identity_bullet_underline), run_time=1)       
+        self.play(FadeOut(identity_group), FadeOut(identity_col1), FadeOut(identity_col3), FadeOut(identity_bullet_underline), run_time=1)       
         self.wait(1)
 
         # Negation laws: p ∧ ¬p ≡ c
@@ -2095,7 +2114,7 @@ class Equivalence(Scene):
         doubleNegation_col3 = SurroundingRectangle(doubleNegation_table.get_columns()[2][1:], color=RED, buff=0.05,fill_color=ORANGE, fill_opacity=0.075,  stroke_width= 1)
         self.add(doubleNegation_col1,doubleNegation_col3)
         self.wait(.5)
-        self.play(FadeOut(doubleNegation_group), FadeOut(doubleNegation_col3),  FadeOut(doubleNegation_bullet_underline), run_time=1)        
+        self.play(FadeOut(doubleNegation_group), FadeOut(doubleNegation_col1), FadeOut(doubleNegation_col3), FadeOut(doubleNegation_bullet_underline), run_time=1)        
         self.wait(1)
 
         # Idempotent laws: p ∧ p ≡ p 
@@ -2558,5 +2577,6 @@ class Equivalence(Scene):
         
         self.wait(1)
 
-
+ '''
 # manim -ql -p --disable_caching logic.py Equivalence
+# manim -ql -p logic.py Equivalence
