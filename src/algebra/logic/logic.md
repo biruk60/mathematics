@@ -44,6 +44,8 @@
   - The day next to Tuesday is Wednesday or 2 + 2 = 4.
 - The individual statments in a compound or a complex proposition are called the component propositions. 
 - We shall study the determination of truth values of compound propositions from the truth tables of their components. A table that gives truth value of a compound statement is called a truth table. 
+- Note: If there are n-simple statements in a compound or complex proposition, then there are $2^n$ different logical possiblities. 
+   - Let's construct a truth table for the proposition (p ∨ ¬q) → r
 
 ## Propositional Connectives
 - In order to create a compound proposition, we need to combine simple propositions. And we have five fundamental logical connectives at our disposal. Namely Negation, Conjunction, Disjunction, Implication, and Bi-implication.  Let's discuss them one by one. 
@@ -73,8 +75,7 @@
  - ### Bi-Implication (bi conditional)
    - Definition: A bi-implication proposition written in the form of p ↔ q is assigned truth value T iff both propositions have the same truth values.
    - The truth table of p ↔ q is as follows:
-   - Note: If there are n-simple statements in a compound or complex proposition, then there are $2^n$ different logical possiblities. 
-   - Let's construct a truth table for the proposition (p ∨ ¬q) → r
+   
 - ## Tautology and Contradictions
   - Definition: A proposition, which is always true, no matter what truth values are assigned to its component propositions, is called tautology (t). 
   - Let's consider the proposition p ∨ ¬p. As can be seen from its truth value, it is always true regardless of the values of p and ¬p.

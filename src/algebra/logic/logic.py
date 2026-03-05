@@ -275,13 +275,13 @@ class Propositions(Scene):
         self.wait(2)
         text_a = MarkupText("ሀ. ", font_size=30, font="Nyala")
         text_b = MarkupText("ለ. ", font_size=30, font="Nyala")
-        third_statement_1 = MarkupText("<span font_family='Sans'>√1 = 1 </span>", font_size=30, font="Nyala")
+        third_statement_1 = MarkupText("√1 = 1", font_size=30)
         third_statement_2 = MarkupText(
             " ከምኡውን",
             font_size=30, font="Nyala"
         )
         third_statement_3 = MarkupText(
-            " <span font_family='Sans'> 3 &lt; 4 </span> እዩ።",
+            " <span font_family='Sans' font_size='30'>3 &lt; 4</span> እዩ።",
             font_size=30, font="Nyala"
         )
         fourth_statement_1 = MarkupText(
@@ -298,7 +298,7 @@ class Propositions(Scene):
         )   
         third_statement =VGroup(text_a, third_statement_1, third_statement_2, third_statement_3).arrange(RIGHT)
         fourth_statement =VGroup(text_b, fourth_statement_1, fourth_statement_2, fourth_statement_3).arrange(RIGHT)
-        compound_sentences = VGroup(third_statement, fourth_statement).arrange(DOWN*4, aligned_edge=LEFT, buff=0.5).scale(.5).next_to(compound_statement_definition, DOWN*3, buff=0.5)      
+        compound_sentences = VGroup(third_statement, fourth_statement).arrange(DOWN*2, aligned_edge=LEFT, buff=0.5).scale(.5).next_to(compound_statement_definition, DOWN*2, buff=0.5)      
         self.play(FadeIn(text_a),FadeIn(third_statement_1), FadeIn(third_statement_2), FadeIn(third_statement_3))
         self.wait(2)
        
@@ -323,17 +323,38 @@ class Propositions(Scene):
         underline_fourth_statement_1.next_to(fourth_statement_1, DOWN, buff=0.1)
         self.play(Create(underline_fourth_statement_1))
         self.wait(2)
-        # self.play(Uncreate(underline_fourth_statement_1))
-        # self.wait(2)
+       
         underline_fourth_statement_3 = Line(LEFT*fourth_statement_3.width/2, RIGHT*fourth_statement_3.width/2, stroke_width=1, color=ORANGE)
         underline_fourth_statement_3.next_to(fourth_statement_3, UP, buff=0.1)
         self.play(Create(underline_fourth_statement_3))
         self.wait(2)
-        # self.play(Uncreate(underline_fourth_statement_3))
-        # self.wait(2)
-        
+                
         fourth_box = SurroundingRectangle(fourth_statement_2, color=RED, buff=.05, stroke_width= 1)        
         self.play(Create(fourth_box))
+        self.wait(2)
+        self.play(FadeOut(compound_sentences), FadeOut(compound_statement_definition), 
+                  FadeOut(compound_box), FadeOut(third_box), 
+                  FadeOut(fourth_box), FadeOut(underline_third_statement_1), 
+                  FadeOut(underline_third_statement_3), 
+                  FadeOut(underline_fourth_statement_1), FadeOut(underline_fourth_statement_3))
+        self.wait(2)
+        n_propositions = MarkupText("n" , font_size=30)
+        two_n = MathTex(r"2^n", font_size=30)
+        imply = MarkupText(" → " , font_size=30)
+        logical_possibilities = VGroup(n_propositions, imply, two_n)
+        logical_possibilities.arrange(RIGHT, buff=0.5).next_to(underline, DOWN, buff=0.5)
+        self.play(Write(n_propositions))
+        self.wait() 
+        self.play(Write(imply),Write(two_n))
+        self.wait()
+        example_one = MathTex(r"p, q: p \land q = 2^2 = 4", font_size=30)
+        example_two = MathTex(r"p, q, r: (p \land q) \land r = 2^3 = 8", font_size=30)
+        example= VGroup(example_one, example_two).arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(logical_possibilities, DOWN, buff=0.5)
+        self.play(Write(example_one))
+        self.wait() 
+        self.play(Write(example_two))
+        self.wait()
+        self.play(FadeOut(example), FadeOut(logical_possibilities))
         self.wait(2)
 # manim -ql -p --disable_caching logic.py Propositions
 
@@ -859,16 +880,15 @@ class TautologyAndContradiction(Scene):
         self.wait(2)
         tautology_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
        
-        tautology_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ ናይ pን qን tautology",font_size=30, color=WHITE, font="Nyala")
-        tautology_definition_2 = MarkupText("ወይ p ሓቂ እንተኾይኑ ወይ q ሓቂ እንተኾይኑ ወይ pን qን ክልቲኦም ሓቂ እንተኾይኖም፣ <span font_family='Sans' fgcolor='ORANGE'>p ↔ q</span> ሓቂ እዩ ብይብል።",font_size=30, color=WHITE, font="Nyala")
-        tautology_definition_3 = MarkupText("ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>p ↔ q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
-        tautology_definition = VGroup(tautology_definition_title, tautology_definition_1, tautology_definition_2, tautology_definition_3).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        tautology_definition_1 = MarkupText("ሓቅነት ዝተደረኸሎም ቀለልቲ ሓሳባት ብዝየገደስ፣ ሓደ ውህድ ሓሳብ ኩሉ ሻዕ ሓቂ እንተኾይኑ፣",font_size=30, color=WHITE, font="Nyala")
+        tautology_definition_2 = MarkupText("እዙይ ሓሳብ ህውላለ / tautology ይባሃል። ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>t</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
+        tautology_definition = VGroup(tautology_definition_title, tautology_definition_1, tautology_definition_2).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
         
         tautology_box = SurroundingRectangle(tautology_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
         self.add(tautology_definition_title,
                   tautology_definition_1,
                   tautology_definition_2,
-                  tautology_definition_3,tautology_box)
+                  tautology_box)
         self.wait(2)
        
         self.play(FadeOut(tautology_definition),FadeOut(tautology_box))
@@ -929,16 +949,15 @@ class TautologyAndContradiction(Scene):
         self.wait(2)
         contradiction_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
        
-        contradiction_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ ናይ pን qን bi-implication",font_size=30, color=WHITE, font="Nyala")
-        contradiction_definition_2 = MarkupText("ወይ p ሓቂ እንተኾይኑ ወይ q ሓቂ እንተኾይኑ ወይ pን qን ክልቲኦም ሓቂ እንተኾይኖም፣ <span font_family='Sans' fgcolor='ORANGE'>p ↔ q</span> ሓቂ እዩ ብይብል።",font_size=30, color=WHITE, font="Nyala")
-        contradiction_definition_3 = MarkupText("ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>p ↔ q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
-        contradiction_definition = VGroup(contradiction_definition_title, contradiction_definition_1, contradiction_definition_2, contradiction_definition_3).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        contradiction_definition_1 = MarkupText("ሓቅነት ዝተደረኸሎም ቀለልቲ ሓሳባት ብዝየገደስ፣ ሓደ ውህድ ሓሳብ ኩሉ ሻዕ ሓሶት እንተኾይኑ፣ ",font_size=30, color=WHITE, font="Nyala")
+        contradiction_definition_2 = MarkupText("እዙይ ሓሳብ ግርጭት / contradiction ይባሃል። ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>c</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
+        contradiction_definition = VGroup(contradiction_definition_title, contradiction_definition_1, contradiction_definition_2).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
         
         contradiction_box = SurroundingRectangle(contradiction_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
         self.add(contradiction_definition_title,
                   contradiction_definition_1,
                   contradiction_definition_2,
-                  contradiction_definition_3,contradiction_box)
+                  contradiction_box)
         self.wait(2)
        
         self.play(FadeOut(contradiction_definition),FadeOut(contradiction_box))
