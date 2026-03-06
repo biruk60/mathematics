@@ -140,7 +140,7 @@ class Statement(Scene):
         font_size =28
         first_sentence = MarkupText("1. እዙይ ሕብሪ ፃዕዳ እዩ።", font_size=font_size, font="Nyala")
         second_sentence = MarkupText("2. ጠጠው በል!", font_size=font_size, font="Nyala")
-        third_sentence = MarkupText("3. ፈጣሪ ይሓግዝካ!", font_size=font_size, font="Nyala")
+        third_sentence = MarkupText("3. ርሑስ ጋማ!", font_size=font_size, font="Nyala")
         fourth_sentence = MarkupText("4. ናበይ ትኸይድ ኣለኻ?", font_size=font_size, font="Nyala")
 
         BulletedList = VGroup(first_sentence, second_sentence, third_sentence, fourth_sentence)
@@ -221,7 +221,7 @@ class Propositions(Scene):
         self.add(bg_text)        
                
         # Title
-        title = Text("ዓይነታት ሓሳባት / Types of Propositions ", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        title = Text("ዓይነታት ሓሳባት / Types of Propositions", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
         underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
         underline.next_to(title, DOWN, buff=0.2)
 
@@ -795,7 +795,7 @@ class BiImplication(Scene):
         self.add(underline)
         self.wait(2)
         biImplication_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")       
-        biImplication_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ pን qን ክልቲኦም ሓቂ እንተኾይኖም ወይ ክልቲኦም ሓሶት እንተኾይኖም ጥራሕ እዩ፣ ",font_size=30, color=WHITE, font="Nyala")
+        biImplication_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ pን qን ክልቲኦም ሓቂ እንተኾይኖም ወይ ክልቲኦም ሓሶት እንተኾይኖም ጥራሕ እዩ፣",font_size=30, color=WHITE, font="Nyala")
         biImplication_definition_2 = MarkupText("ናይ pን qን ድርብ ዝተኣመተ / bi-implication ሓቂ ዝኾን።",font_size=30, color=WHITE, font="Nyala")
         biImplication_definition_3 = MarkupText("ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>p ↔ q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
         biImplication_definition = VGroup(biImplication_definition_title, biImplication_definition_1, biImplication_definition_2, biImplication_definition_3).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
@@ -880,7 +880,7 @@ class TautologyAndContradiction(Scene):
         self.wait(2)
         tautology_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
        
-        tautology_definition_1 = MarkupText("ሓቅነት ዝተደረኸሎም ቀለልቲ ሓሳባት ብዝየገደስ፣ ሓደ ውህድ ሓሳብ ኩሉ ሻዕ ሓቂ እንተኾይኑ፣",font_size=30, color=WHITE, font="Nyala")
+        tautology_definition_1 = MarkupText("ዋጋ ሓቃዊነት ዝተደረኸሎም ቀለልቲ ሓሳባት ብዝየገደስ፣ ሓቃዊ ዋጋ ሓደ ውህድ ሓሳብ ኩሉ ሻዕ T እንተኾይኑ",font_size=30, color=WHITE, font="Nyala")
         tautology_definition_2 = MarkupText("እዙይ ሓሳብ ህውላለ / tautology ይባሃል። ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>t</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
         tautology_definition = VGroup(tautology_definition_title, tautology_definition_1, tautology_definition_2).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
         
