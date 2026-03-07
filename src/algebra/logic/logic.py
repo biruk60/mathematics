@@ -395,18 +395,19 @@ class Connectives(Scene):
 
         BulletedList = VGroup(negation, conjunction, disjunction, implication, biImplication)
         BulletedList.arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(underline, DOWN, buff=0.5)
-        self.play(Write(negation))
-        self.wait() 
-        self.play(Write(conjunction))
+        self.wait(12) # 11 seconds for the title to be read and understood
+        self.play(Write(negation), run_time=1) # 11.5 seconds for negation to be read and understood
+        self.wait() # 12 seconds for conjunction to be read and understood
+        self.play(Write(conjunction), run_time=1) # 12.5 seconds for conjunction to be read and understood
+        self.wait() # 13 seconds for disjunction to be read and understood
+        self.play(Write(disjunction), run_time=1) # 13.5 seconds for disjunction to be read and understood
+        self.wait() # 14 seconds for implication to be read and understood
+        self.play(Write(implication), run_time=1) # 14.5 seconds for implication to be read and understood
+        self.wait() # 15 seconds for bi-implication to be read and understood
+        self.play(Write(biImplication), run_time=1) # 15.5 seconds for bi-implication to be read and understood
+        self.wait(4) # 16 seconds for the entire list to be read and understood
+        self.play(FadeOut(BulletedList), run_time=1) # 16.5 seconds for the list to fade out and transition to the next scene
         self.wait()
-        self.play(Write(disjunction))
-        self.wait()
-        self.play(Write(implication))
-        self.wait(2)
-        self.play(Write(biImplication))
-        self.wait(2)
-        self.play(FadeOut(BulletedList))
-        self.wait(2)
 # manim -ql -p --disable_caching logic.py Connectives
 
 
@@ -438,7 +439,7 @@ class Negation(Scene):
                   negation_definition_1,
                   negation_definition_2,
                   box)
-        self.wait(2)
+        self.wait(10)  # 10.5 seconds for the definition to be read and understood      
         font_size =28
         ex_one = MarkupText("P = እቲ ቤተ መፃሕፍቲ ሕዚ ኽፉት እዩ።", font_size=font_size, font="Nyala")
         ex_one_not = MarkupText("¬P = እቲ ቤተ መፃሕፍቲ ሕዚ ኽፉት ኣይኾነን እዩ።", font_size=font_size, font="Nyala")
@@ -446,11 +447,11 @@ class Negation(Scene):
         ex.arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(negation_definition, DOWN*2, buff=0.5)
 
         self.play(FadeIn(ex_one))
-        self.wait(1) 
+        self.wait(9) # 20 seconds
         self.play(FadeIn(ex_one_not))
-        self.wait(1)
+        self.wait(5)  # 26 seconds
         self.play(FadeOut(ex), FadeOut(negation_definition), FadeOut(box))
-        self.wait(1)
+        self.wait(2) # 28 seconds
         # Table content
         headers = ["p", "¬p"]
         table_data = [
@@ -475,23 +476,23 @@ class Negation(Scene):
             col.set_opacity(0)
         
         self.add(table)
-        self.play(first_col[1].animate.set_opacity(1))
-        self.wait(0.3)
-        self.play(second_col[1].animate.set_opacity(1))
-        self.wait(0.3)
+        self.play(first_col[1].animate.set_opacity(1), run_time=.5)
+        self.wait(0.5)
+        self.play(second_col[1].animate.set_opacity(1), run_time=.5)
+        self.wait(0.5)
     
         for cell in first_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)
+            self.play(cell.animate.set_opacity(1), run_time=.5)
+            self.wait(0.5)
             
-        self.wait(1)
+        self.wait(.5)
         
         for cell in second_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)
+            self.play(cell.animate.set_opacity(1), run_time=.5)
+            self.wait(0.5)
             
-        self.wait(1) 
-        self.play(table.animate.set_opacity(0)) 
+        self.wait(.5) 
+        self.play(table.animate.set_opacity(0), run_time=.5) 
         self.wait(1)
 
 # manim -ql -p --disable_caching logic.py Negation
@@ -509,7 +510,7 @@ class Conjunction(Scene):
 
         self.add(title)
         self.add(underline)
-        self.wait(2)
+       
         conjunction_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
        
         conjunction_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ pን qን ክልቲኦም ሓቂ እንተኾይኖም ጥራሕ እዩ፣ ",font_size=30, color=WHITE, font="Nyala")
@@ -522,10 +523,11 @@ class Conjunction(Scene):
                   conjunction_definition_1,
                   conjunction_definition_2,
                   conjunction_definition_3,box)
-        self.wait()
+        self.wait(15)  # 14 seconds for the definition to be read and understood             
+        
        
-        self.play(FadeOut(conjunction_definition),FadeOut(box))
-        self.wait()
+        self.play( FadeOut(conjunction_definition), FadeOut(box))   #16 seconds for the definition to fade out and transition to the next part of the scene
+        self.wait(6) # 28 seconds
         # Table content
         headers = ["p", "q", "p ∧ q"]
         table_data = [
@@ -554,30 +556,30 @@ class Conjunction(Scene):
             col.set_opacity(0)
         
         self.add(table)
-        self.play(first_col[1].animate.set_opacity(1))
+        self.play(first_col[1].animate.set_opacity(1), run_time=.5)
         self.wait(.5)
-        self.play(second_col[1].animate.set_opacity(1))
+        self.play(second_col[1].animate.set_opacity(1), run_time=.5)
         self.wait(.5)
-        self.play(third_col[1].animate.set_opacity(1))
+        self.play(third_col[1].animate.set_opacity(1), run_time=.5)
         self.wait(.5)
     
         for cell in first_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
+            self.play(cell.animate.set_opacity(1), run_time=.5)
+            self.wait(0.5)            
         self.wait(.5)
         
         for cell in second_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
+            self.play(cell.animate.set_opacity(1), run_time=.5)
+            self.wait(0.5)            
         self.wait(.5) 
 
         for cell in third_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
+            self.play(cell.animate.set_opacity(1), run_time=.5)
+            self.wait(0.5)            
         self.wait(.5)
 
-        self.play(table.animate.set_opacity(0)) 
-        self.wait(2)
+        self.play(table.animate.set_opacity(0), run_time=.5) 
+        self.wait(1)
 
 # manim -ql -p --disable_caching logic.py Conjunction
 
@@ -594,19 +596,19 @@ class Disjunction(Scene):
 
         self.add(title)
         self.add(underline)
-        self.wait(2)
+        
         disjunction_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")        
         disjunction_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ pን qን ክልቲኦም ሓሶት እንተኾይኖም ጥራሕ እዩ፣ ",font_size=30, color=WHITE, font="Nyala")
-        disjunction_definition_2 = MarkupText("ናይ pን qን ፍልያ / disjunction ሓሶት ዝኾን።",font_size=30, color=WHITE, font="Nyala")
-        disjunction_definition_3 = MarkupText("ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>p ∨ q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
-        disjunction_definition = VGroup(disjunction_definition_title, disjunction_definition_1, disjunction_definition_2, disjunction_definition_3).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        disjunction_definition_2 = MarkupText("ናይ pን qን ፍልያ / disjunction ሓሶት ዝኾን። ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>p ∨ q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
+        
+        disjunction_definition = VGroup(disjunction_definition_title, disjunction_definition_1, disjunction_definition_2).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
         
         box = SurroundingRectangle(disjunction_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
         self.add(disjunction_definition_title,
                   disjunction_definition_1,
                   disjunction_definition_2,
-                  disjunction_definition_3,box)
-        self.wait(2)
+                  box)
+        self.wait(19)
        
         self.play(FadeOut(disjunction_definition),FadeOut(box))
         self.wait(2)
@@ -638,30 +640,30 @@ class Disjunction(Scene):
             col.set_opacity(0)
         
         self.add(table)
-        self.play(first_col[1].animate.set_opacity(1))
+        self.play(first_col[1].animate.set_opacity(1), run_time=.5)
         self.wait()
-        self.play(second_col[1].animate.set_opacity(1))
+        self.play(second_col[1].animate.set_opacity(1), run_time=.5)
         self.wait()
-        self.play(third_col[1].animate.set_opacity(1))
+        self.play(third_col[1].animate.set_opacity(1), run_time=.5)
         self.wait()
     
         for cell in first_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
-        self.wait()
+            self.play(cell.animate.set_opacity(1), run_time=.5)
+            self.wait(0.5)            
+        self.wait(.5)
         
         for cell in second_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
-        self.wait() 
+            self.play(cell.animate.set_opacity(1), run_time=.5)
+            self.wait(0.5)            
+        self.wait(.5) 
 
         for cell in third_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
-        self.wait()
+            self.play(cell.animate.set_opacity(1), run_time=.5)
+            self.wait(0.5)            
+        self.wait(.5)
 
-        self.play(table.animate.set_opacity(0)) 
-        self.wait(2)
+        self.play(table.animate.set_opacity(0), run_time=.5) 
+        self.wait(1)
 
 # manim -ql -p --disable_caching logic.py Disjunction
 
@@ -678,23 +680,22 @@ class Implication(Scene):
         underline.next_to(title, DOWN, buff=0.2)
 
         self.add(title)
-        self.add(underline)
-        self.wait(2)
+        self.add(underline)        
         implication_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")       
         implication_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ p ሓቂ ን q ሓሶት ን እንተኾይኖም ጥራሕ እዩ፣ ",font_size=30, color=WHITE, font="Nyala")
-        implication_definition_2 = MarkupText("ናይ pን qን ዝተኣመተ / Implication ሓሶት ዝኾን።",font_size=30, color=WHITE, font="Nyala")
-        implication_definition_3 = MarkupText("ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>p → q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
-        implication_definition = VGroup(implication_definition_title, implication_definition_1, implication_definition_2, implication_definition_3).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        implication_definition_2 = MarkupText("ናይ pን qን ዝተኣመተ / Implication ሓሶት ዝኾን። ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>p → q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
+        
+        implication_definition = VGroup(implication_definition_title, implication_definition_1, implication_definition_2).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
         
         box = SurroundingRectangle(implication_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
         self.add(implication_definition_title,
                   implication_definition_1,
                   implication_definition_2,
-                  implication_definition_3,box)
-        self.wait(2)
+                  box)
+        self.wait(19) # 19 seconds for the definition to be read and understood
        
-        self.play(FadeOut(implication_definition),FadeOut(box))
-        self.wait(2)
+        self.play(FadeOut(implication_definition),FadeOut(box), run_time=.5) # 19.5 seconds for the definition to fade out and transition to the next part of the scene
+        self.wait(4.5) # 24 seconds
         # Table content
         headers = ["p", "q", "p → q"]
         table_data = [
@@ -723,57 +724,64 @@ class Implication(Scene):
             col.set_opacity(0)
         
         self.add(table)
-        self.play(first_col[1].animate.set_opacity(1))
-        self.wait()
-        self.play(second_col[1].animate.set_opacity(1))
-        self.wait()
-        self.play(third_col[1].animate.set_opacity(1))
-        self.wait()
+        self.play(first_col[1].animate.set_opacity(1), run_time=.5)
+        self.wait(.5)
+        self.play(second_col[1].animate.set_opacity(1), run_time=.5)
+        self.wait(.5)
+        self.play(third_col[1].animate.set_opacity(1), run_time=.5)
+        self.wait(.5)
     
         for cell in first_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
+            self.play(cell.animate.set_opacity(1), run_time=.5)
+            self.wait(0.5)            
         self.wait(.5)
         
         for cell in second_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
+            self.play(cell.animate.set_opacity(1), run_time=.5)
+            self.wait(0.5)            
         self.wait(.5) 
 
         for cell in third_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
+            self.play(cell.animate.set_opacity(1), run_time=.5)
+            self.wait(0.5)            
         self.wait(.5)
 
-        self.play(table.animate.set_opacity(0)) 
-        self.wait(1)
+        self.play(table.animate.set_opacity(0), run_time=.5) 
+        self.wait(2) # 34 seconds for the truth table to be read and understood
+
         implication_explanation = MarkupText("p → q",font_size=30, color=WHITE)
         antecedent = MarkupText("<span font_family='Sans'>p =</span> ቅድመ ፍጻመ <span font_family='Sans'>/ antecedent</span>",font_size=30, color=WHITE, font="Nyala")
         consequent = MarkupText("<span font_family='Sans'>q =</span> ዝስዕብ <span font_family='Sans'>/ consequent</span>",font_size=30, color=WHITE, font="Nyala")
         antecedent_consequent = VGroup(implication_explanation,antecedent, consequent)
         antecedent_consequent.arrange(DOWN, aligned_edge=LEFT, buff=0.5)
-        self.play(Write(implication_explanation), run_time=.5)
-        self.wait(.5)
-        self.play(Write(antecedent), run_time=.5)
-        self.wait(.5)
-        self.play(Write(consequent), run_time=.5)
-        self.wait(.5)
-        self.play(FadeOut(antecedent_consequent), run_time=.5)
-
+        self.play(Write(implication_explanation), run_time=.5) #46 seconds for p → q to be read and understood
+        self.wait(3) # 49 seconds for the implication to be read and understood
+        self.play(Write(antecedent), run_time=.5) # 49.5 seconds for the antecedent to be read and understood
+        self.wait(3.5) # 53 seconds for the antecedent to be read and understood
+        self.play(Write(consequent), run_time=.5) # 53.5 seconds for the consequent to be read and understood
+        self.wait(26) # 1 minute 20 seconds for the consequent to be read and understood
+        self.play(FadeOut(antecedent_consequent), run_time=.5) # 46 seconds for the explanation to fade out and transition to the next part of the scene
+        
         example_line_one = Text("p = 2 < -2",font_size=30, color=WHITE)
-        example_line_two = Text("p = 4 > 1",font_size=30, color=WHITE)
-        example_line_three = Text("p → q  ≡ T",font_size=30, color=WHITE)
-
-        example = VGroup(example_line_one,example_line_two, example_line_three)
+        example_line_two = Text("q = 4 > 1",font_size=30, color=WHITE)
+        example_line_three = MarkupText("p → q  ≡ <span fgcolor='GREEN'>T</span>",font_size=30, color=WHITE)
+        example = VGroup(example_line_one,example_line_two, example_line_three,)
         example.arrange(DOWN, aligned_edge=LEFT, buff=0.5)
-        self.play(Write(example_line_one), run_time=.5)
-        self.wait(.5)
-        self.play(Write(example_line_two), run_time=.5)
-        self.wait(.5)
-        self.play(Write(example_line_three), run_time=.5)
-        self.wait(.5)
-        self.play(FadeOut(example), run_time=.5)
-
+        _false= Text("F", font_size=30, color=RED).next_to(example_line_one, RIGHT, buff=0.25)
+        _true = MarkupText("<span fgcolor='GREEN'>T</span>", font_size=30).next_to(example_line_two, RIGHT, buff=0.25)
+        self.wait(2) # 1 minute 22 seconds for the scene to transition to the example
+        self.play(Write(example_line_one), run_time=.5) # 1 minute 22.5 seconds for the first line of the example to be read and understood
+        self.wait(4) # 1 minute 26.5 seconds for the first line of the example to be read and understood
+        self.play(Write(example_line_two), run_time=.5) # 1 minute 27 seconds for the second line of the example to be read and understood
+        self.wait(5.5) # 1 minute 32.5 seconds for the second line of the example to be read and understood
+        self.play(Write(_false), run_time=.5) # 1 minute 33 seconds for the second line of the example to be read and understood
+        self.wait(1.5) # 1 minute 34.5 seconds for the second line of the example to be read and understood
+        self.play(Write(_true), run_time=.5) # 1 minute 35 seconds for the second line of the example to be read and understood
+        self.wait(9) # 1 minute 44 seconds for the second line of the example to be read and understood
+        self.play(Write(example_line_three), run_time=.5) # 1 minute 44.5 seconds for the third line of the example to be read and understood
+        self.wait(10) # 1 minute 55 seconds for the entire example to be read and understood
+        self.play(FadeOut(example), FadeOut(_true), FadeOut(_false), run_time=.5) # 1 minute 55.5 seconds for the example to fade out and transition to the next part of the scene
+        self.wait(3.5) # 1 minute 59 seconds for the scene to transition to the next part of the scene
              
         note_implication = MarkupText("p → q",font_size=30, color=WHITE)
         note_converse = MarkupText("q → p = Converse ",font_size=30, color=WHITE)
@@ -782,15 +790,16 @@ class Implication(Scene):
         note_definition = VGroup(note_implication, note_converse, note_inverse,note_contrapositive )
 
         note_definition.arrange(DOWN, aligned_edge=LEFT, buff=0.5)
-        self.play(Write(note_implication), run_time=.5)
-        self.wait(.5)
-        self.play(Write(note_converse), run_time=.5)
-        self.wait(.5)
-        self.play(Write(note_inverse), run_time=.5)
-        self.wait(.5)
+        
+        self.play(Write(note_implication), run_time=.5) # 2 minute  for the implication to be read and understood
+        self.wait(4) # 2 minute 4 seconds for the implication to be read and understood
+        self.play(Write(note_converse), run_time=.5) # 2 minute 4.5 seconds for the converse to be read and understood
+        self.wait(4) # 1 minute 8.5 seconds for the converse to be read and understood
+        self.play(Write(note_inverse), run_time=.5) # 1 minute 9 seconds for the inverse to be read and understood
+        self.wait(8) # 2 minutes 17 seconds for the inverse to be read and understood
         self.play(Write(note_contrapositive), run_time=.5)
-        self.wait(.5)
-        self.play(FadeOut(note_definition))
+        self.wait(4)
+        self.play(FadeOut(note_definition), run_time=.5)
         self.wait(2)
 
 # manim -ql -p --disable_caching logic.py Implication
@@ -808,22 +817,22 @@ class BiImplication(Scene):
 
         self.add(title)
         self.add(underline)
-        self.wait(2)
+        
         biImplication_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")       
         biImplication_definition_1 = MarkupText("pን qን ዝባሃሉ ክልተ ሓሳባት እንተልዮም፣ pን qን ክልቲኦም ሓቂ እንተኾይኖም ወይ ክልቲኦም ሓሶት እንተኾይኖም ጥራሕ እዩ፣",font_size=30, color=WHITE, font="Nyala")
-        biImplication_definition_2 = MarkupText("ናይ pን qን ድርብ ዝተኣመተ / bi-implication ሓቂ ዝኾን።",font_size=30, color=WHITE, font="Nyala")
-        biImplication_definition_3 = MarkupText("ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>p ↔ q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
-        biImplication_definition = VGroup(biImplication_definition_title, biImplication_definition_1, biImplication_definition_2, biImplication_definition_3).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        biImplication_definition_2 = MarkupText("ናይ pን qን ድርብ ዝተኣመተ / bi-implication ሓቂ ዝኾን። ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>p ↔ q</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
+        
+        biImplication_definition = VGroup(biImplication_definition_title, biImplication_definition_1, biImplication_definition_2).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
         
         box = SurroundingRectangle(biImplication_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
         self.add(biImplication_definition_title,
                   biImplication_definition_1,
                   biImplication_definition_2,
-                  biImplication_definition_3,box)
-        self.wait(1)
+                  box)
+        self.wait(21)
        
-        self.play(FadeOut(biImplication_definition),FadeOut(box))
-        self.wait(1)
+        self.play(FadeOut(biImplication_definition),FadeOut(box), run_time=.5) # 21.5 seconds for the definition to fade out and transition to the next part of the scene
+        self.wait(.5)
         # Table content
         headers = ["p", "q", "p ↔ q"]
         table_data = [
@@ -852,29 +861,29 @@ class BiImplication(Scene):
             col.set_opacity(0)
         
         self.add(table)
-        self.play(first_col[1].animate.set_opacity(1))
-        self.wait()
-        self.play(second_col[1].animate.set_opacity(1))
-        self.wait()
-        self.play(third_col[1].animate.set_opacity(1))
-        self.wait()
+        self.play(first_col[1].animate.set_opacity(1), run_time=.5)
+        self.wait(.5)
+        self.play(second_col[1].animate.set_opacity(1), run_time=.5)
+        self.wait(.5)
+        self.play(third_col[1].animate.set_opacity(1), run_time=.5)
+        self.wait(.5)
     
         for cell in first_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
+            self.play(cell.animate.set_opacity(1), run_time=.5)
+            self.wait(0.5)            
         self.wait(.5)
         
         for cell in second_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
+            self.play(cell.animate.set_opacity(1), run_time=.5)
+            self.wait(0.5)            
         self.wait(.5) 
 
         for cell in third_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
+            self.play(cell.animate.set_opacity(1), run_time=.5)
+            self.wait(0.5)            
         self.wait(.5)
 
-        self.play(table.animate.set_opacity(0)) 
+        self.play(table.animate.set_opacity(0), run_time=.5) 
         self.wait(1)
 
 # manim -ql -p --disable_caching logic.py BiImplication
@@ -891,11 +900,10 @@ class TautologyAndContradiction(Scene):
         underline.next_to(title, DOWN, buff=0.2)
 
         self.add(title)
-        self.add(underline)
-        self.wait(2)
+        self.add(underline)        
         tautology_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
        
-        tautology_definition_1 = MarkupText("ዋጋ ሓቃዊነት ዝተደረኸሎም ቀለልቲ ሓሳባት ብዝየገደስ፣ ሓቃዊ ዋጋ ሓደ ውህድ ሓሳብ ኩሉ ሻዕ T እንተኾይኑ",font_size=30, color=WHITE, font="Nyala")
+        tautology_definition_1 = MarkupText("ዋጋ ሓቃዊነት ዝተደረኸሎም ቀለልቲ ሓሳባት ብዝየገደስ፣ ሓቃዊ ዋጋ ሓደ ውህድ ሓሳብ ኩሉ ሻዕ <span  fgcolor='GREEN'>T</span> እንተኾይኑ",font_size=30, color=WHITE, font="Nyala")
         tautology_definition_2 = MarkupText("እዙይ ሓሳብ ህውላለ / tautology ይባሃል። ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>t</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
         tautology_definition = VGroup(tautology_definition_title, tautology_definition_1, tautology_definition_2).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
         
@@ -904,10 +912,10 @@ class TautologyAndContradiction(Scene):
                   tautology_definition_1,
                   tautology_definition_2,
                   tautology_box)
-        self.wait(2)
+        self.wait(15) # 15 seconds for the definition to be read and understood
        
-        self.play(FadeOut(tautology_definition),FadeOut(tautology_box))
-        self.wait(2)
+        self.play(FadeOut(tautology_definition),FadeOut(tautology_box), run_time=.5) # 15.5 seconds for the definition to fade out and transition to the next part of the scene
+        self.wait(4) # 19.5 seconds for the scene to transition to the next part of the scene
         # Table content
         tautology_headers = ["p", "¬p", "p ∨ ¬p"]
         tautology_table_data = [
@@ -935,36 +943,33 @@ class TautologyAndContradiction(Scene):
             col.set_opacity(0)
         
         self.add(tautology_table)
-        self.play(tautology_first_col[1].animate.set_opacity(1))
-        self.wait(1)
-        self.play(tautology_second_col[1].animate.set_opacity(1))
-        self.wait(1)
-        self.play(tautology_third_col[1].animate.set_opacity(1))
-        self.wait(1)
+        self.play(tautology_first_col[1].animate.set_opacity(1), run_time=.1)
+        self.wait(.1)
+        self.play(tautology_second_col[1].animate.set_opacity(1), run_time=.1)
+        self.wait(.1)
+        self.play(tautology_third_col[1].animate.set_opacity(1), run_time=.1)
+        self.wait(.1)
     
         for cell in tautology_first_col[0]:
             self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
-        self.wait(2)
+            self.wait(0.1)            
+        self.wait(.1)
         
         for cell in tautology_second_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
-        self.wait(2) 
+            self.play(cell.animate.set_opacity(1), run_time=.1)
+            self.wait(0.1)            
+        self.wait(.1) 
 
         for cell in tautology_third_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
-        self.wait(2)
-
-        self.play(tautology_table.animate.set_opacity(0)) 
-        self.wait(2)
-        
-        self.play(FadeOut(tautology_table))
-        self.wait(2)
+            self.play(cell.animate.set_opacity(1), run_time=.1)
+            self.wait(0.1)            
+        self.wait(3.1) # 27 seconds for the truth table to be read and understood
+                
+        self.play(FadeOut(tautology_table), run_time=.5) # 27.5 seconds for the truth table to fade out and transition to the next part of the scene
+        self.wait(.5) # 28 seconds for the truth table to fade out and transition to the next part of the scene
         contradiction_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
        
-        contradiction_definition_1 = MarkupText("ሓቅነት ዝተደረኸሎም ቀለልቲ ሓሳባት ብዝየገደስ፣ ሓደ ውህድ ሓሳብ ኩሉ ሻዕ ሓሶት እንተኾይኑ፣ ",font_size=30, color=WHITE, font="Nyala")
+        contradiction_definition_1 = MarkupText("ሓቅነት ዝተደረኸሎም ቀለልቲ ሓሳባት ብዝየገደስ፣ ሓደ ውህድ ሓሳብ ኩሉ ሻዕ <span  fgcolor='RED'>F</span> እንተኾይኑ፣ ",font_size=30, color=WHITE, font="Nyala")
         contradiction_definition_2 = MarkupText("እዙይ ሓሳብ ግርጭት / contradiction ይባሃል። ምልክቱ ድማ፣ <span font_family='Sans' fgcolor='ORANGE'>c</span> እዩ።",font_size=30, color=WHITE, font="Nyala")
         contradiction_definition = VGroup(contradiction_definition_title, contradiction_definition_1, contradiction_definition_2).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
         
@@ -973,10 +978,10 @@ class TautologyAndContradiction(Scene):
                   contradiction_definition_1,
                   contradiction_definition_2,
                   contradiction_box)
-        self.wait(2)
+        self.wait(14) # 46 seconds for the definition to be read and understood
        
-        self.play(FadeOut(contradiction_definition),FadeOut(contradiction_box))
-        self.wait(2)
+        self.play(FadeOut(contradiction_definition),FadeOut(contradiction_box), run_time=.5) # 46.5 seconds for the definition to fade out and transition to the next part of the scene
+        self.wait(.5) # 47 seconds for the definition to fade out and transition to the next part of the scene
         # Table content
         contradiction_headers = ["p", "¬p", "p ∧ ¬p"]
         contradiction_table_data = [
@@ -1004,30 +1009,30 @@ class TautologyAndContradiction(Scene):
             col.set_opacity(0)
         
         self.add(contradiction_table)
-        self.play(contradiction_first_col[1].animate.set_opacity(1))
-        self.wait(1)
-        self.play(contradiction_second_col[1].animate.set_opacity(1))
-        self.wait(1)
-        self.play(contradiction_third_col[1].animate.set_opacity(1))
-        self.wait(1)
+        self.play(contradiction_first_col[1].animate.set_opacity(1), run_time=.1)
+        self.wait(.1)
+        self.play(contradiction_second_col[1].animate.set_opacity(1), run_time=.1)
+        self.wait(.1)
+        self.play(contradiction_third_col[1].animate.set_opacity(1), run_time=.1)
+        self.wait(.1)
     
         for cell in contradiction_first_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
-        self.wait(2)
+            self.play(cell.animate.set_opacity(1), run_time=.1)
+            self.wait(0.1)            
+        self.wait(.1)
         
         for cell in contradiction_second_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
-        self.wait(2) 
+            self.play(cell.animate.set_opacity(1), run_time=.1)
+            self.wait(0.1)            
+        self.wait(.1) 
 
         for cell in contradiction_third_col[0]:
-            self.play(cell.animate.set_opacity(1))
-            self.wait(0.3)            
-        self.wait(2)
+            self.play(cell.animate.set_opacity(1), run_time=.1)
+            self.wait(0.1)            
+        self.wait(10)
 
-        self.play(contradiction_table.animate.set_opacity(0)) 
-        self.wait(2)
+        self.play(FadeOut(contradiction_table), run_time=.5)
+        self.wait(1)
 
 
 # manim -ql -p --disable_caching logic.py TautologyAndContradiction
@@ -1045,7 +1050,7 @@ class Equivalence(Scene):
 
         self.add(title)
         self.add(underline)
-        self.wait(2)
+        
         equivalence_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
        
         equivalence_definition_1 = MarkupText("ክልተ ሓደ ዓይነት ባእታ ሓሳብ ዘጠቓልሉ ሓሳባት ተመሳሳሊ ናይ ሓቂ ሰደቓታት እንተሃልይዎም፣ ስነ-መጐታዊ ማዕረ እዮም ይበሃል።",font_size=30, color=WHITE, font="Nyala")
@@ -1058,9 +1063,20 @@ class Equivalence(Scene):
                  equivalence_definition_1,
                   equivalence_definition_2,
                  box)
-        self.wait(2)       
-        self.play(FadeOut(equivalence_definition),FadeOut(box))
-        self.wait(2)
+        self.wait(13.5)       
+        self.play(FadeOut(equivalence_definition),FadeOut(box), run_time=.5) # 14.5 seconds for the definition to fade out and transition to the next part of the scene
+        #p፣ q፣ r፣ t ን c ዝተለዋዋጭ ሓሳባት እንተልዮም፣
+        p = MarkupText("p",font_size=30, color=WHITE)
+        q = MarkupText("፣ <span font_family='Sans'>q</span>",font_size=30, color=WHITE, font="Nyala")
+        r = MarkupText("፣ <span font_family='Sans'>r</span>",font_size=30, color=WHITE, font="Nyala")
+        pqr = VGroup(p,q, r,)
+        pqr.arrange(RIGHT, aligned_edge=LEFT, buff=0.5)
+        self.wait(.5) # 16.5 seconds for the variables to be read and understood
+        self.play(Write(p), run_time=.5) # 15 seconds for the variables to be read and understood
+        self.play(Write(q), run_time=.5) # 15 seconds for the variables to be read and understood
+        self.play(Write(r), run_time=.5) # 15 seconds for the variables to be read and understood
+        self.wait(1.5) # 17 seconds for the variables to be read and understood
+        self.play(FadeOut(pqr), run_time=.5) # 17.5 seconds for the variables to fade out and transition to the next part of the scene
         font_size =20
         commutative = Text("1. Commutative law: p ∧ q  ≡ q ∧ p", font_size=font_size)
         associative = Text("2. Associative law: (p ∧ q) ∧ r ≡ p ∧ (q ∧ r)", font_size=font_size)
@@ -1080,29 +1096,30 @@ class Equivalence(Scene):
         
         BulletedList.generate_target()        
         BulletedList.target.shift(4.5*LEFT).scale(0.6)
-        self.play(FadeIn(commutative))
-        self.wait(2) 
-        self.play(FadeIn(associative))
-        self.wait(2)
-        self.play(FadeIn(distributive))
-        self.wait(2)
-        self.play(FadeIn(identity))
-        self.wait(2)
-        self.play(FadeIn(negation))
-        self.wait(2)
-        self.play(FadeIn(doubleNegation))
-        self.wait(2)
-        self.play(FadeIn(idempotent))
-        self.wait(2)
-        self.play(FadeIn(deMorgan))
-        self.wait(2)
-        self.play(FadeIn(universal))
-        self.wait(2)
-        self.play(FadeIn(absorption))
-        self.wait(2)
-        self.play(FadeIn(tandc))
-        self.wait(2)   
-       
+        self.wait(.5) # 17 seconds for the equivalences to be read and understood
+        self.play(FadeIn(commutative), run_time=.5) # 17.5 seconds for the first equivalence to be read and understood
+        self.wait(.5) 
+        self.play(FadeIn(associative), run_time=.5)
+        self.wait(.5)
+        self.play(FadeIn(distributive), run_time=.5)
+        self.wait(.5)
+        self.play(FadeIn(identity), run_time=.5)
+        self.wait(.5)
+        self.play(FadeIn(negation), run_time=.5)
+        self.wait(.5)
+        self.play(FadeIn(doubleNegation), run_time=.5)
+        self.wait(.5)
+        self.play(FadeIn(idempotent), run_time=.5)
+        self.wait(.5)
+        self.play(FadeIn(deMorgan), run_time=.5)
+        self.wait(.5)
+        self.play(FadeIn(universal), run_time=.5)
+        self.wait(.5)
+        self.play(FadeIn(absorption), run_time=.5)
+        self.wait(.5)
+        self.play(FadeIn(tandc), run_time=.5)
+        self.wait(2.5)   
+    
         box = SurroundingRectangle(BulletedList.target, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)        
        
         box.add_updater(lambda b: b.become(
@@ -1120,13 +1137,13 @@ class Equivalence(Scene):
         self.add(box)
         self.play(
             MoveToTarget(BulletedList),
-            run_time=1
+            run_time=.5
         )
 
         box.remove_updater(box.updaters[0])
-        self.wait(1)
+        self.wait(2)
         HORIZONTAL_OFFSET =  RIGHT
-        '''
+    
         # Commutative law: p ∧ q  ≡ q ∧ p
         commutative_title = Text("Commutative law: p ∧ q  ≡ q ∧ p", font_size=font_size + 8)
         commutative_underline = Line(LEFT*commutative_title.width/2, RIGHT*commutative_title.width/2, stroke_width=1, color=WHITE)
@@ -2661,7 +2678,6 @@ class Equivalence(Scene):
         self.play(FadeOut(tandc_group), FadeOut(tandc_col0), FadeOut(tandc_col2),  FadeOut(tandc_bullet_underline), run_time=.5)
         
         self.wait(1)
-''' 
  
 # manim -ql -p --disable_caching logic.py Equivalence
 # manim -ql -p logic.py Equivalence
