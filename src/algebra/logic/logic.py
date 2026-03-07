@@ -18,10 +18,11 @@ class Introduction(Scene):
         self.add(underline)
         line_start = -600 
         line_end = 2100
+        self.wait(9)
         
         logos_greek = Text("λόγος", color=WHITE)
         equals = Text("≡", color=WHITE)
-        logos_tigrigna = Text("ርትዒ / መጎት", color=WHITE, font="Nyala")
+        logos_tigrigna = Text("ርትዒ / ዘተ / መጐት", color=WHITE, font="Nyala")
         logos = VGroup(logos_greek, equals, logos_tigrigna)
         logos.arrange(RIGHT, buff=0.1)
         line = NumberLine(
@@ -44,12 +45,13 @@ class Introduction(Scene):
             (1815, "ቡል", "1815-1864 <b>ዓ.ም</b>", UP)
         ]
         
-        self.play(Write(logos_greek))
-        self.wait()
-        self.play(Write(equals), Write(logos_tigrigna))
-        self.wait()
-        self.play(ShrinkToCenter(logos))
-        self.play(FadeIn(line))
+        self.play(Write(logos_greek), run_time=.5)
+        self.wait(2.5)
+        self.play(Write(equals), Write(logos_tigrigna), run_time=.5)
+        self.wait(6)
+        self.play(ShrinkToCenter(logos), run_time=.5)
+        self.wait(4)
+        self.play(FadeIn(line), run_time=.5)
         self.wait(1)
 
         all_elements = []
@@ -65,19 +67,24 @@ class Introduction(Scene):
             # Date range label
             date_label = MarkupText(date_str, font_size=20, color=RED,font="Nyala")
             date_label.next_to(label, direction, buff=0.1)
-
+            if year == -384:
+                self.wait(6)  # Longer wait for Aristotle
+            if year == 1646:
+                self.wait(19.5)  # Longer wait for Leibniz
+            if year == 1815:
+                self.wait(10.5)  # Longer wait for Boole
             self.play(
                 FadeIn(dot, scale=0.5), 
                 Write(label), 
                 FadeIn(date_label, shift=direction*0.2),
-                run_time=1
+                run_time=.5
             )
             all_elements.extend([dot, label, date_label])
-            self.wait(1)
+            
 
-        self.wait(1)
-        self.play(FadeOut(line),  FadeOut(*all_elements))
-        self.wait(1)
+        self.wait(5)
+        self.play(FadeOut(line),  FadeOut(*all_elements), run_time=.5)
+        self.wait(4)
 
         brain = SVGMobject("../../assets/svgs/brain.svg").scale(.6)
         brain.set_color(WHITE)
@@ -89,11 +96,11 @@ class Introduction(Scene):
         starting_group = VGroup(think, discussion).scale(.6)
         starting_group.arrange(RIGHT, buff=2)
         self.add(think)
-        self.wait()
+        self.wait(1)
         self.add(discussion)
-        self.wait()
-        self.play(Transform(starting_group, brain), run_time=1)
-        self.wait()
+        self.wait(3)
+        self.play(Transform(starting_group, brain), run_time=.5)
+        self.wait(1)
         throb = brain[0] # Your specific gear object
                 
         self.play( Succession(
@@ -106,9 +113,9 @@ class Introduction(Scene):
         ]
     )  )
     
-        self.wait()
+        self.wait(2)
         self.play(FadeOut(brain), FadeOut(starting_group), run_time=.5)
-        self.wait()
+        self.wait(8.5)
  # manim -ql -p --disable_caching  logic.py Introduction
 
 class Statement(Scene):
@@ -122,6 +129,30 @@ class Statement(Scene):
         self.add(title)
         self.add(underline)
 
+        font_size =28
+        first_sentence = MarkupText("1. እዙይ ሕብሪ ፃዕዳ እዩ።", font_size=font_size, font="Nyala")
+        second_sentence = MarkupText("2. ጠጠው በል!", font_size=font_size, font="Nyala")
+        third_sentence = MarkupText("3. ርሑስ ጋማ!", font_size=font_size, font="Nyala")
+        fourth_sentence = MarkupText("4. ናበይ ትኸይድ ኣለኻ?", font_size=font_size, font="Nyala")
+
+        BulletedList = VGroup(first_sentence, second_sentence, third_sentence, fourth_sentence)
+        BulletedList.arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(underline, DOWN, buff=0.5)
+        self.wait(20)
+        self.play(FadeIn(first_sentence),FadeIn(second_sentence),FadeIn(third_sentence),FadeIn(fourth_sentence), run_time=.5)        
+        self.wait(4)
+
+        box_one = SurroundingRectangle(first_sentence, color=YELLOW, buff=.1, stroke_width=1)        
+        self.play(Create(box_one))
+
+        self.wait(11.5)
+        t = Text("T", color=GREEN, font_size=40).next_to(BulletedList, DOWN*3, buff=0.2)
+        self.play(Write(t))
+        self.wait(1)
+        f = Text("F", color=RED, font_size=40).next_to(t, DOWN*1, buff=0.2)
+        self.play(Write(f))
+        self.wait(4)
+        self.play(FadeOut(BulletedList), FadeOut(box_one), FadeOut(t), FadeOut(f))
+        self.wait(1) 
         statement_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")       
         statement_definition_1 = MarkupText("ሓሳብ (proposition)፣ ዝኾነ ትርጉም ዘለዎ፣ ንፁርን ዘየሻሚን ሓረግ እዩ።",font_size=30, color=WHITE, font="Nyala")
         statement_definition_2 = MarkupText("እቲ ሓረግ፣ ወይ ሓቂ ወይ ሓሶት ክኾን ይኽእል እዪ። ኣብ ሓደ እዋን ግን፣",font_size=30, color=WHITE, font="Nyala")
@@ -133,35 +164,24 @@ class Statement(Scene):
                   statement_definition_1,
                   statement_definition_2,
                   statement_definition_3,statement_box)
-        self.wait(2)
+        self.wait(13)
         
         self.play(FadeOut(statement_definition), FadeOut(statement_box))
-        self.wait(2)
-        font_size =28
-        first_sentence = MarkupText("1. እዙይ ሕብሪ ፃዕዳ እዩ።", font_size=font_size, font="Nyala")
-        second_sentence = MarkupText("2. ጠጠው በል!", font_size=font_size, font="Nyala")
-        third_sentence = MarkupText("3. ርሑስ ጋማ!", font_size=font_size, font="Nyala")
-        fourth_sentence = MarkupText("4. ናበይ ትኸይድ ኣለኻ?", font_size=font_size, font="Nyala")
-
-        BulletedList = VGroup(first_sentence, second_sentence, third_sentence, fourth_sentence)
-        BulletedList.arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(underline, DOWN, buff=0.5)
-        self.play(Write(first_sentence))
-        self.wait() 
-        self.play(Write(second_sentence))
-        self.wait()
-        self.play(Write(third_sentence))
-        self.wait()
-        self.play(Write(fourth_sentence))
-        self.wait(2)
-
-        box_one = SurroundingRectangle(first_sentence, color=YELLOW, buff=.1, stroke_width=1)        
-        self.play(Create(box_one))
-        self.wait(2)
-
-        self.play(FadeOut(BulletedList), FadeOut(box_one))
-        self.wait(2)     
-       
-
+        self.wait(1)
+        simple_example_one = Text("5 < 6", font_size=30, color=WHITE).next_to(underline, DOWN, buff=0.5)
+        truth_example_one = Text("T", font_size=30, color=GREEN).next_to(simple_example_one, RIGHT, buff=0.5)
+        self.play(Write(simple_example_one))
+        self.wait(7)
+        self.play(Write(truth_example_one))
+        self.wait(1)
+        simple_example_two = Text("2 + 5 = 6", font_size=30, color=WHITE).next_to(simple_example_one, DOWN, buff=0.5)
+        truth_example_two = Text("F", font_size=30, color=RED).next_to(simple_example_two, RIGHT, buff=0.5)
+        self.play(Write(simple_example_two))
+        self.wait(5)
+        self.play(Write(truth_example_two))
+        self.wait(1.5)
+        self.play(FadeOut(simple_example_one), FadeOut(truth_example_one), FadeOut(simple_example_two), FadeOut(truth_example_two))
+        self.wait(.5)
         open_statement_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")       
         open_statement_definition_1 = MarkupText("ኽፉት ሓሳብ(open proposition)፣ ሓደ ወይ ልዕሊ ሓደ ተለዋወጥቲ ወይ ተውላጠ-ስማት ዝሓዘ ሓረግ ኮይኑ፣",font_size=30, color=WHITE, font="Nyala")
         open_statement_definition_2 = MarkupText("ሕድ ሕድ ተለዋዋጢ ወይ ተውላጠ-ስም ብፍሉይ ዋጋ ወይ ብውልቀ-ሰብ ምስ ዝትካእ፣ ሓሳብ ይኸውን።",font_size=30, color=WHITE, font="Nyala")
@@ -174,12 +194,12 @@ class Statement(Scene):
                   open_statement_definition_1,
                   open_statement_definition_2,                 
                   open_statement_box)
-        self.wait(1)
+        self.wait(13)
         self.play(FadeOut(open_statement_definition), FadeOut(open_statement_box))
-        self.wait(1)
+        self.wait(.5)
         
         x = MarkupText(
-            "ሀ",
+            "x",
             font_size=30, font="Nyala"
         )
         x_rest = MarkupText(
@@ -192,7 +212,7 @@ class Statement(Scene):
             font_size=30, font="Nyala"
         )
         he_rest = MarkupText(
-            "መምህር እዩ።",
+            "ፓይለት እዩ።",
             font_size=30, font="Nyala"
         )              
        
@@ -202,16 +222,16 @@ class Statement(Scene):
         self.play(Write(x_statement))
         self.wait()
         self.play(Write(he_statement))
-        self.wait(2)
+        self.wait(7)
 
         x_box = SurroundingRectangle(x, color=RED, buff=0.05, stroke_width= 1)        
         self.play(Create(x_box))
-        self.wait(2)
+        self.wait(.5)
         he_box = SurroundingRectangle(he, color=RED, buff=0.05,  stroke_width= 1)        
         self.play(Create(he_box))
-        self.wait(2)
+        self.wait(6)
         self.play(FadeOut(variables), FadeOut(x_box), FadeOut(he_box))
-        self.wait(2)      
+        self.wait(4)      
 
 
 class Propositions(Scene):
@@ -229,7 +249,7 @@ class Propositions(Scene):
         self.add(underline)
        
         simple_statement_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")       
-        simple_statement_definition_1 = MarkupText("simple proposition (ቐሊል ሓሳብ) ከም <span fgcolor='YELLOW'>and (ከምኡ እውን)</span> ፡ <span fgcolor='YELLOW'>or (ወይ)</span> ፡ <span fgcolor='YELLOW'>not (ኣይኰነን)</span>፡ ወዘተ...",font_size=30, color=WHITE, font="Nyala")
+        simple_statement_definition_1 = MarkupText("ቐሊል ሓሳብ (simple proposition) ከም <span fgcolor='YELLOW'>and (ከምኡ እውን)</span> ፡ <span fgcolor='YELLOW'>or (ወይ)</span> ፡ <span fgcolor='YELLOW'>not (ኣይኰነን)</span>፡ ወዘተ...",font_size=30, color=WHITE, font="Nyala")
         simple_statement_definition_2 = MarkupText("ዝኣመሰሉ ጠመርቲ ቃላት ዘይብሉ፣ ሓደ ሓሳብ ዘመሓላልፍ ሓረግ እዩ።",font_size=30, color=WHITE, font="Nyala")        
         simple_statement_definition = VGroup(simple_statement_definition_title, simple_statement_definition_1, simple_statement_definition_2).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
         
@@ -240,7 +260,7 @@ class Propositions(Scene):
                   simple_statement_definition_1,
                   simple_statement_definition_2,
                   simple_box)
-        self.wait(2)
+        self.wait(16) # 16 seconds for the definition to be read and understood
         
         first_statement = MarkupText(
             "ሀ. መቐለ ርእሰ ከተማ ትግራይ እያ።",
@@ -253,13 +273,17 @@ class Propositions(Scene):
         
         simple_sentences = VGroup(first_statement, second_statement).arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(simple_statement_definition, DOWN*2, buff=0.5).scale(.5)    
         self.play(FadeIn(first_statement))
-        self.wait(2)
+        self.wait(5) # 21 seconds
 
         self.play(FadeIn(second_statement))
-        self.wait(2)   
+        self.wait(5)  # 26 seconds 
         self.play(FadeOut(simple_sentences), FadeOut(simple_statement_definition), FadeOut(simple_box))   
-        self.wait(2)
-
+        self.wait() # 28 seconds
+        proposition_denote = Text("p, q, r,s, ...", font_size=40).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
+        self.play(Write(proposition_denote))
+        self.wait(7) # 36 seconds
+        self.play(FadeOut(proposition_denote), run_time=.5) # 36.5  seconds
+        
         
         compound_statement_definition_title = MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")       
         compound_statement_definition_1 = MarkupText("ክልተ ወይ ልዕሊኡ ቀለልቲ ሓሳባት ብመልክዕ ሓደ ሓረግ እንትግለፁ፣ compound (ውሁድ) ሓሳብ ይፈጥሩ።",font_size=30, color=WHITE, font="Nyala")
@@ -271,8 +295,7 @@ class Propositions(Scene):
         self.add(compound_statement_definition_title,
                   compound_statement_definition_1,                  
                   compound_box)
-        self.wait(2)
-        self.wait(2)
+        self.wait(8.5) # 45 seconds for the definition to be read and understood        
         text_a = MarkupText("ሀ. ", font_size=30, font="Nyala")
         text_b = MarkupText("ለ. ", font_size=30, font="Nyala")
         third_statement_1 = MarkupText("√1 = 1", font_size=30)
@@ -281,7 +304,7 @@ class Propositions(Scene):
             font_size=30, font="Nyala"
         )
         third_statement_3 = MarkupText(
-            " <span font_family='Sans' font_size='30'>3 &lt; 4</span> እዩ።",
+            " 3 &lt; 4 እዩ።",
             font_size=30, font="Nyala"
         )
         fourth_statement_1 = MarkupText(
@@ -300,62 +323,54 @@ class Propositions(Scene):
         fourth_statement =VGroup(text_b, fourth_statement_1, fourth_statement_2, fourth_statement_3).arrange(RIGHT)
         compound_sentences = VGroup(third_statement, fourth_statement).arrange(DOWN*2, aligned_edge=LEFT, buff=0.5).scale(.5).next_to(compound_statement_definition, DOWN*2, buff=0.5)      
         self.play(FadeIn(text_a),FadeIn(third_statement_1), FadeIn(third_statement_2), FadeIn(third_statement_3))
-        self.wait(2)
+        self.wait(10) # 57 seconds for the first compound statement to be read and understood
        
         underline_third_statement_1 = Line(LEFT*third_statement_1.width/2, RIGHT*third_statement_1.width/2, stroke_width=1, color=YELLOW)
         underline_third_statement_1.next_to(third_statement_1, DOWN, buff=0.1)
         self.play(FadeIn(underline_third_statement_1))
-        self.wait(2)
+        self.wait(2) # 60 seconds for the first part of the compound statement to be read and understood
        
         underline_third_statement_3 = Line(LEFT*third_statement_3.width/2, RIGHT*third_statement_3.width/2, stroke_width=1, color=ORANGE)
         underline_third_statement_3.next_to(third_statement_3, UP, buff=0.1)
         self.play(Create(underline_third_statement_3))
-        self.wait(2)
+        self.wait(4) # 65 seconds for the second part of the compound statement to be read and understood
        
         third_box = SurroundingRectangle(third_statement_2, color=RED, buff=.05, stroke_width= 1)        
         self.play(Create(third_box))
         
-        self.wait(2)
+        self.wait(3) # 69 seconds for the conjunction to be read and understood
         self.play(FadeIn(text_b),FadeIn(fourth_statement_1), FadeIn(fourth_statement_2), FadeIn(fourth_statement_3))
-        self.wait(2) 
+        self.wait(15) # 85 seconds for the second compound statement to be read and understood
         
         underline_fourth_statement_1 = Line(LEFT*fourth_statement_1.width/2, RIGHT*fourth_statement_1.width/2, stroke_width=1, color=YELLOW)
         underline_fourth_statement_1.next_to(fourth_statement_1, DOWN, buff=0.1)
-        self.play(Create(underline_fourth_statement_1))
-        self.wait(2)
+        self.play(Create(underline_fourth_statement_1)) #  86 seconds for the first part of the compound statement to be read and understood
+        self.wait(4) # 90 seconds for the first part of the compound statement to be read and understood
        
         underline_fourth_statement_3 = Line(LEFT*fourth_statement_3.width/2, RIGHT*fourth_statement_3.width/2, stroke_width=1, color=ORANGE)
         underline_fourth_statement_3.next_to(fourth_statement_3, UP, buff=0.1)
-        self.play(Create(underline_fourth_statement_3))
-        self.wait(2)
+        self.play(Create(underline_fourth_statement_3)) # 91 seconds for the second part of the compound statement to be read and understood
+        self.wait(3) # 94 seconds for the second part of the compound statement to be read and understood
                 
         fourth_box = SurroundingRectangle(fourth_statement_2, color=RED, buff=.05, stroke_width= 1)        
-        self.play(Create(fourth_box))
-        self.wait(2)
+        self.play(Create(fourth_box)) # 95 seconds for the conjunction to be read and understood
+        self.wait(3) # 98 seconds for the conjunction to be read and understood
         self.play(FadeOut(compound_sentences), FadeOut(compound_statement_definition), 
                   FadeOut(compound_box), FadeOut(third_box), 
                   FadeOut(fourth_box), FadeOut(underline_third_statement_1), 
                   FadeOut(underline_third_statement_3), 
-                  FadeOut(underline_fourth_statement_1), FadeOut(underline_fourth_statement_3))
-        self.wait(2)
-        n_propositions = MarkupText("n" , font_size=30)
-        two_n = MathTex(r"2^n", font_size=30)
-        imply = MarkupText(" → " , font_size=30)
+                  FadeOut(underline_fourth_statement_1), FadeOut(underline_fourth_statement_3)) # 99 seconds
+        self.wait(27) # 126 seconds for the scene to end and transition to the next one
+        n_propositions = MarkupText("n" , font_size=40)
+        two_n = MathTex(r"2^n", font_size=40)
+        imply = MarkupText(" → " , font_size=40)
         logical_possibilities = VGroup(n_propositions, imply, two_n)
         logical_possibilities.arrange(RIGHT, buff=0.5).next_to(underline, DOWN, buff=0.5)
-        self.play(Write(n_propositions))
-        self.wait() 
-        self.play(Write(imply),Write(two_n))
-        self.wait()
-        example_one = MathTex(r"p, q: p \land q = 2^2 = 4", font_size=30)
-        example_two = MathTex(r"p, q, r: (p \land q) \land r = 2^3 = 8", font_size=30)
-        example= VGroup(example_one, example_two).arrange(DOWN, aligned_edge=LEFT, buff=0.25).next_to(logical_possibilities, DOWN, buff=0.5)
-        self.play(Write(example_one))
-        self.wait() 
-        self.play(Write(example_two))
-        self.wait()
-        self.play(FadeOut(example), FadeOut(logical_possibilities))
-        self.wait(2)
+        self.play(Write(n_propositions)) # 2 mintes: 7 seconds for n to be read and understood
+        self.wait(5) # 2 minutes: 12 seconds for the implication to be read and understood
+        self.play(Write(imply),Write(two_n)) # 2 minutes: 13 seconds for the 2^n to be read and understood
+        self.wait(4) # 2 minutes: 16 seconds for the entire expression to be read and understood
+        
 # manim -ql -p --disable_caching logic.py Propositions
 
 class Connectives(Scene):
