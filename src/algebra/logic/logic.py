@@ -2,6 +2,70 @@ from manim import *
 import manimpango
 from common.common import layout
 
+class Thumbnail(Scene):
+    def construct(self):
+        background, bg_text = layout()
+        self.add(background)
+        self.add(bg_text)  
+        # title = Text("ሓሳብ / Logic", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        # underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
+        # underline.next_to(title, DOWN, buff=0.2)
+        # self.add(title)
+        # self.add(underline)
+        # Colors
+        BLACKBOARD = "#1f3a2e"
+        CHALK_WHITE = WHITE
+        CHALK_YELLOW = "#ffd54f"
+
+        # Background
+        self.camera.background_color = BLACKBOARD
+
+        # ---- LEFT TEXT ----
+        symbolic = Text("ትእምርታዊ", color=CHALK_WHITE, font_size=110, weight=BOLD, font="Nyala")
+        logic = Text("LOGIC", color=CHALK_YELLOW, font_size=150, weight=BOLD)
+        tutorial = Text("ስነ-መጐት", color=CHALK_WHITE, font_size=110, weight=BOLD, font="Nyala")
+
+        left_title = VGroup(symbolic, logic, tutorial).arrange(
+            DOWN, aligned_edge=LEFT, buff=0.2
+        )
+        left_title.to_edge(LEFT, buff=0.4)
+
+        # ---- RIGHT TOP: P -> Q ----
+        p_text = Text("p", color=CHALK_WHITE, font_size=80)
+        arrow = MathTex(r"\to", color=CHALK_WHITE, font_size=80)
+        q_text = Text("q", color=CHALK_WHITE, font_size=80)
+
+        implication = VGroup(p_text, arrow, q_text).arrange(RIGHT, buff=0.3)
+        implication.to_edge(UP + RIGHT, buff=0.8)
+
+        p2_text = Text("p", color=CHALK_WHITE, font_size=80)
+        bimp = MathTex(r"\leftrightarrow", color=CHALK_WHITE, font_size=70)
+        q2_text = Text("q", color=CHALK_WHITE, font_size=80)
+
+        bi_implication = VGroup(p2_text, bimp, q2_text).arrange(RIGHT, buff=0.3)
+        bi_implication.next_to(implication, DOWN, buff=0.4)
+        headers = ["p", "¬p"]
+        table_data = [
+            ["T", "F"],
+            ["F", "T"],            
+        ]
+
+        # Create table object without MathTex
+        neg_table = Table(
+            table_data,
+            col_labels=[Text(h) for h in headers],  # Use Text here
+            include_outer_lines=False,
+        )    
+        neg_table.to_edge(DOWN + RIGHT, buff=0.6)
+         # Conjunction and disjunction right below "TUTORIAL"
+        conj = MathTex(r"(p \land q)", color=CHALK_WHITE, font_size=80)
+        disj = MathTex(r"(p \lor q)", color=CHALK_WHITE, font_size=80)
+
+        conj_disj = VGroup(conj, disj).arrange(RIGHT, buff=1.0)
+        conj_disj.next_to(tutorial, DOWN, aligned_edge=LEFT, buff=0.4)
+        # ---- Add everything ----
+        self.add(left_title,conj_disj, implication, bi_implication, neg_table)
+
 class Introduction(Scene):
     def construct(self):
         
