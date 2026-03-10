@@ -58,23 +58,52 @@ class Introduction(Scene):
         _cardinality_of_empty = MathTex(r"|\emptyset| = 0")
         set_with_empty = MathTex(r"\{ \emptyset \}")
         # self.play(Write(set_with_empty), run_time=1)
-        _set_builder_notation = MathTex(r"E = \{ 2n : n \in \mathbb{Z} \}").next_to(underline, DOWN, buff=0.2)
-        _set_builder_notation_alt = MathTex(r"E = \{ n \in \mathbb{Z} : n\text{ is even} \}").next_to(_set_builder_notation, DOWN, buff=0.2)
-        _set_builder_expression_rule =  MathTex(r"X = \{ expression : rule \}")
-        self.play(Write(_set_builder_notation), run_time=1)
-        self.wait(2)
-        self.play(Write(_set_builder_notation_alt), run_time=1)
-        self.wait(2)
+        # _set_builder_notation = MathTex(r"E = \{ 2n : n \in \mathbb{Z} \}").next_to(underline, DOWN, buff=0.2).scale(.5)
+        # _set_builder_notation_alt = MathTex(r"E = \{ n \in \mathbb{Z} : n\text{ is even} \}").next_to(_set_builder_notation, DOWN, buff=0.2).scale(.5)
+        # _set_builder_expression_rule =  MathTex(r"X = \{ expression : rule \}").scale(.5)
+        # self.play(Write(_set_builder_notation), run_time=1)
+        # self.wait(2)
+        # self.play(Write(_set_builder_notation_alt), run_time=1)
+        # self.wait(2)
 
-    # Common number line
-        number_line_top = NumberLine(
-            x_range=[-4, 4, 1],
-            include_numbers=False,
-            stroke_width=4,
-            color=GREY_B
-        ).shift(UP * 1.2)
+        # Common number line
+        number_line_1 = NumberLine(x_range=[-3, 4, 1],include_numbers=False,stroke_width=2, color=GREY_B)
+        number_line_2 = number_line_1.copy().shift(DOWN)
+        number_line_3 = number_line_2.copy().shift(DOWN)
+        number_line_4 = number_line_3.copy().shift(DOWN)
+        number_line_5 = number_line_4.copy().shift(DOWN)
+        number_line_6 = number_line_5.copy().shift(DOWN)
+        number_line_7 = number_line_6.copy().shift(DOWN)
+        number_line_8 = number_line_7.copy().shift(DOWN)
 
-        number_line_bottom = number_line_top.copy().shift(DOWN * 2)
+        
+    
+        number_line_1.add_tip(tip_shape=StealthTip, tip_length=0.2) 
+        number_line_1.add_tip(tip_shape=StealthTip, tip_length=0.2, at_start=True)
+        number_line_2.add_tip(tip_shape=StealthTip, tip_length=0.2) 
+        number_line_2.add_tip(tip_shape=StealthTip, tip_length=0.2, at_start=True)
+        number_line_3.add_tip(tip_shape=StealthTip, tip_length=0.2) 
+        number_line_3.add_tip(tip_shape=StealthTip, tip_length=0.2, at_start=True)
+        number_line_4.add_tip(tip_shape=StealthTip, tip_length=0.2) 
+        number_line_4.add_tip(tip_shape=StealthTip, tip_length=0.2, at_start=True)
+        number_line_5.add_tip(tip=StealthTip(fill_color=BLUE, stroke_color=BLUE, length=0.2, stroke_width=4,)) 
+        number_line_5.add_tip(tip_shape=StealthTip, tip_length=0.2, at_start=True)
+        number_line_6.add_tip(tip= StealthTip(fill_color=BLUE, stroke_color=BLUE, length=0.2, stroke_width=4,)) 
+        number_line_6.add_tip(tip_shape=StealthTip, tip_length=0.2, at_start=True)
+        number_line_7.add_tip(tip_shape=StealthTip, tip_length=0.2) 
+        number_line_7.add_tip(tip= StealthTip(fill_color=BLUE, stroke_color=BLUE, length=0.2, stroke_width=4,), at_start=True)
+        number_line_8.add_tip(tip_shape=StealthTip, tip_length=0.2) 
+        number_line_8.add_tip(tip= StealthTip(fill_color=BLUE, stroke_color=BLUE, length=0.2, stroke_width=4,), at_start=True)
+
+        set_builder_1 =  MathTex(r"[a,b] = \{ x \in \mathbb{Z} : a \leq x \leq b \}").next_to(number_line_1, LEFT*3, buff=0.5)
+        set_builder_2 =  MathTex(r"(a,b) = \{ x \in \mathbb{Z} : a < x < b \}").next_to(number_line_2, LEFT*3, buff=0.5)
+        set_builder_3 =  MathTex(r"(a,b] = \{ x \in \mathbb{Z} : a < x \leq b \}").next_to(number_line_3, LEFT*3, buff=0.5)
+        set_builder_4 =  MathTex(r"[a,b) = \{ x \in \mathbb{Z} : a \leq x < b \}").next_to(number_line_4, LEFT*3, buff=0.5)
+        set_builder_5 =  MathTex(r"(a,\infty) = \{ x \in \mathbb{Z} : a < x \}").next_to(number_line_5, LEFT*3, buff=0.5)
+        set_builder_6 =  MathTex(r"[a,\infty) = \{ x \in \mathbb{Z} : a \leq x \}").next_to(number_line_6, LEFT*3, buff=0.5)
+        set_builder_7 =  MathTex(r"(-\infty,b) = \{ x \in \mathbb{Z} :  x < b \}").next_to(number_line_7, LEFT*3, buff=0.5)
+        set_builder_8 =  MathTex(r"(-\infty,b] = \{ x \in \mathbb{Z} :  x \leq b \}").next_to(number_line_8, LEFT*3, buff=0.5)
+
 
         # Positions for a and b
         a_val = -1
@@ -82,62 +111,84 @@ class Introduction(Scene):
 
         # ----- Top: closed interval [a, b] -----
         # Segment between a and b
-        segment_closed = Line(
-            number_line_top.n2p(a_val),
-            number_line_top.n2p(b_val),
-            stroke_width=8,
-            color=GREY_B
-        )
+        segment_1 = Line(number_line_1.n2p(a_val), number_line_1.n2p(b_val), stroke_width=6, color=BLUE )
+        segment_2 = Line(number_line_2.n2p(a_val),  number_line_2.n2p(b_val), stroke_width=6, color=BLUE )
+        segment_3 = Line(number_line_3.n2p(a_val),  number_line_3.n2p(b_val), stroke_width=6, color=BLUE )
+        segment_4 = Line(number_line_4.n2p(a_val),  number_line_4.n2p(b_val), stroke_width=6, color=BLUE )
+        segment_5 = Line(number_line_5.n2p(a_val),  number_line_5.n2p(4), stroke_width=6, color=BLUE )
+        segment_6 = Line(number_line_6.n2p(a_val),  number_line_6.n2p(4), stroke_width=6, color=BLUE )
+        segment_7 = Line(number_line_7.n2p(-3),  number_line_7.n2p(b_val), stroke_width=6, color=BLUE )
+        segment_8 = Line(number_line_8.n2p(-3),  number_line_8.n2p(b_val), stroke_width=6, color=BLUE )
 
         # Filled dots at a and b
-        dot_a_closed = Dot(number_line_top.n2p(a_val), radius=0.08, color=GREY_B)
-        dot_b_closed = Dot(number_line_top.n2p(b_val), radius=0.08, color=GREY_B)
-
+        dot_a_1 = Dot(number_line_1.n2p(a_val), radius=0.14, color=BLUE)
+        dot_b_1 = Dot(number_line_1.n2p(b_val), radius=0.14, color=BLUE)
+        dot_a_1.set_z_index(number_line_1.z_index + 1)
+        dot_b_1.set_z_index(number_line_1.z_index + 1)
         # Labels a, b
-        label_a_top = MathTex("a").next_to(dot_a_closed, UP, buff=0.2)
-        label_b_top = MathTex("b").next_to(dot_b_closed, UP, buff=0.2)
-
-        # ----- Bottom: open interval (a, b) -----
-        segment_open = Line(
-            number_line_bottom.n2p(a_val),
-            number_line_bottom.n2p(b_val),
-            stroke_width=4,
-            color=GREY_B
-        )
+        label_a_1 = MathTex("a").next_to(dot_a_1, UP, buff=0.2)
+        label_b_1 = MathTex("b").next_to(dot_b_1, UP, buff=0.2)
 
         # Open circles: use small circles with no fill
-        circle_a_open = Circle(
-            radius=0.08,
-            stroke_color=GREY_B,
-            stroke_width=4,
-            fill_opacity=0
-        ).move_to(number_line_bottom.n2p(a_val))
+        circle_a_open_2 = Circle(radius=0.11, stroke_color=BLUE, stroke_width=3,fill_opacity=0).move_to(number_line_2.n2p(a_val)).set_z_index(number_line_2.z_index + 1)
 
-        circle_b_open = circle_a_open.copy().move_to(number_line_bottom.n2p(b_val))
+        circle_b_open_2 = circle_a_open_2.copy().move_to(number_line_2.n2p(b_val)).set_z_index(number_line_2.z_index + 1)
 
-        label_a_bottom = MathTex("a").next_to(circle_a_open, UP, buff=0.2)
-        label_b_bottom = MathTex("b").next_to(circle_b_open, UP, buff=0.2)
+        label_a_2 = MathTex("a").next_to(circle_a_open_2, UP, buff=0.2)
+        label_b_2 = MathTex("b").next_to(circle_b_open_2, UP, buff=0.2)
 
+        circle_a_open_3 = circle_a_open_2.copy().move_to(number_line_3.n2p(a_val))
+        dot_b_3 = Dot(number_line_3.n2p(b_val), radius=0.14, color=BLUE).set_z_index(number_line_3.z_index + 1)
+
+        label_a_3 = MathTex("a").next_to(circle_a_open_3, UP, buff=0.2)
+        label_b_3 = MathTex("b").next_to(dot_b_3, UP, buff=0.2)
+
+        
+        dot_a_4 = Dot(number_line_4.n2p(a_val), radius=0.14, color=BLUE).set_z_index(number_line_4.z_index + 1)
+        circle_b_open_4 = circle_b_open_2.copy().move_to(number_line_4.n2p(b_val))
+
+        label_a_4 = MathTex("a").next_to(dot_a_4, UP, buff=0.2)
+        label_b_4 = MathTex("b").next_to(circle_b_open_4, UP, buff=0.2)
+
+        circle_a_open_5 = circle_a_open_2.copy().move_to(number_line_5.n2p(a_val))
+        label_a_5 = MathTex("a").next_to(circle_a_open_5, UP, buff=0.2)
+
+        dot_a_6 = Dot(number_line_6.n2p(a_val), radius=0.14, color=BLUE).set_z_index(number_line_6.z_index + 1)
+        label_a_6 = MathTex("a").next_to(dot_a_6, UP, buff=0.2)
+
+        circle_b_open_7 = circle_b_open_2.copy().move_to(number_line_7.n2p(b_val))
+        label_b_7 = MathTex("b").next_to(circle_b_open_7, UP, buff=0.2)
+
+        dot_b_8 = Dot(number_line_8.n2p(b_val), radius=0.14, color=BLUE).set_z_index(number_line_8.z_index + 1)
+        label_b_8 = MathTex("b").next_to(dot_b_8, UP, buff=0.2)
+
+        vgroup = VGroup(
+            dot_a_1,label_a_1,
+            dot_b_1,label_b_1,
+            number_line_1,set_builder_1, segment_1,
+            number_line_2, set_builder_2,segment_2,
+            number_line_3, set_builder_3,segment_3,
+            number_line_4, set_builder_4,segment_4,
+            number_line_5, set_builder_5,segment_5,
+            number_line_6, set_builder_6,segment_6,
+            number_line_7, set_builder_7,segment_7,
+            number_line_8, set_builder_8,segment_8,            
+            circle_a_open_2, label_a_2, circle_b_open_2, label_b_2,
+            circle_a_open_3,label_a_3, dot_b_3,label_b_3,
+            dot_a_4,label_a_4, circle_b_open_4,label_b_4,
+            circle_a_open_5,label_a_5,
+            dot_a_6, label_a_6,
+            circle_b_open_7,label_b_7,
+            dot_b_8, label_b_8
+
+            ).scale(.5).next_to(underline, DOWN)
         # Add everything
-        self.add(
-            number_line_top,
-            segment_closed,
-            dot_a_closed,
-            dot_b_closed,
-            label_a_top,
-            label_b_top,
-            number_line_bottom,
-            segment_open,
-            circle_a_open,
-            circle_b_open,
-            label_a_bottom,
-            label_b_bottom,
-        )
+        self.add(vgroup)
 
         self.wait()
 
 
-'''
+        '''
         
         num_list = [MathTex(n) for n in ["2", "4", "6", "8"]]
         
@@ -145,8 +196,8 @@ class Introduction(Scene):
         # buff=1.0 provides a generous space between elements
         numbers = VGroup(*num_list).arrange(RIGHT, buff=1.0)
         box = SurroundingRectangle(numbers, color=YELLOW, 
-                                          fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.1
-                                          ,stroke_width= 2, buff=MED_LARGE_BUFF)
+        fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.1
+        ,stroke_width= 2, buff=MED_LARGE_BUFF)
 
         # 3. Animate them
         self.play(Create(box))
@@ -156,7 +207,7 @@ class Introduction(Scene):
         self.wait(2)
         self.add(_equal)
         outer_box = RoundedRectangle(width=5, height=3,fill_opacity=0.05, corner_radius=0.1, fill_color=ORANGE,
-                                          stroke_width= 2, color=YELLOW)
+        stroke_width= 2, color=YELLOW)
         
         box_left = Square(side_length=1.5, color=RED)
         box_right = Square(side_length=2, color=GREEN).next_to(box_left, RIGHT, buff=0.4)
@@ -213,5 +264,5 @@ class Introduction(Scene):
         )
         self.wait(2)
 '''
-# manim -ql -p --disable_caching set.py Formula
+# manim -ql -p --disable_caching set.py Introduction
 # manim -ql -p  set.py Introduction
