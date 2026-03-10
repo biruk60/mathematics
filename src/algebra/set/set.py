@@ -266,3 +266,281 @@ class Introduction(Scene):
 '''
 # manim -ql -p --disable_caching set.py Introduction
 # manim -ql -p  set.py Introduction
+
+class SetDifference(Scene):
+    def construct(self):
+        background, bg_text = layout()
+        self.add(background)  
+        self.add(bg_text)   
+        # Title
+        title = Text("Difference", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
+        underline.next_to(title, DOWN, buff=0.2)
+
+        self.add(title)
+        self.add(underline)
+        # 1. Setup Axes
+        axes_one = Axes(
+            x_range=[-3, 3, 1],
+            y_range=[-1, 6, 1],
+            axis_config={"include_tip": True}
+        ).add_coordinates()
+
+        axes_two = Axes(
+            x_range=[-3, 3, 1],
+            y_range=[-1, 6, 1],
+            axis_config={"include_tip": True}
+        ).add_coordinates()
+
+        # 2. Define the Parabola (Set B: y = x^2)
+        parabola = axes_one.plot(lambda x: x**2, color=BLUE, stroke_width=4)
+        line_color = ORANGE
+        line = axes_two.plot(lambda x: x + 1, color=line_color, stroke_width=4)
+        # 3. Calculate intersection points for B - A
+        # Intersection occurs at x^2 = x + 1
+        x1 = (1 + np.sqrt(5)) / 2
+        x2 = (1 - np.sqrt(5)) / 2
+        
+        # Create the "Holes" (Open circles)
+        # We use Dot with fill_opacity=0 to make it hollow
+        holea1 = Dot(
+            point=axes_one.c2p(x1, x1**2), 
+            radius=0.1, 
+            fill_color=BLACK,      # Matches background to "cut" the line
+            fill_opacity=1,        # Must be solid to hide the line underneath
+            stroke_width=2,        # The thickness of the hole's ring
+            stroke_color=BLUE      # Matches the graph color
+        )
+        
+        holea2 = Dot(
+            point=axes_one.c2p(x2, x2**2), 
+            radius=0.1, 
+            fill_color=BLACK, 
+            fill_opacity=1, 
+            stroke_width=2, 
+            stroke_color=BLUE
+        )
+
+        holeb1 = Dot(
+            point=axes_two.c2p(x1, x1**2), 
+            radius=0.1, 
+            fill_color=BLACK,      # Matches background to "cut" the line
+            fill_opacity=1,        # Must be solid to hide the line underneath
+            stroke_width=2,        # The thickness of the hole's ring
+            stroke_color=ORANGE      # Matches the graph color
+        )
+        
+        holeb2 = Dot(
+            point=axes_two.c2p(x2, x2**2), 
+            radius=0.1, 
+            fill_color=BLACK, 
+            fill_opacity=1, 
+            stroke_width=2, 
+            stroke_color=ORANGE
+        )
+
+        axes_three = Axes(
+            x_range=[-3, 3, 1],
+            y_range=[-1, 6, 1],
+            axis_config={"include_tip": True}
+        ).add_coordinates()
+
+        # 2. Calculate the intersection coordinates (x^2 = x + 1)
+        # These are the Golden Ratio points
+        phi = (1 + np.sqrt(5)) / 2
+        psi = (1 - np.sqrt(5)) / 2
+        
+        # Define the points in the coordinate system
+        # Point 1: (~1.618, ~2.618)
+        # Point 2: (~-0.618, ~0.382)
+        p1 = axes_three.c2p(phi, phi**2)
+        p2 = axes_three.c2p(psi, psi**2)
+
+        # 3. Create the Intersection Set (Solid Dots)
+        dot1 = Dot(point=p1, color=RED, radius=0.12)
+        dot2 = Dot(point=p2, color=RED, radius=0.12)
+        
+        # 4. Labels
+        # A cap B label
+        
+    
+
+        # 4. Labels
+        # Positioning the label near the upper hole
+        label1 = MathTex("B - A").next_to(holea1, RIGHT, buff=0.3)
+        label2 = MathTex("A - B").next_to(holeb1, RIGHT, buff=0.3)
+        label3 = MathTex("A \\cap B", color=WHITE).scale(1.2).next_to(dot1, RIGHT, buff=0.3)
+        
+
+        vgroup= VGroup(axes_one, parabola, holea1, holea2, label1).scale(.25).next_to(underline, DOWN).to_edge(LEFT)
+        line_vgroup = VGroup(axes_two,line, holeb1, holeb2, label2).scale(.25).next_to(vgroup, RIGHT, buff=.5)
+        n_vgroup = VGroup(axes_three, dot1, dot2, label3).scale(.25).next_to(line_vgroup, RIGHT, buff=.5)
+        
+        # 5. Animation Sequence
+        self.add(vgroup)
+        self.add(line_vgroup)
+        self.add(n_vgroup)
+        self.wait(2)
+
+
+# manim -ql -p  set.py SetDifference
+
+class PowerSetTree(Scene):
+    def construct(self):
+        background, bg_text = layout()
+        self.add(background)  
+        self.add(bg_text)   
+        # Title
+        title = Text("Difference", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
+        underline.next_to(title, DOWN, buff=0.2)
+
+        self.add(title)
+        self.add(underline)
+        # 1. Configuration
+        elements = ["a", "b", "c"]
+        depth = len(elements)
+        h_spacing = 4.5
+        v_spacing = 5.5
+        gap_size = 0.45  # The size of the physical gap for the text
+        all_elements = VGroup()
+
+        def get_set_label(subset):
+            if not subset: return "\\{ \\}"
+            return "\\{ " + ", ".join(subset) + " \\}"
+
+        # Helper to draw a line with a physical hole in the middle
+        def draw_broken_line(start, end, label_text):
+            mid = (start + end) / 2
+            unit_vec = (end - start) / np.linalg.norm(end - start)
+            
+            # Segment 1: From start to just before the center
+            line1 = Line(start, mid - unit_vec * gap_size, stroke_width=1)
+            # Segment 2: From just after the center to the end
+            line2 = Line(mid + unit_vec * gap_size, end, stroke_width=1)
+            
+            label = Text(label_text, font_size=20).move_to(mid)
+            return VGroup(line1, line2, label)
+
+        # 2. Recursive function to build the tree
+        def create_tree(current_set, level, x, y):
+            if level > depth:
+                leaf = MathTex(get_set_label(current_set), font_size=32)
+                leaf.move_to([x, y, 0])
+                all_elements.add(leaf)
+                return
+
+            next_x = x + h_spacing
+            offset = v_spacing / (2 ** level)
+            y_up, y_down = y + offset, y - offset
+
+            # --- Create Broken Diagonal Lines ---
+            # We calculate the start/end points for the lines
+            start_pt = np.array([x + 0.5, y, 0])
+            end_up = np.array([next_x - 0.7, y_up, 0])
+            end_down = np.array([next_x - 0.7, y_down, 0])
+
+            no_branch = draw_broken_line(start_pt, end_up, "No")
+            yes_branch = draw_broken_line(start_pt, end_down, "Yes")
+
+            # --- Vertical Dotted Line ---
+            # Connects the "No" and "Yes" text labels
+            dotted_line = DashedLine(
+                no_branch[2].get_bottom() + DOWN * 0.1, 
+                yes_branch[2].get_top() + UP * 0.1,
+                color=GRAY_B, stroke_width=1, dash_length=0.1
+            )
+
+            # Node Label
+            node_label = MathTex(get_set_label(current_set), font_size=32, color=GRAY_A)
+            node_label.move_to([x, y, 0])
+            
+            all_elements.add(no_branch, yes_branch, dotted_line, node_label)
+
+            # Recurse
+            create_tree(current_set, level + 1, next_x, y_up)
+            create_tree(current_set + [elements[level-1]], level + 1, next_x, y_down)
+
+        # 3. Headers (Elevated)
+        headers = VGroup().next_to(underline, DOWN*3, buff=.5)
+        header_y_pos = 7.0 
+        for i, char in enumerate(elements):
+            header_x = -4 + (i * h_spacing) + (h_spacing / 2)
+            h_text = MathTex(f"\\text{{Insert }}{char}?", font_size=30)
+            h_text.move_to([header_x, header_y_pos, 0])
+            arrow = Arrow(h_text.get_bottom(), h_text.get_bottom() + DOWN * 2.2, buff=0.1, stroke_width=4)
+            headers.add(h_text, arrow)
+        all_elements.add(headers)
+
+        # 4. Generate, Scale, and Center
+        create_tree([], 1, -4, 0)
+        all_elements.scale(0.5)
+        all_elements.move_to(ORIGIN)
+
+        # 5. Animation
+        self.play(FadeIn(all_elements, lag_ratio=0.05), run_time=2)
+        # self.add(all_elements)
+        self.wait(2)
+
+# manim -ql -p  set.py PowerSetTree
+
+class CartesianProductDiagram(Scene):
+    def construct(self):
+        background, bg_text = layout()
+        self.add(background)  
+        self.add(bg_text)   
+        # Title
+        title = Text("Difference", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
+        underline.next_to(title, DOWN, buff=0.2)
+
+        self.add(title)
+        self.add(underline)
+        # 2. Build the Product Grid (A x B)
+        grid_content = VGroup(
+            MathTex("(k,r)", "(\\ell,r)", "(m,r)"),
+            MathTex("(k,q)", "(\\ell,q)", "(m,q)")
+        ).arrange(DOWN, buff=1.0)
+        
+        # Manually align columns for row 2 to match row 1
+        for i in range(3):
+            grid_content[1][i].align_to(grid_content[0][i], LEFT)
+        
+        box_ab = RoundedRectangle(
+            height=grid_content.height + 0.8, 
+            width=grid_content.width + 1.0, 
+            corner_radius=0.3,stroke_width= 2
+        ).move_to(grid_content)
+        label_ab = MathTex("A \\times B").next_to(box_ab, RIGHT, aligned_edge=UP, buff=0.2)
+        product_section = VGroup(box_ab, grid_content, label_ab)
+
+        # 3. Build Set B (Vertical)
+        elements_b = VGroup(MathTex("r"), MathTex("q")).arrange(DOWN, buff=1.0)
+        elements_b.next_to(box_ab, LEFT, buff=1.2).align_to(grid_content, UP)
+        
+        box_b = RoundedRectangle(height=elements_b.height + 0.8, width=0.8, corner_radius=0.4, stroke_width= 2).move_to(elements_b)
+        label_b = MathTex("B").next_to(box_b, LEFT, aligned_edge=UP, buff=0.2)
+        set_b_section = VGroup(box_b, elements_b, label_b)
+
+        # 4. Build Set A (Horizontal)
+        elements_a = VGroup(MathTex("k"), MathTex("\\ell"), MathTex("m")).arrange(RIGHT, buff=1.5)
+        elements_a.next_to(box_ab, DOWN, buff=1.0).align_to(grid_content, LEFT)
+        
+        box_a = RoundedRectangle(height=0.8, width=elements_a.width + 1.2, corner_radius=0.4, stroke_width= 2).move_to(elements_a)
+        label_a = MathTex("A").next_to(box_a, RIGHT, buff=0.2)
+        set_a_section = VGroup(box_a, elements_a, label_a)
+
+        # 5. Group, Scale, and Position
+        diagram = VGroup(product_section, set_b_section, set_a_section)
+        diagram.scale(0.5) # Scale entire diagram to 0.5
+        diagram.next_to(underline, DOWN, buff=1.0) # Position under title
+
+        # 6. Animation
+        
+        self.play(
+            FadeIn(diagram, shift=DOWN),
+            run_time=2
+        )
+        self.wait(2)
+
+# manim -ql -p  set.py CartesianProductDiagram
