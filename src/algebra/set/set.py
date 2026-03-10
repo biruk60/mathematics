@@ -65,7 +65,79 @@ class Introduction(Scene):
         self.wait(2)
         self.play(Write(_set_builder_notation_alt), run_time=1)
         self.wait(2)
-        '''
+
+    # Common number line
+        number_line_top = NumberLine(
+            x_range=[-4, 4, 1],
+            include_numbers=False,
+            stroke_width=4,
+            color=GREY_B
+        ).shift(UP * 1.2)
+
+        number_line_bottom = number_line_top.copy().shift(DOWN * 2)
+
+        # Positions for a and b
+        a_val = -1
+        b_val = 2
+
+        # ----- Top: closed interval [a, b] -----
+        # Segment between a and b
+        segment_closed = Line(
+            number_line_top.n2p(a_val),
+            number_line_top.n2p(b_val),
+            stroke_width=8,
+            color=GREY_B
+        )
+
+        # Filled dots at a and b
+        dot_a_closed = Dot(number_line_top.n2p(a_val), radius=0.08, color=GREY_B)
+        dot_b_closed = Dot(number_line_top.n2p(b_val), radius=0.08, color=GREY_B)
+
+        # Labels a, b
+        label_a_top = MathTex("a").next_to(dot_a_closed, UP, buff=0.2)
+        label_b_top = MathTex("b").next_to(dot_b_closed, UP, buff=0.2)
+
+        # ----- Bottom: open interval (a, b) -----
+        segment_open = Line(
+            number_line_bottom.n2p(a_val),
+            number_line_bottom.n2p(b_val),
+            stroke_width=4,
+            color=GREY_B
+        )
+
+        # Open circles: use small circles with no fill
+        circle_a_open = Circle(
+            radius=0.08,
+            stroke_color=GREY_B,
+            stroke_width=4,
+            fill_opacity=0
+        ).move_to(number_line_bottom.n2p(a_val))
+
+        circle_b_open = circle_a_open.copy().move_to(number_line_bottom.n2p(b_val))
+
+        label_a_bottom = MathTex("a").next_to(circle_a_open, UP, buff=0.2)
+        label_b_bottom = MathTex("b").next_to(circle_b_open, UP, buff=0.2)
+
+        # Add everything
+        self.add(
+            number_line_top,
+            segment_closed,
+            dot_a_closed,
+            dot_b_closed,
+            label_a_top,
+            label_b_top,
+            number_line_bottom,
+            segment_open,
+            circle_a_open,
+            circle_b_open,
+            label_a_bottom,
+            label_b_bottom,
+        )
+
+        self.wait()
+
+
+'''
         
         num_list = [MathTex(n) for n in ["2", "4", "6", "8"]]
         
