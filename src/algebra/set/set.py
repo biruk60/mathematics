@@ -766,16 +766,47 @@ class Subset(Scene):
         self.play(FadeOut(_set_cardinality), FadeOut(_number_of_subsets))
         self.wait(2)
 
+        _powerset_defintion_title= MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
+        _powerset_defintion_1 = MarkupText("A ስብስብ እንተኾይኑ፡ ስብስብ ናይ ኩሎም ንኡሳን ስብስባት A ዝኾነ ካልእ ስብስብ ድማ፣ ስብስብ ሓይሊ ናይ A (Power Set of A) ይባሃል።",font_size=30, color=WHITE, font="Nyala")
+        _powerset_defintion_2_1 = MathTex(r"\mathcal{P}(A) = \{X : X \subseteq A\}", color=ORANGE)
+        _powerset_defintion_2_2 = MarkupText(" ብዝብል ድማ ነዚ ንገልፆ።",font_size=30, color=WHITE, font="Nyala")
+        _powerset_defintion_2 = VGroup(_powerset_defintion_2_1, _powerset_defintion_2_2).arrange(RIGHT)
+        _powerset_definition = VGroup(_powerset_defintion_title, _powerset_defintion_1, _powerset_defintion_2, 
+                                    ).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).scale(.5)
+        
+        _powerset_defintion_box = SurroundingRectangle(_powerset_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
+        self.add(_powerset_defintion_title,
+                _powerset_defintion_1,
+                _powerset_defintion_2,
+                _powerset_defintion_box)
+        self.wait(4)
+        self.play(FadeOut( _powerset_definition),FadeOut( _powerset_defintion_box))
+        self.wait(2)
+        _set_A = MathTex(r"A = \{, 1, 2, 3\}")
+        _powerset_set_A = MathTex(r"\mathcal{P}(A) = \{\}, \{1\}, \{2\}, \{3\}, \{1, 2\},  \{1, 3\}, \{2, 3\} , \{1, 2, 3\}")
+        _power_set_cardinality = MathTex(r"|\mathcal{P}(A)| = 2^{|A|}")
+        _powerset_group = VGroup(_set_A,_powerset_set_A, _power_set_cardinality
+        ).arrange(DOWN, aligned_edge=LEFT, buff=0.5).scale(.5)
+        self.play(FadeIn(_set_A), run_time=.5)
+        self.wait()
+        self.play(FadeIn(_powerset_set_A), run_time=.5)
+        self.wait()
+        self.play(FadeIn(_power_set_cardinality), run_time=.5)
+        self.wait()
+        self.play(ShrinkToCenter(_powerset_group))
+
+        self.wait(4)
+
         _subset_notation = MathTex(r"A \subseteq B")
         _not_subset = MathTex(r"A \not\subseteq B")
         _power_set = MathTex(r"\mathcal{P}(A)")
-        _power_set_cardinality = MathTex(r"|\mathcal{P}(A)| = 2^{|A|}")
+    
 
 # manim -ql -p  set.py Subset
 
 
 
-class SetDifference(Scene):
+class SetUNDC(Scene):
     def construct(self):
         background, bg_text = layout()
         self.add(background)  
@@ -787,6 +818,118 @@ class SetDifference(Scene):
 
         self.add(title)
         self.add(underline)
+        _undc_defintion_title= MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
+        _undc_defintion_sets = MarkupText("U ዝባሃል ኣድማሳዊ ስብስብን A፣ B፣ ዝባሃሉ ተራ ስብስባትን ተልዮምና...",font_size=30, color=WHITE, font="Nyala")
+        
+        _undc_defintion_union_1 = MathTex(r"A \cup B = \{x : x \in A \lor x \in B\}}", color=ORANGE)
+        _undc_defintion_union_2 = MarkupText("  ዝግለፀ ስብስብስ፣ ናይ ስብስብ Aን ስብስብ Bን ሕብረት እዩ።",font_size=30, color=WHITE, font="Nyala")
+        _undc_defintion_union = VGroup(_undc_defintion_union_1, _undc_defintion_union_2).arrange(RIGHT)
+
+        _undc_defintion_intersection_1 = MathTex(r"A \cap B = \{x : x \in A \land x \in B\}}", color=ORANGE)
+        _undc_defintion_intersection_2 = MarkupText("  ዝግለፀ ስብስብስ፣ ናይ ስብስብ Aን ስብስብ Bን መጋጠሚ እዩ።",font_size=30, color=WHITE, font="Nyala")
+        _undc_defintion_intersection = VGroup(_undc_defintion_intersection_1, _undc_defintion_intersection_2).arrange(RIGHT)
+
+        _undc_defintion_difference_1 = MathTex(r"A - B = \{x : x \in A \land x \notin B\}}", color=ORANGE)
+        _undc_defintion_difference_2 = MarkupText("  ዝግለፀ ስብስብስ፣ ናይ ስብስብ A ፍልልይ ስብስብ B እዩ።",font_size=30, color=WHITE, font="Nyala")
+        _undc_defintion_difference = VGroup(_undc_defintion_difference_1, _undc_defintion_difference_2).arrange(RIGHT)
+
+        _undc_defintion_complement_1 = MathTex(r"\overline{A} = U - A.}", color=ORANGE)
+        _undc_defintion_complement_2 = MarkupText("  ዝግለፀ ስብስብስ፣ ናይ ስብስብ A መመላእታ እዩ።",font_size=30, color=WHITE, font="Nyala")
+        _undc_defintion_complement = VGroup(_undc_defintion_complement_1, _undc_defintion_complement_2).arrange(RIGHT)
+
+        
+        _undc_definition = VGroup(_undc_defintion_title, _undc_defintion_sets, _undc_defintion_union, _undc_defintion_intersection, 
+                                _undc_defintion_difference, _undc_defintion_complement).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).scale(.5)
+        
+        _undc_defintion_box = SurroundingRectangle(_undc_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
+        self.add(_undc_defintion_title,
+                _undc_defintion_sets,
+                _undc_defintion_union,
+                _undc_defintion_intersection,
+                _undc_defintion_difference,
+                _undc_defintion_complement,
+                _undc_defintion_box)
+        self.wait(4)
+        self.play(FadeOut(_undc_definition),FadeOut( _undc_defintion_box))
+        self.wait(2)
+        _set_ab = MathTex(r"X \& Y")
+        _set_aub = MathTex(r"X \cup Y = Y \cup X")
+        _set_anb = MathTex(r"X \cap Y = Y \cap X")
+        _set_adb = MathTex(r"X - Y \neq Y - X")
+
+        _sets_ab_group = VGroup(_set_ab,_set_aub, _set_anb,_set_adb
+        ).arrange(DOWN, buff=0.2).next_to(underline, DOWN, buff=.5).scale(.5)
+        self.play(FadeIn(_set_ab), run_time=.5)
+        self.wait()
+        self.play(FadeIn(_set_aub), run_time=.5)
+        self.wait()
+        self.play(FadeIn(_set_anb), run_time=.5)
+        self.wait()  
+        self.play(FadeIn(_set_adb), run_time=.5)
+        self.wait()       
+
+        self.play(FadeOut(_sets_ab_group))
+        self.wait(2)
+
+        _set_A = MathTex(r"A = \{a, b, c, d, e\}, ")
+        _set_B = MathTex(r"B = \{d, e, f\}, ")
+        _set_C = MathTex(r"C = \{1, 2, 3\}")
+    
+        _sets_a_b_c_group = VGroup(_set_A,_set_B, _set_C
+        ).arrange(RIGHT, buff=0.2).next_to(underline, DOWN, buff=.5).scale(.5)
+        self.play(FadeIn(_set_A), run_time=.5)
+        self.wait()
+        self.play(FadeIn(_set_B), run_time=.5)
+        self.wait()
+        self.play(FadeIn(_set_C), run_time=.5)
+        self.wait()  
+
+        MathTex(r"\overline{A} = U - A.}", color=ORANGE)      
+
+        lines = [
+            r"1. \quad A \cup B = \{a, b, c, d, e, f\}",
+            r"2. \quad A \cap B = \{d, e\}",
+            r"3. \quad A - B = \{a, b, c\}",
+            r"4. \quad B - A = \{f\}",
+            r"5. \quad (A - B) \cup (B - A) = \{a, b, c, f\}",
+            r"6. \quad A \cup C = \{a, b, c, d, e, 1, 2, 3\}",
+            r"7. \quad A \cap C = \emptyset",
+            r"8. \quad A - C = \{a, b, c, d, e\}",
+            r"9. \quad (A \cap C) \cup (A - C) = \{a, b, c, d, e\}",
+            r"10. \overline{A} = \{g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z\}"            
+        ]
+
+        # Convert strings to MathTex objects and group them
+        set_list = VGroup(*[
+            MathTex(line, font_size=32) for line in lines
+        ])
+
+        # Arrange them vertically, aligned to the left edge
+        set_list.arrange(DOWN, aligned_edge=LEFT, buff=0.3)
+        
+        # Center the whole group on the screen
+        set_list.next_to(_sets_a_b_c_group, DOWN, buff=.2).scale(.5)
+
+        # Animation: Write them line by line
+        self.play(Write(set_list, run_time=5, lag_ratio=0.5))
+        self.wait(2)
+
+        self.play(ShrinkToCenter(set_list), FadeOut(_sets_a_b_c_group))
+
+        self.wait(2)
+
+        axes_parabol = Axes(
+            x_range=[-3, 3, 1],
+            y_range=[-1, 6, 1],
+            axis_config={"include_tip": True}
+        ).add_coordinates()
+
+        axes_line = Axes(
+            x_range=[-3, 3, 1],
+            y_range=[-1, 6, 1],
+            axis_config={"include_tip": True}
+        ).add_coordinates()
+
         # 1. Setup Axes
         axes_one = Axes(
             x_range=[-3, 3, 1],
@@ -800,8 +943,53 @@ class SetDifference(Scene):
             axis_config={"include_tip": True}
         ).add_coordinates()
 
+        axes_three = Axes(
+            x_range=[-3, 3, 1],
+            y_range=[-1, 6, 1],
+            axis_config={"include_tip": True}
+        ).add_coordinates()
+        
+        axes_four = Axes(
+            x_range=[-3, 3, 1],
+            y_range=[-1, 6, 1],
+            axis_config={"include_tip": True}
+        ).add_coordinates()
+        
+        
+        parabola = axes_parabol.plot(lambda x: x**2, 
+            x_range=[-2.4, 2.4], # Adjusted to stay within the frame
+            color=WHITE, 
+            stroke_width=4)       
+        line = axes_line.plot(lambda x: x + 1, color=WHITE, stroke_width=4)
+        phi = (1 + np.sqrt(5)) / 2       
+        
+        # Define the points in the coordinate system
+        # Point 1: (~1.618, ~2.618)
+        # Point 2: (~-0.618, ~0.382)
+        p1 = axes_parabol.c2p(phi, phi**2)
+        p2 = axes_line.c2p(phi, phi**2)
+        dot_parabol = Dot(point=p1, color=WHITE, radius=0.1)
+        dot_line = Dot(point=p2, color=WHITE, radius=0.1)
+        label_parabol = MathTex("A", font_size=40).scale(1.2).next_to(dot_parabol, RIGHT, buff=0.3)
+        label_line = MathTex("B", font_size=40).scale(1.2).next_to(dot_line, RIGHT, buff=0.3)
+
+        parabola_group = VGroup(axes_parabol, parabola, dot_parabol, label_parabol).scale(.5)
+
+        # Group the line with its axes
+        line_group = VGroup(axes_line, line,dot_line, label_line).scale(.5)
+
+        # Arrange them vertically with a small buffer
+        graphs_vgroup = VGroup(parabola_group, line_group).arrange(DOWN, buff=0.5).next_to(underline, DOWN*.1, buff=.1).shift(LEFT*3).scale(.5)
+
+        # Add the final VGroup to the scene
+        self.play(Create(graphs_vgroup))
+        self.wait()
+
         # 2. Define the Parabola (Set B: y = x^2)
-        parabola = axes_one.plot(lambda x: x**2, color=BLUE, stroke_width=4)
+        parabola = axes_one.plot( lambda x: x**2, 
+            x_range=[-2.4, 2.4], # Adjusted to stay within the frame
+            color=BLUE, 
+            stroke_width=4)
         line_color = ORANGE
         line = axes_two.plot(lambda x: x + 1, color=line_color, stroke_width=4)
         # 3. Calculate intersection points for B - A
@@ -813,7 +1001,7 @@ class SetDifference(Scene):
         # We use Dot with fill_opacity=0 to make it hollow
         holea1 = Dot(
             point=axes_one.c2p(x1, x1**2), 
-            radius=0.1, 
+            radius=0.13, 
             fill_color=BLACK,      # Matches background to "cut" the line
             fill_opacity=1,        # Must be solid to hide the line underneath
             stroke_width=2,        # The thickness of the hole's ring
@@ -822,7 +1010,7 @@ class SetDifference(Scene):
         
         holea2 = Dot(
             point=axes_one.c2p(x2, x2**2), 
-            radius=0.1, 
+            radius=0.13, 
             fill_color=BLACK, 
             fill_opacity=1, 
             stroke_width=2, 
@@ -831,7 +1019,7 @@ class SetDifference(Scene):
 
         holeb1 = Dot(
             point=axes_two.c2p(x1, x1**2), 
-            radius=0.1, 
+            radius=0.13, 
             fill_color=BLACK,      # Matches background to "cut" the line
             fill_opacity=1,        # Must be solid to hide the line underneath
             stroke_width=2,        # The thickness of the hole's ring
@@ -840,18 +1028,12 @@ class SetDifference(Scene):
         
         holeb2 = Dot(
             point=axes_two.c2p(x2, x2**2), 
-            radius=0.1, 
+            radius=0.13, 
             fill_color=BLACK, 
             fill_opacity=1, 
             stroke_width=2, 
             stroke_color=ORANGE
         )
-
-        axes_three = Axes(
-            x_range=[-3, 3, 1],
-            y_range=[-1, 6, 1],
-            axis_config={"include_tip": True}
-        ).add_coordinates()
 
         # 2. Calculate the intersection coordinates (x^2 = x + 1)
         # These are the Golden Ratio points
@@ -868,60 +1050,59 @@ class SetDifference(Scene):
         dot1 = Dot(point=p1, color=RED, radius=0.12)
         dot2 = Dot(point=p2, color=RED, radius=0.12)
         
-        # 4. Labels
-        # A cap B label
-        
     
-
         # 4. Labels
         # Positioning the label near the upper hole
-        label1 = MathTex("B - A").next_to(holea1, RIGHT, buff=0.3)
-        label2 = MathTex("A - B").next_to(holeb1, RIGHT, buff=0.3)
-        label3 = MathTex("A \\cap B", color=WHITE).scale(1.2).next_to(dot1, RIGHT, buff=0.3)
-        
+        label1 = MathTex("A - B").scale(1.2).next_to(holea1, RIGHT, buff=0.3)
+        label2 = MathTex("B - A").scale(1.2).next_to(holeb1, RIGHT, buff=0.3)
+        label3 = MathTex(r"A \cap B", color=WHITE).scale(1.2).next_to(dot1, RIGHT, buff=0.3)
+        label4 = MathTex(r"\overline{A}", font_size=48).move_to(axes_four.c2p(1, 4.5))
 
-        vgroup= VGroup(axes_one, parabola, holea1, holea2, label1).scale(.25).next_to(underline, DOWN).to_edge(LEFT)
-        line_vgroup = VGroup(axes_two,line, holeb1, holeb2, label2).scale(.25).next_to(vgroup, RIGHT, buff=.5)
-        n_vgroup = VGroup(axes_three, dot1, dot2, label3).scale(.25).next_to(line_vgroup, RIGHT, buff=.5)
+        # 2. Create the gray background (representing the complement set A-bar)
+        # We create a rectangle that covers the area of the axes
+        shading = Rectangle(
+            width=axes_four.x_axis.get_length(),
+            height=axes_four.y_axis.get_length() -.46,
+            fill_color=PINK,
+            fill_opacity=0.3,
+            stroke_width=0
+        ).move_to(axes_four.get_center())
+
+        # 3. Plot the parabola (Set A) in white
+        parabola_d = axes_four.plot(
+            lambda x: x**2, 
+            x_range=[-2.4, 2.4], # Adjusted to stay within the frame
+            color=BLACK, 
+            stroke_width=4
+        )
+
+
+        d_ab_vgroup= VGroup(axes_one, parabola, holea1, holea2, label1)
+        d_ba_vgroup = VGroup(axes_two,line, holeb1, holeb2, label2)
+        group_one = VGroup(d_ab_vgroup, d_ba_vgroup).arrange(RIGHT, buff=.5)
+        n_vgroup = VGroup(axes_three, dot1, dot2, label3)
+        c_group = VGroup(shading, axes_four, parabola_d, label4)
+        group_two = VGroup(n_vgroup, c_group).arrange(RIGHT, buff=.5)
+        g_group = VGroup(group_one, group_two).arrange(DOWN, buff=.5).next_to(graphs_vgroup, RIGHT*.1, buff=.1).shift(LEFT*9).scale(.25)
         
         # 5. Animation Sequence
-        self.add(vgroup)
-        self.add(line_vgroup)
-        self.add(n_vgroup)
+        self.play(Create(d_ab_vgroup))
+        self.wait()
+        self.play(Create(d_ba_vgroup))
+        self.wait()
+        self.play(Create(n_vgroup))
+        self.wait()
+        self.play(Create(c_group))
+        self.wait()
+        self.play(FadeOut(graphs_vgroup))
+        self.wait()
+        self.play(ShrinkToCenter(g_group))
         self.wait(2)
 
-        lines = [
-            r"1. \quad A \cup B = \{a, b, c, d, e, f\}",
-            r"2. \quad A \cap B = \{d, e\}",
-            r"3. \quad A - B = \{a, b, c\}",
-            r"4. \quad B - A = \{f\}",
-            r"5. \quad (A - B) \cup (B - A) = \{a, b, c, f\}",
-            r"6. \quad A \cup C = \{a, b, c, d, e, 1, 2, 3\}",
-            r"7. \quad A \cap C = \emptyset",
-            r"8. \quad A - C = \{a, b, c, d, e\}",
-            r"9. \quad (A \cap C) \cup (A - C) = \{a, b, c, d, e\}",
-            r"10. \quad (A \cap B) \times B = \{(d, d), (d, e), (d, f), (e, d), (e, e), (e, f)\}",
-            r"11. \quad (A \times C) \cap (B \times C) = \{(d, 1), (d, 2), (d, 3), (e, 1), (e, 2), (e, 3)\}"
-        ]
-
-        # Convert strings to MathTex objects and group them
-        set_list = VGroup(*[
-            MathTex(line, font_size=32) for line in lines
-        ])
-
-        # Arrange them vertically, aligned to the left edge
-        set_list.arrange(DOWN, aligned_edge=LEFT, buff=0.3)
-        
-        # Center the whole group on the screen
-        set_list.move_to(ORIGIN)
-
-        # Animation: Write them line by line
-        self.play(Write(set_list, run_time=5, lag_ratio=0.5))
-        self.wait(2)
 
         _complement_notation = MathTex(r"\overline{A} = U - A.")
 
-        
+
 
 
 # manim -ql -p  set.py SetDifference
@@ -935,7 +1116,7 @@ class VennDiagram(Scene):
         self.add(background)  
         self.add(bg_text)   
         # Title
-        title = Text("Difference", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        title = Text("ቬን ስእላዊ መግለጺ/ Venn Diagram", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
         underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
         underline.next_to(title, DOWN, buff=0.2)
 
@@ -943,202 +1124,330 @@ class VennDiagram(Scene):
         self.add(underline)
         # 1. Define the Circles
         # Standard layout: C at top, A bottom-left, B bottom-right
-        
-        circle_a = Circle(radius=2, color=WHITE).shift(LEFT * 1.1 + DOWN * 0.7)
-        circle_b = Circle(radius=2, color=WHITE).shift(RIGHT * 1.1 + DOWN * 0.7)
-        circle_c = Circle(radius=2, color=WHITE).shift(UP * 1.1)
 
-        # 2. Define the Labels
-        label_a = MathTex("A").next_to(circle_a, LEFT + DOWN, buff=0.2)
-        label_b = MathTex("B").next_to(circle_b, RIGHT + DOWN, buff=0.2)
-        label_c = MathTex("C").next_to(circle_c, UP, buff=0.2)
+        data = [("A", YELLOW), ("B", BLUE), ("C", RED)]
         
-        operation_text = MathTex("(A \\cup B) \\setminus C").to_edge(UP, buff=1)
-
-        # 3. Create the Shaded Region
-        # (A Union B) Difference C
-        union_ab = Union(circle_a, circle_b)
-        shaded_region = Difference(union_ab, circle_c)
-        shaded_region.set_fill(BLUE, opacity=0.6)
-        shaded_region.set_stroke(width=0)
-        vgroupall = VGroup(circle_a, circle_b, circle_c, label_a, 
-        label_b, label_c, union_ab, shaded_region)
-        vgroupall.next_to(underline, DOWN, buff=0.2).scale(.5)
-        # 4. Animation Sequence
-        self.play(Write(operation_text))
-        self.play(
-            Create(circle_a), 
-            Create(circle_b), 
-            Create(circle_c),
-            run_time=2
-        )
-        self.play(Write(label_a), Write(label_b), Write(label_c))
-        self.wait(0.5)
-
-        # Show the "Union" first (optional, for clarity)
-        # self.play(union_ab.animate.set_fill(BLUE, opacity=0.2)) 
-        
-        # Final highlight of the set operation
-        self.play(FadeIn(shaded_region))
-        self.play(shaded_region.animate.set_fill(BLUE, opacity=0.8))
+        groups = []
+        for char, color in data:
+            # Create circle with specific color
+            circle = Circle(radius=0.8, color=color, fill_color=color,     # Fill color
+                fill_opacity=0.5)
+            label = Text(char, color=WHITE)
+            # Group them together
+            labeled_circle = VGroup(circle, label)
+            groups.append(labeled_circle)
         
 
-        # Circle C at top, A bottom-left, B bottom-right
-        c_a = Circle(radius=1.8, color=WHITE).shift(LEFT * 1 + DOWN * 0.6)
-        c_b = Circle(radius=1.8, color=WHITE).shift(RIGHT * 1 + DOWN * 0.6)
-        c_c = Circle(radius=1.8, color=WHITE).shift(UP * 0.8)
-        
-        circles = VGroup(c_a, c_b, c_c)
-        labels = VGroup(
-            MathTex("A").next_to(c_a, LEFT+DOWN, buff=0.1),
-            MathTex("B").next_to(c_b, RIGHT+DOWN, buff=0.1),
-            MathTex("C").next_to(c_c, UP, buff=0.1)
-        )
-
-        # --- 2. FIRST OPERATION: (A U B) ∩ C ---
-        title1 = MathTex("(A \\cup B) \\cap C").to_edge(UP)
-        
-        # Logic: Combine A and B, then find where that union overlaps with C
-        union_ab = Union(c_a, c_b)
-        shaded1 = Intersection(union_ab, c_c, fill_opacity=0.6, fill_color=YELLOW, stroke_width=0)
-
-        self.play(Write(title1), Create(circles), Write(labels))
-        self.play(FadeIn(shaded1))
+        # Arrange vertically with a small gap (buff)
+        main_vgroup = VGroup(*groups).arrange(DOWN, buff=0.5).next_to(underline, DOWN, buff=.4).shift(LEFT*5)
+        self.play(Create(main_vgroup), run_time=2)
         self.wait(2)
-        
-        # Transition to next diagram
-        self.play(FadeOut(shaded1), FadeOut(title1))
 
-        # --- 3. SECOND OPERATION: A U (B ∩ C) ---
-        title2 = MathTex("A \\cup (B \\cap C)").to_edge(UP)
-        
-        # Logic: Find the overlap of B and C, then combine that whole area with all of A
-        inter_bc = Intersection(c_b, c_c)
-        shaded2 = Union(c_a, inter_bc, fill_opacity=0.6, fill_color=PINK, stroke_width=0)
+        circle_radius = 1.2
+        overlap_dist = 0.8  # Distance from center to center
+        fill_opt = {"fill_opacity": 0.5, "color": GRAY_B}
+        stroke_opt = {"stroke_width": 2, "color": WHITE}
 
-        self.play(Write(title2))
-        self.play(FadeIn(shaded2))
-        self.wait(3)
-        self.wait(3)
+        def get_venn_base():
+            """Returns two circles A and B positioned for overlap."""
+            c_a = Circle(radius=circle_radius, **stroke_opt).shift(LEFT * overlap_dist / 2)
+            c_b = Circle(radius=circle_radius, **stroke_opt).shift(RIGHT * overlap_dist / 2)
+            # Labels for the circles
+            label_a = MathTex("A").next_to(c_a, (LEFT)*.1, buff=0.05).scale(.5)
+            label_b = MathTex("B").next_to(c_b, (RIGHT)*.1, buff=0.05).scale(.5)
+            return c_a, c_b, label_a, label_b
+        def get_venn_diff():
+            """Returns two circles A and B positioned for overlap."""
+            c_a = Circle(radius=circle_radius, **stroke_opt).shift(LEFT * 1.3 / 2)
+            c_b = Circle(radius=circle_radius, **stroke_opt).shift(RIGHT * 1.3 / 2)
+            # Labels for the circles
+            label_a = MathTex("A").next_to(c_a, (LEFT)*.1, buff=0.05).scale(.5)
+            label_b = MathTex("B").next_to(c_b, (RIGHT)*.1, buff=0.05).scale(.5)
+            return c_a, c_b, label_a, label_b
+    
+
+        # --- 1. Union Diagram (A ∪ B) ---
+        c1a, c1b, l1a, l1b = get_venn_base()
+        union_fill = Union(c1a, c1b, **{"fill_opacity": 0.5, "color": GREEN})
+        label_union = MathTex("A \\cup B").move_to(union_fill).scale(.7)
+        diag_a = VGroup(union_fill, c1a, c1b, l1a, l1b, label_union)
+
+        # --- 2. Intersection Diagram (A ∩ B) ---
+        c2a, c2b, l2a, l2b = get_venn_base()
+        inter_fill = Intersection(c2a, c2b, **{"fill_opacity": 0.5, "color": GREEN})
+        label_inter = MathTex("A \\cap B").move_to(inter_fill).scale(.7)
+        diag_b = VGroup(c2a, c2b, inter_fill, l2a, l2b, label_inter)
+
+        # --- 3. Difference Diagram (A - B) ---
+        c3a, c3b, l3a, l3b = get_venn_diff()
+        diff_fill = Difference(c3a, c3b, **{"fill_opacity": 0.5, "color": YELLOW})
+        # Position label in the center of the remaining crescent
+        label_diff = MathTex("A - B").move_to(c3a.get_center() + LEFT * 0.5).scale(.7)
+        diag_c = VGroup(c3a, c3b, diff_fill, l3a, l3b, label_diff)
+
+        # --- Final Layout ---
+        # Put all diagrams in a VGroup and arrange them horizontally
+        all_diagrams = VGroup(diag_a, diag_b, diag_c).arrange(RIGHT, buff=.5).next_to(underline, DOWN, buff=.4).scale(.5)
+        
+
+        self.add(all_diagrams)
+
+        self.wait(2)
+
+        c_rad = 1.0
+        overlap = 0.6
+        fill_opt = {"fill_opacity": 0.5, "color": PURPLE}
+        stroke_opt = {"stroke_width": 2, "color": WHITE}
+
+        # --- Helper for 3-circle Base ---
+        def get_3venn_base():
+            # Arrange circles in a triangle
+            c_a = Circle(radius=c_rad, **stroke_opt).shift(LEFT * 0.6 + DOWN * 0.4)
+            c_b = Circle(radius=c_rad, **stroke_opt).shift(RIGHT * 0.6 + DOWN * 0.4)
+            c_c = Circle(radius=c_rad, **stroke_opt).shift(UP * 0.6)
+            l_a = MathTex("A").next_to(c_a, LEFT, buff=0.1).scale(.5)
+            l_b = MathTex("B").next_to(c_b, RIGHT, buff=0.1).scale(.5)
+            l_c = MathTex("C").next_to(c_c, UP, buff=0.1).scale(.5)
+            return c_a, c_b, c_c, l_a, l_b, l_c
+
+        # --- ROW 2: 3-Circle Diagrams ---
+        # 3-Way Union
+        c4a, c4b, c4c, l4a, l4b, l4c = get_3venn_base()
+        u3 = Union(c4a, c4b, c4c, **fill_opt)
+        row2_1 = VGroup(u3, c4a, c4b, c4c, l4a, l4b, l4c, MathTex("A \\cup B \\cup C").next_to(u3, DOWN*.5, buff=0.5).scale(.7))
+
+        # 3-Way Intersection
+        c5a, c5b, c5c, l5a, l5b, l5c = get_3venn_base()
+        i3 = Intersection(c5a, c5b, c5c, **fill_opt)
+        row2_2 = VGroup(i3, c5a, c5b, c5c, l5a, l5b, l5c, MathTex("A \\cap B \\cap C").next_to(i3, DOWN*2.3, buff=0.5).scale(.7))
+
+        row2 = VGroup(row2_1, row2_2).arrange(RIGHT, buff=.5).next_to(all_diagrams, DOWN*.25, buff=.2).shift(UP).scale(.5)
+
+        # --- Final Layout ---
+    
+        self.add(row2)
+        self.wait(2)
+
+        # 1. Create the Universal Set (Rectangle)
+        universal_set = Rectangle(width=4.0, height=3.0, color=WHITE)
+        u_label = MathTex("U").next_to(universal_set, UL, buff=0.1).scale(.5)
+
+        # 2. Create Circle A
+        circle_a = Circle(radius=0.8, color=WHITE).shift(LEFT * 0.2)
+        label_a = MathTex("C").move_to(circle_a.get_center()).scale(.5)
+
+        # 3. Create the shaded "Complement" area
+        # We subtract the circle's area from the rectangle's area
+        complement_fill = Difference(universal_set, circle_a, fill_opacity=0.4, color=PINK)
+
+        # 4. Group and Label
+        caption = MathTex(r"\overline{C}").next_to(universal_set, DOWN, buff=0.3).shift(UR).scale(.7)
+        diagram = VGroup(complement_fill, universal_set, circle_a, u_label, label_a, caption).next_to(row2, DOWN,buff=.2).shift(UP*.75).scale(.5)
+
+        # 5. Display
+        self.play(DrawBorderThenFill(diagram))
+        self.wait(4)
+
 # manim -qk -p set.py VennDiagram
 
 class Indexes(ThreeDScene):
     def construct(self):
-        # 1. Setup Axes
-        axes = ThreeDAxes(
-            x_range=[-4, 4, 1], y_range=[-4, 4, 1], z_range=[-3, 3, 1],
-            x_length=5, y_length=5, z_length=4,
-            axis_config={"include_tip": True}
-        )
-        labels = axes.get_axis_labels(x_label="x", y_label="y", z_label="z")
 
-        # --- LEFT IMAGE: SINGLE VERTICAL PLANE ---
-        # Horizontal Plane (xy-plane)
-        xy_plane = Rectangle(width=6, height=6, stroke_width=1, stroke_color=WHITE)
-        xy_plane.set_fill(WHITE, opacity=0.1)
+        background, bg_text = layout()
+        self.add_fixed_in_frame_mobjects(background)  
+        self.add_fixed_in_frame_mobjects(bg_text)   
+        # Title
+        title = Text("ዝርዝር ስብስባት/ Indexed Sets", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
+        underline.next_to(title, DOWN, buff=0.2)
 
-        # Vertical Plane (angled)
-        # We create a rectangle and rotate it to stand vertically
-        v_plane = Rectangle(width=6, height=4, stroke_width=2, stroke_color=LIGHT_PINK)
-        v_plane.set_fill(LIGHT_PINK, opacity=0.6)
-        v_plane.rotate(90*DEGREES, axis=RIGHT) # Make it vertical
-        v_plane.rotate(45*DEGREES, axis=OUT)   # Angle it across the xy-plane
+        self.add_fixed_in_frame_mobjects(title)
+        self.add_fixed_in_frame_mobjects(underline)
+        # # 1. Setup Axes
+        # axes = ThreeDAxes(
+        #     x_range=[-4, 4, 1], y_range=[-4, 4, 1], z_range=[-3, 3, 1],
+        #     x_length=5, y_length=5, z_length=4,
+        #     axis_config={"include_tip": True}
+        # )
+        # labels = axes.get_axis_labels(x_label="x", y_label="y", z_label="z")
 
-        # Points and Labels
-        point_coord = axes.c2p(-2, 1, 0)
-        dot = Dot3D(point=point_coord, color=RED)
-        dot_label = MathTex("(-2, 1, 0)", font_size=24).next_to(dot, DOWN+LEFT, buff=0.1)
-        plane_label = MathTex("P_{(1,2)}", font_size=30).move_to(axes.c2p(-1.5, 1, 2))
+        # # --- LEFT IMAGE: SINGLE VERTICAL PLANE ---
+        # # Horizontal Plane (xy-plane)
+        # xy_plane = Rectangle(width=6, height=6, stroke_width=1, stroke_color=WHITE)
+        # xy_plane.set_fill(WHITE, opacity=0.1)
 
-        left_group = VGroup(xy_plane, v_plane, axes, labels, dot, dot_label, plane_label).scale(.5)
-        left_group.shift(LEFT * 3.5)
+        # # Vertical Plane (angled)
+        # # We create a rectangle and rotate it to stand vertically
+        # v_plane = Rectangle(width=6, height=4, stroke_width=2, stroke_color=LIGHT_PINK)
+        # v_plane.set_fill(LIGHT_PINK, opacity=0.6)
+        # v_plane.rotate(90*DEGREES, axis=RIGHT) # Make it vertical
+        # v_plane.rotate(45*DEGREES, axis=OUT)   # Angle it across the xy-plane
 
-        # --- RIGHT IMAGE: PENCIL OF PLANES ---
-        axes2 = axes.copy().shift(RIGHT * 3.5)
+        # # Points and Labels
+        # point_coord = axes.c2p(-2, 1, 0)
+        # dot = Dot3D(point=point_coord, color=RED)
+        # dot_label = MathTex("(-2, 1, 0)", font_size=24).next_to(dot, DOWN+LEFT, buff=0.1)
+        # plane_label = MathTex("P_{(1,2)}", font_size=30).move_to(axes.c2p(-1.5, 1, 2))
+
+        # left_group = VGroup(xy_plane, v_plane, axes, labels, dot, dot_label, plane_label).scale(.5)
+        # left_group.shift(LEFT * 3.5)
+
+        # # --- RIGHT IMAGE: PENCIL OF PLANES ---
+        # axes2 = axes.copy().shift(RIGHT * 3.5)
         
-        # Horizontal base
-        horiz_base = xy_plane.copy().move_to(axes2.get_center())
+        # # Horizontal base
+        # horiz_base = xy_plane.copy().move_to(axes2.get_center())
         
-        # Create multiple vertical planes rotated around the Z-axis
-        pencil = VGroup()
-        colors = [YELLOW, PINK, LIGHT_BROWN, WHITE]
-        for i in range(4):
-            p = Rectangle(width=5, height=4, stroke_width=1, stroke_color=WHITE)
-            p.set_fill(colors[i % len(colors)], opacity=0.4)
-            p.rotate(90*DEGREES, axis=RIGHT) # Vertical
-            p.rotate(i * 45 * DEGREES, axis=OUT) # Rotate around Z
-            pencil.add(p)
+        # # Create multiple vertical planes rotated around the Z-axis
+        # pencil = VGroup()
+        # colors = [YELLOW, PINK, LIGHT_BROWN, WHITE]
+        # for i in range(4):
+        #     p = Rectangle(width=5, height=4, stroke_width=1, stroke_color=WHITE)
+        #     p.set_fill(colors[i % len(colors)], opacity=0.4)
+        #     p.rotate(90*DEGREES, axis=RIGHT) # Vertical
+        #     p.rotate(i * 45 * DEGREES, axis=OUT) # Rotate around Z
+        #     pencil.add(p)
         
-        right_group = VGroup(horiz_base, pencil, axes2).shift(RIGHT * 3.5).scale(.5)
+        # right_group = VGroup(horiz_base, pencil, axes2).shift(RIGHT * 3.5).scale(.5)
 
-        # --- ANIMATION ---
-        self.set_camera_orientation(phi=75 * DEGREES, theta=-45 * DEGREES)
+        # # --- ANIMATION ---
+        # self.set_camera_orientation(phi=75 * DEGREES, theta=-45 * DEGREES)
         
-        # Show Left Diagram
-        # self.play(Create(axes), FadeIn(xy_plane))
-        # self.play(FadeIn(v_plane), Create(dot), Write(dot_label), Write(plane_label))
+        # self.add_fixed_in_frame_mobjects(left_group, right_group)
         # self.wait(1)
-        self.add(left_group, right_group)
-        self.wait(1)
 
-        # Show Right Diagram
-        # self.play(FadeIn(right_group))
-        # self.begin_ambient_camera_rotation(rate=0.1, about="theta") # Slowly rotate to show 3D depth
-        # self.move_camera(
-        #     theta=-45 * DEGREES + 2 * PI, 
-        #     run_time=8, 
+        # tilted_axis = [1, 1, 1] 
+        # self.play(
+        #     Rotate(left_group, angle=2*PI, axis=tilted_axis,  about_point=left_group.get_center()),
+        #     Rotate(right_group, angle=2*PI, axis=tilted_axis, about_point=right_group.get_center()),
+        #     run_time=6,
         #     rate_func=linear
         # )
-        tilted_axis = [1, 1, 1] 
-        self.play(
-            Rotate(left_group, angle=2*PI, axis=tilted_axis,  about_point=left_group.get_center()),
-            Rotate(right_group, angle=2*PI, axis=tilted_axis, about_point=right_group.get_center()),
-            run_time=6,
-            rate_func=linear
-        )
-        self.wait(4)
-        _union_general = MathTex(
-            r"A_1 \cup A_2 \cup A_3 \cup \cdots \cup A_n = \{x : x \in A_i \text{ for at least one set } A_i, \text{ for } 1 \leq i \leq n\},"
-        )
+        # self.wait(2)
+
+        # self.play(FadeOut(left_group), FadeOut(right_group))
+        # self.wait(2)
+
+        # Configuration for the plots
+        a_values = [0.6, 0.75, 1.0, np.sqrt(2)]
+        labels = ["a", "\\frac{3}{4}", "1", "\\sqrt{2}"]
+        
+        all_plots = VGroup()
+
+        for a, label_tex in zip(a_values, labels):
+            # 1. Create Axes
+            ax = Axes(
+                x_range=[0, 2.5, 1],
+                y_range=[0, 2.5, 1],
+                x_length=3,
+                y_length=3,
+                axis_config={"include_tip": True, "stroke_width": 2},
+                tips=False
+            )
+            
+            # 2. Diagonal dotted line (y=x) and boundary at x=2
+            diag_line = DashedLine(ax.c2p(0, 0), ax.c2p(2, 2), dash_length=0.05)
+            right_boundary = DashedLine(ax.c2p(2, 0), ax.c2p(2, 2), dash_length=0.05)
+
+            # 3. Shaded Area A_a (Rectangle from x=a to x=2, height a)
+            shaded_rect = Rectangle(
+                width=ax.x_axis.unit_size * (2 - a),
+                height=ax.y_axis.unit_size * a,
+                stroke_width=0,
+                fill_color=PINK,
+                fill_opacity=0.2
+            )
+            # Position the rectangle (bottom-left corner at x=a, y=0)
+            shaded_rect.move_to(ax.c2p(a + (2-a)/2, a/2))
+
+            # 4. Text Label inside the area
+            area_label = MathTex(f"A_{{{label_tex}}}")
+            area_label.move_to(shaded_rect.get_center())
+
+            # 5. Dotted guide lines for the 'a' value on axes
+            h_line = DashedLine(ax.c2p(0, a), ax.c2p(a, a), color=GRAY_A, stroke_width=1)
+            # Axis labels for 'a'
+            a_y_label = MathTex(label_tex, font_size=24).next_to(ax.c2p(0, a), LEFT, buff=0.1)
+            a_x_label = MathTex(label_tex, font_size=24).next_to(ax.c2p(a, 0), DOWN, buff=0.1)
+            
+            # Standard numeric labels (1 and 2)
+            num_labels = VGroup(
+                MathTex("1", font_size=24).next_to(ax.c2p(1, 0), DOWN, buff=0.1).scale(.5),
+                MathTex("2", font_size=24).next_to(ax.c2p(2, 0), DOWN, buff=0.1).scale(.5),
+                MathTex("1", font_size=24).next_to(ax.c2p(0, 1), LEFT, buff=0.1).scale(.5),
+                MathTex("2", font_size=24).next_to(ax.c2p(0, 2), LEFT, buff=0.1).scale(.5),
+            )
+
+            # Grouping everything for one plot
+            plot_group = VGroup(
+                ax, diag_line, right_boundary, shaded_rect, 
+                area_label, h_line, a_y_label, a_x_label, num_labels
+            )
+            all_plots.add(plot_group)
+
+        # Arrange all 4 plots horizontally
+        all_plots.arrange(RIGHT, buff=0.5).scale_to_fit_width(config.frame_width - 1).next_to(underline, DOWN, buff=.2).scale(.7)
+        
+        self.add_fixed_in_frame_mobjects(all_plots)
+        self.wait(2)
+        _union_general_1 = MathTex(r"A_1 \cup A_2 \cup A_3 \cup \cdots \cup A_n = \{x : x \in A_i")
+        
+        _union_general_2 =Text(" እንተናኣሰ ንሓደ ስብስብስ ", weight=LIGHT, color=WHITE, font="Nyala") 
+        _union_general_3 = MathTex(r"A_i, \text{ for } 1 \leq i \leq n\}," )
+        _union_general = VGroup(_union_general_1, _union_general_2, _union_general_3).arrange(RIGHT).scale(.5)
         _intersection_general = MathTex(
             r"A_1 \cap A_2 \cap A_3 \cap \cdots \cap A_n = \{x : x \in A_i \text{ for every set } A_i, \text{ for } 1 \leq i \leq n\},"
         )  
         _summation_notation = MathTex(
-    r"\sum_{i=1}^{n} a_i = a_1 + a_2 + a_3 + \cdots + a_n."
-)
+            r"\sum_{i=1}^{n} a_i = a_1 + a_2 + a_3 + \cdots + a_n."
+        )
         _infinite_sum = MathTex(
-    r"\sum_{i=1}^{\infty} a_i = a_1 + a_2 + a_3 + \cdots + a_i + \cdots"
-)
+            r"\sum_{i=1}^{\infty} a_i = a_1 + a_2 + a_3 + \cdots + a_i + \cdots"
+        )
         _indexed_notations = MathTex(
-    r"\bigcup_{i=1}^{n} A_i = A_1 \cup A_2 \cup A_3 \cup \cdots \cup A_n",
-    r"\text{ and }",
-    r"\bigcap_{i=1}^{n} A_i = A_1 \cap A_2 \cap A_3 \cap \cdots \cap A_n"
-)
+            r"\bigcup_{i=1}^{n} A_i = A_1 \cup A_2 \cup A_3 \cup \cdots \cup A_n",
+            r"\text{ and }",
+            r"\bigcap_{i=1}^{n} A_i = A_1 \cap A_2 \cap A_3 \cap \cdots \cap A_n"
+        )
         
         # 1. Row 1: Infinite Union
-        row1 = MathTex(
-            r"\bigcup_{i=1}^{\infty} A_i = A_1 \cup A_2 \cup A_3 \cup \cdots = \{x : x \in A_i \text{ for at least one set } A_i \text{ with } 1 \leq i \}.",
-            font_size=28
-        )
+        # row1 = MathTex(
+        #     r"\bigcup_{i=1}^{\infty} A_i = A_1 \cup A_2 \cup A_3 \cup \cdots = \{x : x \in A_i \text{ for at least one set } A_i \text{ with } 1 \leq i \}.",
+        #     font_size=28
+        # )
+        _union_infinity_1 = MathTex(r"\bigcup_{i=1}^{\infty} A_i = A_1 \cup A_2 \cup A_3 \cup \cdots = \{x : x \in A_i")        
+        _union_infinity_2 = MarkupText(" እንተናኣሰ ንሓደ ስብስብስ ", font_size=30, color=WHITE, font="Nyala") 
+        _union_infinity_3 = MathTex(r"A_i,")
+        _union_infinity_4 = MarkupText(" ምስ ", font_size=30, color=WHITE, font="Nyala") 
+        _union_infinity_5 = MathTex(r" 1 \leq i \leq n\}," )
+        _union_infinity = VGroup(_union_infinity_1, _union_infinity_2, _union_infinity_3,_union_infinity_4,_union_infinity_5 ).arrange(RIGHT).scale(.5)
 
         # 2. Row 2: Infinite Intersection
-        row2 = MathTex(
-            r"\bigcap_{i=1}^{\infty} A_i = A_1 \cap A_2 \cap A_3 \cap \cdots = \{x : x \in A_i \text{ for every set } A_i \text{ with } 1 \leq i \}.",
-            font_size=28
-        )
+        # row2 = MathTex(
+        #     r"\bigcap_{i=1}^{\infty} A_i = A_1 \cap A_2 \cap A_3 \cap \cdots = \{x : x \in A_i \text{ for every set } A_i \text{ with } 1 \leq i \}.",
+        #     font_size=28
+        # )
+
+        _intersect_infinity_1 = MathTex(r"\bigcap_{i=1}^{\infty} A_i = A_1 \cap A_2 \cap A_3 \cap \cdots = \{x : x \in A_i")        
+        _intersect_infinity_2 = MarkupText(" ንሕድ ሕድ ስብስብስ ", font_size=30, color=WHITE, font="Nyala") 
+        _intersect_infinity_3 = MathTex(r"A_i,")
+        _intersect_infinity_4 = MarkupText(" ምስ ", font_size=30, color=WHITE, font="Nyala") 
+        _intersect_infinity_5 = MathTex(r" 1 \leq i \leq n\}," )
+        _intersect_infinity = VGroup(_intersect_infinity_1, _intersect_infinity_2, _intersect_infinity_3,_intersect_infinity_4,_intersect_infinity_5 ).arrange(RIGHT).scale(.5)
+
 
         # 3. Create the Vertical Group and Align
-        definitions = VGroup(row1, row2).arrange(DOWN, aligned_edge=LEFT, buff=0.5)
+        definitions = VGroup(_union_infinity, _intersect_infinity).arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(all_plots, DOWN, buff=.2).scale(.7)
         
         # 4. Create the surrounding box (just like the image)
         box = SurroundingRectangle(definitions, color=WHITE, buff=0.4, stroke_width=1)
         
         # Combine into one master group
-        full_display = VGroup(definitions, box).move_to(ORIGIN)
+        
 
         # --- ANIMATION ---
-        self.play(Write(row1), run_time=2)
-        self.play(Write(row2), run_time=2)
+        self.play(Write(_union_infinity), run_time=2)
+        self.play(Write(_intersect_infinity), run_time=2)
         self.play(Create(box))
         self.wait(3)
 # manim -ql -p set.py Indexes
