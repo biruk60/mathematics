@@ -1076,7 +1076,6 @@ class SetUNDC(Scene):
             stroke_width=4
         )
 
-
         d_ab_vgroup= VGroup(axes_one, parabola, holea1, holea2, label1)
         d_ba_vgroup = VGroup(axes_two,line, holeb1, holeb2, label2)
         group_one = VGroup(d_ab_vgroup, d_ba_vgroup).arrange(RIGHT, buff=.5)
@@ -1099,16 +1098,10 @@ class SetUNDC(Scene):
         self.play(ShrinkToCenter(g_group))
         self.wait(2)
 
-
         _complement_notation = MathTex(r"\overline{A} = U - A.")
 
 
-
-
 # manim -ql -p  set.py SetDifference
-
-
-
 
 class VennDiagram(Scene):
     def construct(self):
@@ -1250,7 +1243,7 @@ class VennDiagram(Scene):
 
 # manim -qk -p set.py VennDiagram
 
-class Indexes(ThreeDScene):
+class OldIndexes(ThreeDScene):
     def construct(self):
 
         background, bg_text = layout()
@@ -1390,26 +1383,103 @@ class Indexes(ThreeDScene):
         
         self.add_fixed_in_frame_mobjects(all_plots)
         self.wait(2)
-        _union_general_1 = MathTex(r"A_1 \cup A_2 \cup A_3 \cup \cdots \cup A_n = \{x : x \in A_i")
         
-        _union_general_2 =Text(" እንተናኣሰ ንሓደ ስብስብስ ", weight=LIGHT, color=WHITE, font="Nyala") 
-        _union_general_3 = MathTex(r"A_i, \text{ for } 1 \leq i \leq n\}," )
-        _union_general = VGroup(_union_general_1, _union_general_2, _union_general_3).arrange(RIGHT).scale(.5)
-        _intersection_general = MathTex(
-            r"A_1 \cap A_2 \cap A_3 \cap \cdots \cap A_n = \{x : x \in A_i \text{ for every set } A_i, \text{ for } 1 \leq i \leq n\},"
-        )  
+
+class Indexes(Scene):
+    def construct(self):
+        background, bg_text = layout()
+        self.add(background)  
+        self.add(bg_text)   
+        # Title
+        title = Text("ዝርዝር ስብስባት/ Indexed Sets", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
+        underline.next_to(title, DOWN, buff=0.2)
+
+        self.add(title)
+        self.add(underline)
+        _union_general_1 = MathTex(r"A_1 \cup A_2 \cup A_3 \cup \cdots \cup A_n = \{x : x \in A_i")        
+        _union_general_2 =Text(" እንተናኣሰ ንሓደ ስብስብስ ", weight=LIGHT, color=WHITE, font="Nyala")
+        _union_general_3 = MathTex(r"A_i,")
+        _union_general_4 = MarkupText(" ን ", font_size=30, color=WHITE, font="Nyala") 
+        _union_general_5 = MathTex(r" 1 \leq i \leq n \}," )
+        
+        _union_general = VGroup(_union_general_1, _union_general_2, 
+                                _union_general_3,_union_general_4,
+                                _union_general_5).arrange(RIGHT).scale(.7)
+        
+        # _intersection_general = MathTex(
+        #     r"A_1 \cap A_2 \cap A_3 \cap \cdots \cap A_n = \{x : x \in A_i \text{ for every set } A_i, \text{ for } 1 \leq i \leq n\},"
+        # ) 
+        _intersection_general_1 = MathTex(r"A_1 \cap A_2 \cap A_3 \cap \cdots \cap A_n = \{x : x \in A_i")        
+        _intersection_general_2 =Text(" እንተናኣሰ ንሓደ ስብስብስ ", weight=LIGHT, color=WHITE, font="Nyala")
+        _intersection_general_3 = MathTex(r"A_i,")
+        _intersection_general_4 = MarkupText(" ን ", font_size=30, color=WHITE, font="Nyala") 
+        _intersection_general_5 = MathTex(r" 1 \leq i \leq n \}," )
+        
+        _intersection_general = VGroup(_intersection_general_1, _intersection_general_2, 
+                                    _intersection_general_3,_intersection_general_4,
+                                    _intersection_general_5).arrange(RIGHT).scale(.7) 
+        
+        _defintions_general_title= MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
+        _defintion_general_1_1 = MathTex(r"A_1, A_2, A_3, \cdots, A_n.")
+        _defintion_general_1_2 = MarkupText(" ስብስባት እዮም ንበል። ድሓር፣ ",font_size=30, color=WHITE, font="Nyala")
+        _defintion_general_1 = VGroup(_defintion_general_1_1,_defintion_general_1_2).arrange(RIGHT) 
+        _definitions_general = VGroup(_defintions_general_title,_defintion_general_1,_union_general, _intersection_general).arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(underline, DOWN, buff=.2).scale(.7)
+        
+        
+        _box_general = SurroundingRectangle(_definitions_general,  color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)        
+        
+        self.play(FadeIn(_defintions_general_title), FadeIn(_defintion_general_1),
+                FadeIn(_union_general),FadeIn(_intersection_general),FadeIn(_box_general))        
+        self.wait(2)
+        self.play(FadeOut(_box_general), FadeOut(_definitions_general))
+        self.wait(2)
+    
         _summation_notation = MathTex(
             r"\sum_{i=1}^{n} a_i = a_1 + a_2 + a_3 + \cdots + a_n."
-        )
+        ).next_to(underline, DOWN, buff=.2).scale(.7)
+        self.play(Write(_summation_notation), run_time=1)
+        self.wait()
+        self.play(FadeOut(_summation_notation), run_time=1)
+        self.wait()
+
         _infinite_sum = MathTex(
             r"\sum_{i=1}^{\infty} a_i = a_1 + a_2 + a_3 + \cdots + a_i + \cdots"
-        )
+        ).next_to(underline, DOWN, buff=.2).scale(.7)
+        self.play(Write(_infinite_sum), run_time=1)
+        self.wait()
+        self.play(FadeOut(_infinite_sum), run_time=1)
+        self.wait()
         _indexed_notations = MathTex(
-            r"\bigcup_{i=1}^{n} A_i = A_1 \cup A_2 \cup A_3 \cup \cdots \cup A_n",
-            r"\text{ and }",
-            r"\bigcap_{i=1}^{n} A_i = A_1 \cap A_2 \cap A_3 \cap \cdots \cap A_n"
-        )
-        
+            r"\bigcup_{i=1}^{n} A_i = A_1 \cup A_2 \cup A_3 \cup \cdots \cup A_n",            
+            r"  \bigcap_{i=1}^{n} A_i = A_1 \cap A_2 \cap A_3 \cap \cdots \cap A_n"
+        ).next_to(underline, DOWN, buff=.2).scale(.7)
+        self.play(Write(_indexed_notations[0]), run_time=1)
+        self.wait()
+        self.play(Write(_indexed_notations[1]), run_time=1)
+        self.wait()
+        self.play(FadeOut(_indexed_notations[0]),FadeOut(_indexed_notations[1]), run_time=1)
+        self.wait()
+    
+        _set_A_1 = MathTex(r"A_1 = \{0,2,5\}")
+        _set_A_2 = MathTex(r"A_2 = \{1,2,5\}")
+        _set_A_3 = MathTex(r"A_3 = \{2,5,7\}")
+
+        _union_set_As = MathTex(r"\bigcup_{i=1}^{3} A_i = A_1 \cup A_2 \cup A_3 = \{0,1,2,5,7\}")
+        _intersection_set_As = MathTex(r"\bigcap_{i=1}^{3} A_i = A_1 \cap A_2 \cap A_3 = \{2,5\}")
+        _v_set_As = VGroup(_set_A_1, _set_A_2, _set_A_3, _union_set_As, _intersection_set_As).arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(underline, DOWN, buff=.2).scale(.7)
+        self.play(FadeIn(_set_A_1), run_time=1)
+        self.wait()
+        self.play(FadeIn(_set_A_2), run_time=1)
+        self.wait()
+        self.play(FadeIn(_set_A_3), run_time=1)
+        self.wait()
+        self.play(FadeIn(_union_set_As), run_time=1)
+        self.wait()
+        self.play(FadeIn(_intersection_set_As), run_time=1)
+        self.wait()
+        self.play(ShrinkToCenter(_v_set_As), run_time=1)
+        self.wait()
         # 1. Row 1: Infinite Union
         # row1 = MathTex(
         #     r"\bigcup_{i=1}^{\infty} A_i = A_1 \cup A_2 \cup A_3 \cup \cdots = \{x : x \in A_i \text{ for at least one set } A_i \text{ with } 1 \leq i \}.",
@@ -1419,8 +1489,8 @@ class Indexes(ThreeDScene):
         _union_infinity_2 = MarkupText(" እንተናኣሰ ንሓደ ስብስብስ ", font_size=30, color=WHITE, font="Nyala") 
         _union_infinity_3 = MathTex(r"A_i,")
         _union_infinity_4 = MarkupText(" ምስ ", font_size=30, color=WHITE, font="Nyala") 
-        _union_infinity_5 = MathTex(r" 1 \leq i \leq n\}," )
-        _union_infinity = VGroup(_union_infinity_1, _union_infinity_2, _union_infinity_3,_union_infinity_4,_union_infinity_5 ).arrange(RIGHT).scale(.5)
+        _union_infinity_5 = MathTex(r" 1 \leq i\}," )
+        _union_infinity = VGroup(_union_infinity_1, _union_infinity_2, _union_infinity_3,_union_infinity_4,_union_infinity_5 ).arrange(RIGHT).scale(.7)
 
         # 2. Row 2: Infinite Intersection
         # row2 = MathTex(
@@ -1432,40 +1502,170 @@ class Indexes(ThreeDScene):
         _intersect_infinity_2 = MarkupText(" ንሕድ ሕድ ስብስብስ ", font_size=30, color=WHITE, font="Nyala") 
         _intersect_infinity_3 = MathTex(r"A_i,")
         _intersect_infinity_4 = MarkupText(" ምስ ", font_size=30, color=WHITE, font="Nyala") 
-        _intersect_infinity_5 = MathTex(r" 1 \leq i \leq n\}," )
-        _intersect_infinity = VGroup(_intersect_infinity_1, _intersect_infinity_2, _intersect_infinity_3,_intersect_infinity_4,_intersect_infinity_5 ).arrange(RIGHT).scale(.5)
+        _intersect_infinity_5 = MathTex(r" 1 \leq i \}," )
+        _intersect_infinity = VGroup(_intersect_infinity_1, _intersect_infinity_2, _intersect_infinity_3,_intersect_infinity_4,_intersect_infinity_5 ).arrange(RIGHT).scale(.7)
 
 
         # 3. Create the Vertical Group and Align
-        definitions = VGroup(_union_infinity, _intersect_infinity).arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(all_plots, DOWN, buff=.2).scale(.7)
+        _definitions_infinity = VGroup(_union_infinity, _intersect_infinity).arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(underline, DOWN, buff=.2).scale(.7)
         
         # 4. Create the surrounding box (just like the image)
-        box = SurroundingRectangle(definitions, color=WHITE, buff=0.4, stroke_width=1)
+        # _box_infinity = SurroundingRectangle(_definitions_infinity, color=WHITE, buff=0.4, stroke_width=1)
         
-        # Combine into one master group
-        
-
-        # --- ANIMATION ---
         self.play(Write(_union_infinity), run_time=2)
         self.play(Write(_intersect_infinity), run_time=2)
-        self.play(Create(box))
+        # self.play(Create(_box_infinity))
+        self.wait(2)
+        self.play(FadeOut(_definitions_infinity))
+        self.wait(2)
+        formula = MathTex(r"I = [0,2] = \{x \in \mathbb{R} : 0 \le x \le 2\}")
+    
+        alpha_tracker = ValueTracker(0)
+        a_values = [0, 0.5, 0.75, 1.0, 1.25, np.sqrt(2), 2]
+
+        def get_alpha_tex():
+            val = alpha_tracker.get_value()
+            # Check if it's very close to sqrt(2)
+            if np.isclose(val, np.sqrt(2)):
+                return r"\sqrt{2}"
+            # Otherwise, return the number rounded (0, 0.5, 1, etc.)
+            return str(round(val, 2))
+        # expression = MathTex(
+        #     r"A_{\alpha} = [\alpha, 2] \times [0, \alpha]"
+        # ).next_to(ax, RIGHT, buff=0.5).shift(UP)
+        expression = always_redraw(lambda:
+            MathTex(
+                fr"A_{{{get_alpha_tex()}}} = [{get_alpha_tex()}, 2] \times [0, {get_alpha_tex()}]",
+                font_size=24
+            ).next_to(underline, DOWN, buff=0.5).shift(LEFT *3)
+        )
+        # 1. Create Axes        
+        ax_d = Axes(
+                x_range=[-1, 2.5, 1],
+                y_range=[-1, 2.5, 1],
+                x_length=4,
+                y_length=4,
+                axis_config={"include_tip": True, "stroke_width": 1, "tip_length": 0.15, "tip_width": 0.15},
+                tips=False
+            ).next_to(expression, DOWN, buff=.2)
+        
+        
+            # 2. Diagonal dotted line (y=x) and boundary at x=2
+        diag_line = DashedLine(ax_d.c2p(0, 0), ax_d.c2p(2, 2), dash_length=0.05)
+        right_boundary = DashedLine(ax_d.c2p(2, 0), ax_d.c2p(2, 2), dash_length=0.05)
+
+            # 3. Shaded Area A_a (Rectangle from x=a to x=2, height a)
+        # shaded_rect = Rectangle(
+        #         width=ax.x_axis.unit_size * (2 - a),
+        #         height=ax.y_axis.unit_size * a,
+        #         stroke_width=0,
+        #         fill_color=PINK,
+        #         fill_opacity=0.2
+        #     )
+        #     # Position the rectangle (bottom-left corner at x=a, y=0)
+        # shaded_rect.move_to(ax.c2p(a + (2-a)/2, a/2))
+
+        shaded_rect = always_redraw(lambda: 
+            Rectangle(
+                width=ax_d.x_axis.unit_size * (2 - alpha_tracker.get_value()),
+                height=ax_d.y_axis.unit_size * alpha_tracker.get_value(),
+                stroke_width=0,
+                fill_color=ORANGE,
+                fill_opacity=0.3
+            ).move_to(
+                ax_d.c2p(
+                    alpha_tracker.get_value() + (2 - alpha_tracker.get_value()) / 2, 
+                    alpha_tracker.get_value() / 2
+                )
+            )
+        )
+
+        a_x_label = always_redraw(lambda: 
+            MathTex(r"\alpha", font_size=24)
+            .next_to(ax_d.c2p(alpha_tracker.get_value(), 0), DOWN, buff=0.1)
+        )
+        a_y_label = always_redraw(lambda: 
+            MathTex(r"\alpha", font_size=24)
+            .next_to(ax_d.c2p(0, alpha_tracker.get_value()), LEFT, buff=0.1)
+        )
+
+        h_line = always_redraw(lambda: 
+            DashedLine(
+                ax_d.c2p(0, alpha_tracker.get_value()), 
+                ax_d.c2p(alpha_tracker.get_value(), alpha_tracker.get_value()), 
+                color=GRAY_A, stroke_width=1
+            )
+        )
+        
+        # area_label = always_redraw(lambda:
+        #     MathTex(r"A_{\alpha}")
+        #     .move_to(shaded_rect.get_center())
+        # )
+
+        
+
+        area_label = always_redraw(lambda:
+            MathTex(
+                fr"A_{{{get_alpha_tex()}}}", 
+                font_size=24
+            ).move_to(shaded_rect.get_center())
+        )
+
+        # Add everything to scene
+        self.add(ax_d, diag_line, right_boundary, shaded_rect, 
+                a_x_label, a_y_label, h_line, area_label, expression)
+
+        # 5. Animate the change
+        a_values = [0, 0.5, 0.75, 1.0, 1.25, np.sqrt(2), 2]
+        
+        for val in a_values:
+            self.play(alpha_tracker.animate.set_value(val), run_time=1.5)
+            self.wait(0.5)
         self.wait(3)
+
+        ax = Axes(
+            x_range=[-1, 2.5, 1],
+            y_range=[-1, 2.5, 1],
+            x_length=4,
+            y_length=4,
+            axis_config={"include_tip": True, "stroke_width": 1,  "tip_length": 0.15, "tip_width": 0.15},
+            tips=False
+        ).next_to(ax_d, RIGHT*1.5, buff=.2)
+
+        # 2. Add numeric labels for 1 and 2
+        labels = VGroup(
+            MathTex("1", font_size=24).next_to(ax.c2p(1, 0), DOWN),
+            MathTex("2", font_size=24).next_to(ax.c2p(2, 0), DOWN),
+            MathTex("1", font_size=24).next_to(ax.c2p(0, 1), LEFT),
+            MathTex("2", font_size=24).next_to(ax.c2p(0, 2), LEFT),
+        )
+
+        # 3. Create the Shaded Triangle
+        # Vertices correspond to the bounds of the union region
+        union_triangle = Polygon(
+            ax.c2p(0, 0), 
+            ax.c2p(2, 0), 
+            ax.c2p(2, 2),
+            stroke_width=0,
+            fill_color=ORANGE,
+            fill_opacity=0.3
+        )
+
+        # 4. Create the Union Label
+        # Using \bigcup for the large union symbol
+        union_label = MathTex(r"\bigcup_{\alpha \in I} A_{\alpha}").scale(.5)
+        union_label.move_to(ax.c2p(1.2, 0.7)) # Positioned inside the triangle
+
+        # 5. Add to Scene
+        self.add(ax, labels, union_triangle, union_label)
+        self.wait()
+        intersection_formula = MathTex(
+            r"\bigcap_{\alpha \in I} A_{\alpha} = \{(2, 0)\}"
+        ).scale(.7).next_to(ax, DOWN, buff=.2)
+        self.play(FadeIn(intersection_formula))
+        self.wait(3)
+            
 # manim -ql -p set.py Indexes
 
-class Test(ThreeDScene):
-    def construct(self):
-        text = Text("Hello")
-        _text_two = Text("Salut").next_to(text, RIGHT*2, buff=.2)
-        self.play(Write(text))
-        # self.wait()
-        # self.play(Unwrite(text))
-        # self.wait()
-        # self.play(FadeIn(text))
-        self.wait(2)
-        _text_copy = text.copy()
-        self.play(FadeTransform(_text_copy, _text_two, stretch=True))
-        self.wait(3)
-
-# manim -ql -p set.py Test
 
 
