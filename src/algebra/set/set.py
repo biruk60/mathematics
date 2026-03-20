@@ -782,7 +782,7 @@ class Subset(Scene):
         self.wait(4)
         self.play(FadeOut( _powerset_definition),FadeOut( _powerset_defintion_box))
         self.wait(2)
-        _set_A = MathTex(r"A = \{, 1, 2, 3\}")
+        _set_A = MathTex(r"A = \{1, 2, 3\}")
         _powerset_set_A = MathTex(r"\mathcal{P}(A) = \{\}, \{1\}, \{2\}, \{3\}, \{1, 2\},  \{1, 3\}, \{2, 3\} , \{1, 2, 3\}")
         _power_set_cardinality = MathTex(r"|\mathcal{P}(A)| = 2^{|A|}")
         _powerset_group = VGroup(_set_A,_powerset_set_A, _power_set_cardinality
@@ -797,9 +797,9 @@ class Subset(Scene):
 
         self.wait(4)
 
-        _subset_notation = MathTex(r"A \subseteq B")
-        _not_subset = MathTex(r"A \not\subseteq B")
-        _power_set = MathTex(r"\mathcal{P}(A)")
+        # _subset_notation = MathTex(r"A \subseteq B")
+        # _not_subset = MathTex(r"A \not\subseteq B")
+        # _power_set = MathTex(r"\mathcal{P}(A)")
     
 
 # manim -ql -p  set.py Subset
@@ -812,7 +812,7 @@ class SetUNDC(Scene):
         self.add(background)  
         self.add(bg_text)   
         # Title
-        title = Text("Difference", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        title = Text("ሕብረት፣ መጋጠሚ፣ፍልልይ / Union, Intersection, Difference", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
         underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
         underline.next_to(title, DOWN, buff=0.2)
 
@@ -821,19 +821,19 @@ class SetUNDC(Scene):
         _undc_defintion_title= MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
         _undc_defintion_sets = MarkupText("U ዝባሃል ኣድማሳዊ ስብስብን A፣ B፣ ዝባሃሉ ተራ ስብስባትን ተልዮምና...",font_size=30, color=WHITE, font="Nyala")
         
-        _undc_defintion_union_1 = MathTex(r"A \cup B = \{x : x \in A \lor x \in B\}}", color=ORANGE)
+        _undc_defintion_union_1 = MathTex(r"A \cup B = \{x : x \in A \lor x \in B\}", color=ORANGE)
         _undc_defintion_union_2 = MarkupText("  ዝግለፀ ስብስብስ፣ ናይ ስብስብ Aን ስብስብ Bን ሕብረት እዩ።",font_size=30, color=WHITE, font="Nyala")
         _undc_defintion_union = VGroup(_undc_defintion_union_1, _undc_defintion_union_2).arrange(RIGHT)
 
-        _undc_defintion_intersection_1 = MathTex(r"A \cap B = \{x : x \in A \land x \in B\}}", color=ORANGE)
+        _undc_defintion_intersection_1 = MathTex(r"A \cap B = \{x : x \in A \land x \in B\}", color=ORANGE)
         _undc_defintion_intersection_2 = MarkupText("  ዝግለፀ ስብስብስ፣ ናይ ስብስብ Aን ስብስብ Bን መጋጠሚ እዩ።",font_size=30, color=WHITE, font="Nyala")
         _undc_defintion_intersection = VGroup(_undc_defintion_intersection_1, _undc_defintion_intersection_2).arrange(RIGHT)
 
-        _undc_defintion_difference_1 = MathTex(r"A - B = \{x : x \in A \land x \notin B\}}", color=ORANGE)
+        _undc_defintion_difference_1 = MathTex(r"A - B = \{x : x \in A \land x \notin B\}", color=ORANGE)
         _undc_defintion_difference_2 = MarkupText("  ዝግለፀ ስብስብስ፣ ናይ ስብስብ A ፍልልይ ስብስብ B እዩ።",font_size=30, color=WHITE, font="Nyala")
         _undc_defintion_difference = VGroup(_undc_defintion_difference_1, _undc_defintion_difference_2).arrange(RIGHT)
 
-        _undc_defintion_complement_1 = MathTex(r"\overline{A} = U - A.}", color=ORANGE)
+        _undc_defintion_complement_1 = MathTex(r"\overline{A} = U - A", color=ORANGE)
         _undc_defintion_complement_2 = MarkupText("  ዝግለፀ ስብስብስ፣ ናይ ስብስብ A መመላእታ እዩ።",font_size=30, color=WHITE, font="Nyala")
         _undc_defintion_complement = VGroup(_undc_defintion_complement_1, _undc_defintion_complement_2).arrange(RIGHT)
 
@@ -972,7 +972,8 @@ class SetUNDC(Scene):
         dot_line = Dot(point=p2, color=WHITE, radius=0.1)
         label_parabol = MathTex("A", font_size=40).scale(1.2).next_to(dot_parabol, RIGHT, buff=0.3)
         label_line = MathTex("B", font_size=40).scale(1.2).next_to(dot_line, RIGHT, buff=0.3)
-
+        _set_parabola = MathTex(r"A = \{ (x, x^2) : x \in \mathbb{R} \}")
+        _set_straight_line= MathTex(r"B = \{ (x, x+2) : x \in \mathbb{R} \}")
         parabola_group = VGroup(axes_parabol, parabola, dot_parabol, label_parabol).scale(.5)
 
         # Group the line with its axes
@@ -1098,7 +1099,7 @@ class SetUNDC(Scene):
         self.play(ShrinkToCenter(g_group))
         self.wait(2)
 
-        _complement_notation = MathTex(r"\overline{A} = U - A.")
+        # _complement_notation = MathTex(r"\overline{A} = U - A.")
 
 
 # manim -ql -p  set.py SetDifference
@@ -1243,147 +1244,7 @@ class VennDiagram(Scene):
 
 # manim -qk -p set.py VennDiagram
 
-class OldIndexes(ThreeDScene):
-    def construct(self):
 
-        background, bg_text = layout()
-        self.add_fixed_in_frame_mobjects(background)  
-        self.add_fixed_in_frame_mobjects(bg_text)   
-        # Title
-        title = Text("ዝርዝር ስብስባት/ Indexed Sets", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
-        underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
-        underline.next_to(title, DOWN, buff=0.2)
-
-        self.add_fixed_in_frame_mobjects(title)
-        self.add_fixed_in_frame_mobjects(underline)
-        # # 1. Setup Axes
-        # axes = ThreeDAxes(
-        #     x_range=[-4, 4, 1], y_range=[-4, 4, 1], z_range=[-3, 3, 1],
-        #     x_length=5, y_length=5, z_length=4,
-        #     axis_config={"include_tip": True}
-        # )
-        # labels = axes.get_axis_labels(x_label="x", y_label="y", z_label="z")
-
-        # # --- LEFT IMAGE: SINGLE VERTICAL PLANE ---
-        # # Horizontal Plane (xy-plane)
-        # xy_plane = Rectangle(width=6, height=6, stroke_width=1, stroke_color=WHITE)
-        # xy_plane.set_fill(WHITE, opacity=0.1)
-
-        # # Vertical Plane (angled)
-        # # We create a rectangle and rotate it to stand vertically
-        # v_plane = Rectangle(width=6, height=4, stroke_width=2, stroke_color=LIGHT_PINK)
-        # v_plane.set_fill(LIGHT_PINK, opacity=0.6)
-        # v_plane.rotate(90*DEGREES, axis=RIGHT) # Make it vertical
-        # v_plane.rotate(45*DEGREES, axis=OUT)   # Angle it across the xy-plane
-
-        # # Points and Labels
-        # point_coord = axes.c2p(-2, 1, 0)
-        # dot = Dot3D(point=point_coord, color=RED)
-        # dot_label = MathTex("(-2, 1, 0)", font_size=24).next_to(dot, DOWN+LEFT, buff=0.1)
-        # plane_label = MathTex("P_{(1,2)}", font_size=30).move_to(axes.c2p(-1.5, 1, 2))
-
-        # left_group = VGroup(xy_plane, v_plane, axes, labels, dot, dot_label, plane_label).scale(.5)
-        # left_group.shift(LEFT * 3.5)
-
-        # # --- RIGHT IMAGE: PENCIL OF PLANES ---
-        # axes2 = axes.copy().shift(RIGHT * 3.5)
-        
-        # # Horizontal base
-        # horiz_base = xy_plane.copy().move_to(axes2.get_center())
-        
-        # # Create multiple vertical planes rotated around the Z-axis
-        # pencil = VGroup()
-        # colors = [YELLOW, PINK, LIGHT_BROWN, WHITE]
-        # for i in range(4):
-        #     p = Rectangle(width=5, height=4, stroke_width=1, stroke_color=WHITE)
-        #     p.set_fill(colors[i % len(colors)], opacity=0.4)
-        #     p.rotate(90*DEGREES, axis=RIGHT) # Vertical
-        #     p.rotate(i * 45 * DEGREES, axis=OUT) # Rotate around Z
-        #     pencil.add(p)
-        
-        # right_group = VGroup(horiz_base, pencil, axes2).shift(RIGHT * 3.5).scale(.5)
-
-        # # --- ANIMATION ---
-        # self.set_camera_orientation(phi=75 * DEGREES, theta=-45 * DEGREES)
-        
-        # self.add_fixed_in_frame_mobjects(left_group, right_group)
-        # self.wait(1)
-
-        # tilted_axis = [1, 1, 1] 
-        # self.play(
-        #     Rotate(left_group, angle=2*PI, axis=tilted_axis,  about_point=left_group.get_center()),
-        #     Rotate(right_group, angle=2*PI, axis=tilted_axis, about_point=right_group.get_center()),
-        #     run_time=6,
-        #     rate_func=linear
-        # )
-        # self.wait(2)
-
-        # self.play(FadeOut(left_group), FadeOut(right_group))
-        # self.wait(2)
-
-        # Configuration for the plots
-        a_values = [0.6, 0.75, 1.0, np.sqrt(2)]
-        labels = ["a", "\\frac{3}{4}", "1", "\\sqrt{2}"]
-        
-        all_plots = VGroup()
-
-        for a, label_tex in zip(a_values, labels):
-            # 1. Create Axes
-            ax = Axes(
-                x_range=[0, 2.5, 1],
-                y_range=[0, 2.5, 1],
-                x_length=3,
-                y_length=3,
-                axis_config={"include_tip": True, "stroke_width": 2},
-                tips=False
-            )
-            
-            # 2. Diagonal dotted line (y=x) and boundary at x=2
-            diag_line = DashedLine(ax.c2p(0, 0), ax.c2p(2, 2), dash_length=0.05)
-            right_boundary = DashedLine(ax.c2p(2, 0), ax.c2p(2, 2), dash_length=0.05)
-
-            # 3. Shaded Area A_a (Rectangle from x=a to x=2, height a)
-            shaded_rect = Rectangle(
-                width=ax.x_axis.unit_size * (2 - a),
-                height=ax.y_axis.unit_size * a,
-                stroke_width=0,
-                fill_color=PINK,
-                fill_opacity=0.2
-            )
-            # Position the rectangle (bottom-left corner at x=a, y=0)
-            shaded_rect.move_to(ax.c2p(a + (2-a)/2, a/2))
-
-            # 4. Text Label inside the area
-            area_label = MathTex(f"A_{{{label_tex}}}")
-            area_label.move_to(shaded_rect.get_center())
-
-            # 5. Dotted guide lines for the 'a' value on axes
-            h_line = DashedLine(ax.c2p(0, a), ax.c2p(a, a), color=GRAY_A, stroke_width=1)
-            # Axis labels for 'a'
-            a_y_label = MathTex(label_tex, font_size=24).next_to(ax.c2p(0, a), LEFT, buff=0.1)
-            a_x_label = MathTex(label_tex, font_size=24).next_to(ax.c2p(a, 0), DOWN, buff=0.1)
-            
-            # Standard numeric labels (1 and 2)
-            num_labels = VGroup(
-                MathTex("1", font_size=24).next_to(ax.c2p(1, 0), DOWN, buff=0.1).scale(.5),
-                MathTex("2", font_size=24).next_to(ax.c2p(2, 0), DOWN, buff=0.1).scale(.5),
-                MathTex("1", font_size=24).next_to(ax.c2p(0, 1), LEFT, buff=0.1).scale(.5),
-                MathTex("2", font_size=24).next_to(ax.c2p(0, 2), LEFT, buff=0.1).scale(.5),
-            )
-
-            # Grouping everything for one plot
-            plot_group = VGroup(
-                ax, diag_line, right_boundary, shaded_rect, 
-                area_label, h_line, a_y_label, a_x_label, num_labels
-            )
-            all_plots.add(plot_group)
-
-        # Arrange all 4 plots horizontally
-        all_plots.arrange(RIGHT, buff=0.5).scale_to_fit_width(config.frame_width - 1).next_to(underline, DOWN, buff=.2).scale(.7)
-        
-        self.add_fixed_in_frame_mobjects(all_plots)
-        self.wait(2)
-        
 
 class Indexes(Scene):
     def construct(self):
@@ -1666,6 +1527,148 @@ class Indexes(Scene):
         self.wait(3)
             
 # manim -ql -p set.py Indexes
+
+class OldIndexes(ThreeDScene):
+    def construct(self):
+
+        background, bg_text = layout()
+        self.add_fixed_in_frame_mobjects(background)  
+        self.add_fixed_in_frame_mobjects(bg_text)   
+        # Title
+        title = Text("ዝርዝር ስብስባት/ Indexed Sets", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
+        underline.next_to(title, DOWN, buff=0.2)
+
+        self.add_fixed_in_frame_mobjects(title)
+        self.add_fixed_in_frame_mobjects(underline)
+        # # 1. Setup Axes
+        # axes = ThreeDAxes(
+        #     x_range=[-4, 4, 1], y_range=[-4, 4, 1], z_range=[-3, 3, 1],
+        #     x_length=5, y_length=5, z_length=4,
+        #     axis_config={"include_tip": True}
+        # )
+        # labels = axes.get_axis_labels(x_label="x", y_label="y", z_label="z")
+
+        # # --- LEFT IMAGE: SINGLE VERTICAL PLANE ---
+        # # Horizontal Plane (xy-plane)
+        # xy_plane = Rectangle(width=6, height=6, stroke_width=1, stroke_color=WHITE)
+        # xy_plane.set_fill(WHITE, opacity=0.1)
+
+        # # Vertical Plane (angled)
+        # # We create a rectangle and rotate it to stand vertically
+        # v_plane = Rectangle(width=6, height=4, stroke_width=2, stroke_color=LIGHT_PINK)
+        # v_plane.set_fill(LIGHT_PINK, opacity=0.6)
+        # v_plane.rotate(90*DEGREES, axis=RIGHT) # Make it vertical
+        # v_plane.rotate(45*DEGREES, axis=OUT)   # Angle it across the xy-plane
+
+        # # Points and Labels
+        # point_coord = axes.c2p(-2, 1, 0)
+        # dot = Dot3D(point=point_coord, color=RED)
+        # dot_label = MathTex("(-2, 1, 0)", font_size=24).next_to(dot, DOWN+LEFT, buff=0.1)
+        # plane_label = MathTex("P_{(1,2)}", font_size=30).move_to(axes.c2p(-1.5, 1, 2))
+
+        # left_group = VGroup(xy_plane, v_plane, axes, labels, dot, dot_label, plane_label).scale(.5)
+        # left_group.shift(LEFT * 3.5)
+
+        # # --- RIGHT IMAGE: PENCIL OF PLANES ---
+        # axes2 = axes.copy().shift(RIGHT * 3.5)
+        
+        # # Horizontal base
+        # horiz_base = xy_plane.copy().move_to(axes2.get_center())
+        
+        # # Create multiple vertical planes rotated around the Z-axis
+        # pencil = VGroup()
+        # colors = [YELLOW, PINK, LIGHT_BROWN, WHITE]
+        # for i in range(4):
+        #     p = Rectangle(width=5, height=4, stroke_width=1, stroke_color=WHITE)
+        #     p.set_fill(colors[i % len(colors)], opacity=0.4)
+        #     p.rotate(90*DEGREES, axis=RIGHT) # Vertical
+        #     p.rotate(i * 45 * DEGREES, axis=OUT) # Rotate around Z
+        #     pencil.add(p)
+        
+        # right_group = VGroup(horiz_base, pencil, axes2).shift(RIGHT * 3.5).scale(.5)
+
+        # # --- ANIMATION ---
+        # self.set_camera_orientation(phi=75 * DEGREES, theta=-45 * DEGREES)
+        
+        # self.add_fixed_in_frame_mobjects(left_group, right_group)
+        # self.wait(1)
+
+        # tilted_axis = [1, 1, 1] 
+        # self.play(
+        #     Rotate(left_group, angle=2*PI, axis=tilted_axis,  about_point=left_group.get_center()),
+        #     Rotate(right_group, angle=2*PI, axis=tilted_axis, about_point=right_group.get_center()),
+        #     run_time=6,
+        #     rate_func=linear
+        # )
+        # self.wait(2)
+
+        # self.play(FadeOut(left_group), FadeOut(right_group))
+        # self.wait(2)
+
+        # Configuration for the plots
+        a_values = [0.6, 0.75, 1.0, np.sqrt(2)]
+        labels = ["a", "\\frac{3}{4}", "1", "\\sqrt{2}"]
+        
+        all_plots = VGroup()
+
+        for a, label_tex in zip(a_values, labels):
+            # 1. Create Axes
+            ax = Axes(
+                x_range=[0, 2.5, 1],
+                y_range=[0, 2.5, 1],
+                x_length=3,
+                y_length=3,
+                axis_config={"include_tip": True, "stroke_width": 2},
+                tips=False
+            )
+            
+            # 2. Diagonal dotted line (y=x) and boundary at x=2
+            diag_line = DashedLine(ax.c2p(0, 0), ax.c2p(2, 2), dash_length=0.05)
+            right_boundary = DashedLine(ax.c2p(2, 0), ax.c2p(2, 2), dash_length=0.05)
+
+            # 3. Shaded Area A_a (Rectangle from x=a to x=2, height a)
+            shaded_rect = Rectangle(
+                width=ax.x_axis.unit_size * (2 - a),
+                height=ax.y_axis.unit_size * a,
+                stroke_width=0,
+                fill_color=PINK,
+                fill_opacity=0.2
+            )
+            # Position the rectangle (bottom-left corner at x=a, y=0)
+            shaded_rect.move_to(ax.c2p(a + (2-a)/2, a/2))
+
+            # 4. Text Label inside the area
+            area_label = MathTex(f"A_{{{label_tex}}}")
+            area_label.move_to(shaded_rect.get_center())
+
+            # 5. Dotted guide lines for the 'a' value on axes
+            h_line = DashedLine(ax.c2p(0, a), ax.c2p(a, a), color=GRAY_A, stroke_width=1)
+            # Axis labels for 'a'
+            a_y_label = MathTex(label_tex, font_size=24).next_to(ax.c2p(0, a), LEFT, buff=0.1)
+            a_x_label = MathTex(label_tex, font_size=24).next_to(ax.c2p(a, 0), DOWN, buff=0.1)
+            
+            # Standard numeric labels (1 and 2)
+            num_labels = VGroup(
+                MathTex("1", font_size=24).next_to(ax.c2p(1, 0), DOWN, buff=0.1).scale(.5),
+                MathTex("2", font_size=24).next_to(ax.c2p(2, 0), DOWN, buff=0.1).scale(.5),
+                MathTex("1", font_size=24).next_to(ax.c2p(0, 1), LEFT, buff=0.1).scale(.5),
+                MathTex("2", font_size=24).next_to(ax.c2p(0, 2), LEFT, buff=0.1).scale(.5),
+            )
+
+            # Grouping everything for one plot
+            plot_group = VGroup(
+                ax, diag_line, right_boundary, shaded_rect, 
+                area_label, h_line, a_y_label, a_x_label, num_labels
+            )
+            all_plots.add(plot_group)
+
+        # Arrange all 4 plots horizontally
+        all_plots.arrange(RIGHT, buff=0.5).scale_to_fit_width(config.frame_width - 1).next_to(underline, DOWN, buff=.2).scale(.7)
+        
+        self.add_fixed_in_frame_mobjects(all_plots)
+        self.wait(2)
+
 
 
 
