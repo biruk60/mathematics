@@ -1391,9 +1391,7 @@ class Indexes(Scene):
                 return r"\sqrt{2}"
             # Otherwise, return the number rounded (0, 0.5, 1, etc.)
             return str(round(val, 2))
-        # expression = MathTex(
-        #     r"A_{\alpha} = [\alpha, 2] \times [0, \alpha]"
-        # ).next_to(ax, RIGHT, buff=0.5).shift(UP)
+
         expression = always_redraw(lambda:
             MathTex(
                 fr"A_{{{get_alpha_tex()}}} = [{get_alpha_tex()}, 2] \times [0, {get_alpha_tex()}]",
@@ -1415,17 +1413,7 @@ class Indexes(Scene):
         diag_line = DashedLine(ax_d.c2p(0, 0), ax_d.c2p(2, 2), dash_length=0.05)
         right_boundary = DashedLine(ax_d.c2p(2, 0), ax_d.c2p(2, 2), dash_length=0.05)
 
-            # 3. Shaded Area A_a (Rectangle from x=a to x=2, height a)
-        # shaded_rect = Rectangle(
-        #         width=ax.x_axis.unit_size * (2 - a),
-        #         height=ax.y_axis.unit_size * a,
-        #         stroke_width=0,
-        #         fill_color=PINK,
-        #         fill_opacity=0.2
-        #     )
-        #     # Position the rectangle (bottom-left corner at x=a, y=0)
-        # shaded_rect.move_to(ax.c2p(a + (2-a)/2, a/2))
-
+    
         shaded_rect = always_redraw(lambda: 
             Rectangle(
                 width=ax_d.x_axis.unit_size * (2 - alpha_tracker.get_value()),
@@ -1458,13 +1446,6 @@ class Indexes(Scene):
             )
         )
         
-        # area_label = always_redraw(lambda:
-        #     MathTex(r"A_{\alpha}")
-        #     .move_to(shaded_rect.get_center())
-        # )
-
-        
-
         area_label = always_redraw(lambda:
             MathTex(
                 fr"A_{{{get_alpha_tex()}}}", 
@@ -1514,14 +1495,14 @@ class Indexes(Scene):
 
         # 4. Create the Union Label
         # Using \bigcup for the large union symbol
-        union_label = MathTex(r"\bigcup_{\alpha \in I} A_{\alpha}").scale(.5)
+        union_label = MathTex(r"\bigcup\limits_{\alpha \in I} A_{\alpha}").scale(.5)
         union_label.move_to(ax.c2p(1.2, 0.7)) # Positioned inside the triangle
 
         # 5. Add to Scene
         self.add(ax, labels, union_triangle, union_label)
         self.wait()
         intersection_formula = MathTex(
-            r"\bigcap_{\alpha \in I} A_{\alpha} = \{(2, 0)\}"
+            r"\bigcap\limits_{\alpha \in I} A_{\alpha} = \{(2, 0)\}"
         ).scale(.7).next_to(ax, DOWN, buff=.2)
         self.play(FadeIn(intersection_formula))
         self.wait(3)
@@ -1668,7 +1649,4 @@ class OldIndexes(ThreeDScene):
         
         self.add_fixed_in_frame_mobjects(all_plots)
         self.wait(2)
-
-
-
 
