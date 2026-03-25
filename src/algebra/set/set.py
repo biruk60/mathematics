@@ -1650,3 +1650,77 @@ class OldIndexes(ThreeDScene):
         self.add_fixed_in_frame_mobjects(all_plots)
         self.wait(2)
 
+class ZenoParadox(Scene):
+    def construct(self):
+        # Configuration
+        total_height = 4
+        bottom_y = DOWN
+        iterations = 10  
+        spacing = 0.4  
+        main_group = VGroup()
+        # 1. Create the reference "1 Unit" line on the far left
+        ref_line = Line(bottom_y + UP * total_height, bottom_y, color=ORANGE)
+        ref_label = MathTex("1").next_to(ref_line, DOWN)
+        
+        main_group.add(ref_line, ref_label)
+        self.wait(0.5)
+
+        segments = VGroup() #.scale(.5).to_edge(UP, buff=.2)
+        number_one = MathTex("1 = ")
+        proof_text = MathTex(
+            "\\frac{1}{2}",  
+            "+ \\frac{1}{4}", 
+            "+ \\frac{1}{8}", 
+            "+ \\frac{1}{16}", 
+            "+ \\frac{1}{32}", 
+            "+ \\frac{1}{64}", 
+            "+ \\frac{1}{128}", 
+            "+ \\frac{1}{256}", 
+            "+ \\frac{1}{512}", 
+            "+ \\frac{1}{1024}",
+            color=ORANGE
+        ).scale(.7)
+        sum_formula = MathTex(
+            "= \\sum_{n=1}^{\\infty} \\frac{1}{2^n}"
+        )
+        formula_dots = MathTex(" + \\dots",  color=ORANGE).scale(.7)
+    
+        for i in range(1, iterations + 1):
+            # Calculate length: 1/2, 1/4, 1/8...
+            seg_length = total_height / (2**i)
+            
+            # Position: Aligning at the bottom
+            # x increases for each segment; y remains constant at the bottom
+            x_pos = i * spacing
+            seg_bottom = bottom_y + RIGHT * x_pos
+            seg_top = seg_bottom + UP * seg_length
+            
+            # Create segment and its fraction label
+            segment = Line(seg_bottom, seg_top, color=ORANGE, stroke_width=4)
+            label = MathTex(f"\\frac{{1}}{{{2**i}}}", font_size=20).next_to(segment, DOWN, buff=0.2)  
+            unit = VGroup(segment, label)
+            segments.add(unit)
+
+        dots = MathTex("\\dots", color=ORANGE).next_to(segments[-1], RIGHT, buff=0.2).align_to(bottom_y, DOWN).scale(.7)
+        main_group.add(segments, dots)
+        main_group.to_corner(UL, buff=1.0)
+        v_formula = VGroup(number_one, proof_text, formula_dots, sum_formula).arrange(RIGHT, buff=.2).next_to(segments, DOWN*3, buff=.2).scale(.7).shift(RIGHT*3)
+        self.play(Write(ref_line), Write(ref_label), Write(number_one))
+        
+        for i, unit in enumerate(segments, start=1):
+            self.play(
+                Create(unit[0]), # The Line
+                Write(unit[1]),  # The Label
+                Write(proof_text[i-1]),
+                run_time=0.6 / (i**0.5)
+            )
+        # 2. Add trailing dots to show infinite progression    
+        self.play(Write(dots), Write(formula_dots))
+
+        # 3. Add a curve connecting the tops to show the "diminishing triangle" slope
+        curve = VMobject(color=ORANGE, stroke_width=.75)
+        curve.set_points_as_corners([s.get_top() for s in segments])
+        # self.play(Create(curve), run_time=1.5)    
+        self.play(Write(sum_formula))
+        self.wait(2)
+# manim -ql -p set.py ZenoParadox
