@@ -4,6 +4,59 @@ from manim import *
 import manimpango
 from common.common import layout
 
+
+class BooleanOperations(Scene):
+    def construct(self):
+        ellipse1 = Ellipse(
+            width=4.0, height=5.0, fill_opacity=0.5, color=BLUE, stroke_width=10
+        ).move_to(LEFT)
+        ellipse2 = ellipse1.copy().set_color(color=RED).move_to(RIGHT)
+        bool_ops_text = MarkupText("<u>Set Operations</u>").next_to(ellipse1, UP * 3)
+        # 1. Define the square as the universal set
+        universal_set = Square(side_length=5.0, color=WHITE, fill_opacity=0.5).next_to(ellipse1, DOWN * 2.5)   
+        target_circle = Circle(radius=1.4, color=RED, fill_opacity=0.5).next_to(ellipse1, DOWN * 5)    
+        
+        _set_A = Text("A").move_to(ellipse1.get_corner(UL)).shift(DR)
+        _set_B = Text("B").move_to(ellipse2.get_corner(UR)).shift(DL)
+        _set_C = Text("C").move_to(target_circle.get_center())
+        _set_U = Text("U").move_to(universal_set.get_corner(UR)).shift(DL*.5)
+        
+
+        ellipse_group = Group(bool_ops_text, ellipse1, _set_A, ellipse2,_set_B,
+                               universal_set,_set_U, target_circle, _set_C).move_to(LEFT * 3).scale(.5)
+        self.play(FadeIn(ellipse_group))
+
+        i = Intersection(ellipse1, ellipse2, color=GREEN, fill_opacity=0.5)
+        self.play(i.animate.scale(0.5).move_to(RIGHT * 5 + UP * 2.5))
+        intersection_text =MathTex(r"\boldsymbol{A \cap B}", font_size=23).next_to(i, UP)
+        self.play(FadeIn(intersection_text))
+
+        u = Union(ellipse1, ellipse2, color=ORANGE, fill_opacity=0.5)
+        union_text = MathTex(r"\boldsymbol{A \cup B}", font_size=23)
+        self.play(u.animate.scale(0.5).next_to(i, DOWN*1.5, buff=union_text.height * 3.5))
+        union_text.next_to(u, UP)
+        self.play(FadeIn(union_text))
+
+        e = Difference(ellipse2, ellipse1, color=YELLOW, fill_opacity=0.5)
+        exclusion_text = MathTex(r"\boldsymbol{B - A}", font_size=23)
+        self.play(e.animate.scale(0.5).next_to(i, LEFT*1.5, buff=exclusion_text.height * 3.5))
+        exclusion_text.next_to(e, UP)
+        self.play(FadeIn(exclusion_text))
+
+        d = Difference(ellipse1, ellipse2, color=PINK, fill_opacity=0.5)
+        difference_text = MathTex(r"\boldsymbol{A - B}", font_size=23)
+        self.play(d.animate.scale(0.5).next_to(u, LEFT, buff=difference_text.height * 3.5))
+        difference_text.next_to(d, UP)
+        self.play(FadeIn(difference_text))
+
+        f = Difference(universal_set, target_circle, color=BLUE, fill_opacity=0.5)
+        complement_text = MathTex(r"\boldsymbol{\overline{C}}", font_size=23)
+        self.play(f.animate.scale(0.5).next_to(u, DOWN, buff=difference_text.height * 3.5).shift(LEFT))
+        complement_text.next_to(f, UP)
+        self.play(FadeIn(complement_text))       
+        
+        self.wait(2)
+
 class Introduction(Scene):
     def construct(self):
         SCALE_FACTOR_PER_FONT_POINT= 0.5
