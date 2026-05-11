@@ -1,7 +1,8 @@
 
 
 from manim import * 
-import manimpango
+from pathlib import Path
+from manim import ImageMobject
 from common.common import layout
 
 
@@ -61,9 +62,7 @@ class Introduction(Scene):
     def construct(self):
         SCALE_FACTOR_PER_FONT_POINT= 0.5
         DEFAULT_FONT_SIZE = 20
-        background, bg_text = layout()
-        # self.add(background)
-        # self.add(bg_text) 
+        background, bg_text = layout()       
         self.add(background)  
         self.add(bg_text)   
         # Title
@@ -74,54 +73,164 @@ class Introduction(Scene):
         self.add(title)
         self.add(underline)
 
-        # t = MathTex(r"\int_a^b", "f'(x)", "dx"," =", " f(b)","-", "f(a)").next_to(underline, DOWN*2, buff=0.5)
-        # ch = MathTex(r"\{...,-4,-3,-2,-1,0,1,2,3,4,...\}").next_to(t, DOWN*2, buff=0.5)
-        # ex = MathTex(r"\Large f(x)=\int_{-\infty}^x e^{-t^2}dt").next_to(ch, DOWN, buff=.5)()
-        # A =  MathTex(r"\{","2","4","6","8","\}").next_to(underline, DOWN*2, buff=0.5)
-        _set = Text("set")
-        _elements= Text("elements") 
-        _set_A = Text("A")      
+        
+        self.wait(2.5)
+        _set_theory_title = MarkupText("ክልሰ-ሓሳብ ስብስብ (Set Theory)", font_size=34, color=WHITE, font="Nyala").move_to(ORIGIN)
+        self.play(Write(_set_theory_title), run_time=.5) # 3 seconds
+        self.wait(8)  # 11 seconds
+        self.play(FadeOut(_set_theory_title), run_time=.5) # 11.5 seconds
+        self.wait(3.5) # 15 seconds
+
+        
+        master_map = VGroup()
+
+        # --- 1. Hexagonal Root ---
+        # A hexagon has 6 vertices, perfect for 6 main branches
+        root_hexagon = RegularPolygon(n=6, radius=1.2, color=BLUE, fill_opacity=0.2)
+        root_text = Text("SET", font_size=24, weight=BOLD)
+        root = VGroup(root_hexagon, root_text).move_to(ORIGIN)
+        
+        master_map.add(root)
+
+        # --- 2. Data Structure ---
+        # We align these to the 6 vertices of the hexagon
+        branch_names = ["Logic", "Algebra", "Discrete", "Geometry", "Analysis", "Applied"]
+        sub_data = {
+            "Logic": ["Model Theory", "Proof Theory", "Recursion"],
+            "Algebra": ["Number Theory", "Groups & Rings", "Linear Algebra"],
+            "Discrete": ["Combinatorics", "Graph Theory", "Game Theory"],
+            "Geometry": ["Euclidean", "Topology", "Manifolds"],
+            "Analysis": ["Calculus", "Differential Eq.", "Measure Theory"],
+            "Applied": ["Probability", "Statistics", "Numerical"]
+        }
+        colors = ["#00FFFF", GREEN, RED, ORANGE, YELLOW, PURPLE]
+
+        # Get the vertices of the hexagon
+        # Vertices are ordered counter-clockwise starting from the right (0 degrees)
+        vertices = root_hexagon.get_vertices()
+
+        # --- 3. Build Logic ---
+        for i, name in enumerate(branch_names):
+            vertex = vertices[i]
+            # Push the label further out from the vertex
+            label_pos = vertex * 2.5 
+            
+            # Create Branch Head
+            branch_head = Text(name, font_size=26, color=colors[i])
+            box = SurroundingRectangle(branch_head, buff=0.15, color=colors[i])
+            branch_grp = VGroup(box, branch_head).move_to(label_pos)
+            
+            # Connection from Hexagon Corner to Branch
+            conn = Line(
+                vertex, 
+                branch_grp.get_critical_point(ORIGIN - label_pos), # Points to side of box facing center
+                stroke_width=2, color=GRAY_A
+            )
+
+            # Create Sub-branches
+            sub_vgroup = VGroup()
+            for j, sub_text in enumerate(sub_data[name]):
+                st = Text(f"• {sub_text}", font_size=18, color=WHITE)
+                # Logic to align text based on which side of the screen it's on
+                alignment = LEFT if label_pos[0] > 0 else RIGHT
+                st.next_to(branch_grp, DOWN, aligned_edge=alignment)
+                st.shift(DOWN * (j * 0.4))
+                sub_vgroup.add(st)
+            
+            master_map.add(conn, branch_grp, sub_vgroup)
+
+        # --- 4. Final Adjustments ---
+        master_map.scale(0.6).center()
+        
+        # --- 5. Animation ---
+        self.play(Create(root_hexagon), Write(root_text), run_time=.5) # 15.5 seconds
+        self.play(
+            LaggedStart(
+                *[Create(obj) for obj in master_map[1:]], # Animate everything after the root
+                lag_ratio=0.15
+            ),
+            run_time=3
+        ) # 18.5 seconds
+        self.wait(1) # 19.5 seconds
+        self.play(FadeOut(master_map), run_time=.5) # 20 seconds
+        self.wait(5) # 25 seconds
+        _elements= MarkupText("ባእታታት (elements)", font_size=34, color=WHITE, font="Nyala")
+        self.play(Write(_elements.move_to(ORIGIN)), run_time=.5) # 25.5 seconds
+        self.wait(1.5) # 27 seconds
+        self.play(FadeOut(_elements), run_time=.5) # 27.5 seconds
+        self.wait(2.5) # 30 seconds
+        _set_a =  MathTex(r"\{2,4,6,8\}")
+        self.play(Write(_set_a.move_to(ORIGIN)), run_time=.5) # 30.5 seconds
+        self.wait(6.5) # 37 seconds
+        self.play(ShrinkToCenter(_set_a), run_time=.5) # 37.5 seconds
+        self.wait(5) # 42.5 seconds
+        _set_of_integers = MathTex(r"\mathbb{Z} = \{...,-4,-3,-2,-1,0,1,2,3,4,...\}").move_to(ORIGIN)
+        self.play(FadeIn(_set_of_integers), run_time=.5) # 43 seconds
+        self.wait(10) # 53 seconds
+        self.play(FadeOut(_set_of_integers), run_time=.5) # 53.5 seconds
+        self.wait(4.5) # 58 seconds
+        _infinite = MarkupText("ደረት ኣልቦ (infinite) ስብስብ", font_size=28, color=WHITE, font="Nyala").move_to(ORIGIN)
+        self.play(FadeIn(_infinite), run_time=.5) # 58.5 seconds
+        self.wait(3) # 1 minute and 1.5 seconds
+        self.play(FadeOut(_infinite), run_time=.5) # 1 minute and 2 seconds
+        self.wait(2) # 1 minute and 4 seconds
+        _finite = MarkupText("ውሱን (finite) ስብስብ ", font_size=28, color=WHITE, font="Nyala").move_to(ORIGIN)
+        self.play(FadeIn(_finite), run_time=.5) # 1 minute and 4.5 seconds
+        self.wait(1.5) # 1 minute and 6 seconds
+        self.play(FadeOut(_finite), run_time=.5) # 1 minute and 6.5 seconds
+        self.wait(6.5) # 1 minute and 13 seconds
         _set_a =  MathTex(r"\{2,4,6,8\}")
         _set_b =  MathTex(r"\{4,2,8,6\}")
-        _set_c = MathTex(r"\{2,4,5,7\}")
         _equal = MathTex(r" = ")
+        _equal_sets = VGroup(_set_a, _equal, _set_b).arrange(RIGHT, buff=0.5).move_to(ORIGIN) 
+        self.play(Write(_equal_sets), run_time=.5) # 1 minute and 13.5 seconds
+        self.wait(11.5) # 1 minute and 25 seconds
+        self.play(FadeOut(_equal_sets), run_time=.5) # 1 minute and 25.5 seconds
+        _set_c = MathTex(r"\{2,4,5,7\}")
+        _set_a_copy = _set_a.copy()
         _not_equal = MathTex(r" \neq ")
-        _element_of = MathTex(r"\in")
-        _not_element_of = MathTex(r"\notin")
-        _set_of_natural_numbers = MathTex(r"\mathbb{N} = \{1,2,3,4,5,6,7,8,...\}") 
-        _natural_number =  MathTex(r"\mathbb{N}")
-        _set_of_integers = MathTex(r"\mathbb{Z} = \{...,-4,-3,-2,-1,0,1,2,3,4,...\}")
-        _integer = MathTex(r"\mathbb{Z}")
-        _rational_number = MathTex(r"\mathbb{Q}")
-        _real_number = MathTex(r"\mathbb{R}")
-        _complex_number = MathTex(r"\mathbb{C}")
-        _infinite_set = MathTex(r"\{","...",",-4,-3,-2,-1,0,1,2,3,4,", "...","\}")
-        _set_of_bools = MathTex(r"B = \{T,F\}")
-        _set_of_vowels = MathTex(r"V = \{a,e,i,o,u\}")
-        _set_of_xy_coordinates = MathTex(r"\{(0,0),(1,0),(0,1),(1,1)\}")
-        _set_of_sets = MathTex(r"S = \{1, \{1, 2\}, \{3, 4\} \}")
-        _set_of_matrix = MathTex(
-            r"S = \left\{ "
-            r"\begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix}, "
-            r"\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}, "
-            r"\begin{bmatrix} 1 & 0 \\ 1 & 1 \end{bmatrix} "
-            r"\right\}"
-        )
-        _cardinality= Text("|x|")
-        _cardinality_of_v = Text("|V| = 5")
-        _cardinality_of_m = Text("|M| = 3")
-        _empty_set = MathTex(r"\emptyset")
-        empty_set_braces = MathTex(r"\{ \}")
-        _cardinality_of_empty = MathTex(r"|\emptyset| = 0")
-        set_with_empty = MathTex(r"\{ \emptyset \}")
-        # self.play(Write(set_with_empty), run_time=1)
-        # _set_builder_notation = MathTex(r"E = \{ 2n : n \in \mathbb{Z} \}").next_to(underline, DOWN, buff=0.2).scale(.5)
-        # _set_builder_notation_alt = MathTex(r"E = \{ n \in \mathbb{Z} : n\text{ is even} \}").next_to(_set_builder_notation, DOWN, buff=0.2).scale(.5)
-        # _set_builder_expression_rule =  MathTex(r"X = \{ expression : rule \}").scale(.5) ኣገላልፃ: ሕጊ
-        # self.play(Write(_set_builder_notation), run_time=1)
-        # self.wait(2)
-        # self.play(Write(_set_builder_notation_alt), run_time=1)
-        # self.wait(2)
+        _not_equal_sets = VGroup(_set_a_copy, _not_equal, _set_c).arrange(RIGHT, buff=0.5).move_to(ORIGIN)
+        self.wait(1) # 1 minute and 26.5 seconds
+        self.play(Write(_not_equal_sets), run_time=.5) # 1 minute and 27 seconds 
+        self.wait(5.5) # 1 minute and 32.5 seconds
+        self.play(FadeOut(_not_equal_sets), run_time=.5) # 1 minute and 33 seconds
+        self.wait(4.5) # 1 minute and 37.5 seconds
+        _set_a_label = VGroup(MathTex(r"A"), MathTex(r"="), _set_a).arrange(RIGHT, buff=0.5).move_to(ORIGIN)
+        self.play(Write(_set_a_label), run_time=.5) # 1 minute and 38 seconds
+        self.wait(9.5) # 1 minute and 47.5 seconds
+        _element_of = MathTex(r"2 \in A").next_to(_set_a_label, DOWN, buff=0.5)
+        self.play(Write(_element_of), run_time=.5) # 1 minute and 48 seconds
+        self.wait(15.5) # 2 minute and 3.5 seconds
+        _not_element_of = MathTex(r"5 \notin A").next_to(_element_of, DOWN, buff=0.5)
+        self.play(Write(_not_element_of), run_time=.5) # 2 minute and 4 seconds
+        self.wait(5.5) # 2 minute and 9.5 seconds
+        _more_than_one_element = MathTex(r"2,4,6 \in A").next_to(_not_element_of, DOWN, buff=0.5)
+        self.play(Write(_more_than_one_element), run_time=.5) # 2 minute and 10 seconds
+        self.wait(1) # 2 minute and 11 seconds
+        self.play(FadeOut(_set_a_label), FadeOut(_element_of), FadeOut(_not_element_of), FadeOut(_more_than_one_element), run_time=.5) # 2 minute and 11.5 seconds
+        self.wait(1.5) # 2 minute and 13 seconds
+
+        _natural_number =  MathTex(r"\mathbb{N}").next_to(underline, DOWN*2, buff=0.5)
+        _integer = MathTex(r"\mathbb{Z}").next_to(_natural_number, DOWN, buff=0.5)
+        _rational_number = MathTex(r"\mathbb{Q}").next_to(_integer, DOWN, buff=0.5)
+        _complex_number = MathTex(r"\mathbb{C}").next_to(_rational_number, DOWN, buff=0.5)
+        _real_number = MathTex(r"\mathbb{R}").next_to(_complex_number, DOWN, buff=0.5)
+        self.wait(8.5) # 2 minute and 21.5 seconds
+        self.play(FadeIn(_natural_number), run_time=.5) # 2 minute and 22 seconds
+
+        self.wait(4.5) # 2 minute and 26.5 seconds
+        self.play(Write(_integer), run_time=.5) # 2 minute and 27 seconds
+        self.wait(4.5) # 2 minute and 31.5 seconds
+        self.play(Write(_rational_number), run_time=.5) # 2 minute and 32 seconds
+
+        self.wait(5.5) # 2 minute and 37.5 seconds
+        self.play(Write(_complex_number), run_time=.5) # 2 minute and 38 seconds
+
+        self.wait(4.5) # 2 minute and 42.5 seconds
+        self.play(Write(_real_number), run_time=.5) # 2 minute and 43 seconds
+        self.wait(.5) # 2 minute and 43.5 seconds
+        self.play(FadeOut(_natural_number), FadeOut(_integer), FadeOut(_rational_number), FadeOut(_complex_number), FadeOut(_real_number), run_time=.5) # 2 minute and 44 seconds
+        self.wait(5) # 2 minute and 49 seconds
 
         # Common number line
         number_line_1 = NumberLine(x_range=[-3, 4, 1],include_numbers=False,stroke_width=2, color=GREY_B)
@@ -131,9 +240,7 @@ class Introduction(Scene):
         number_line_5 = number_line_4.copy().shift(DOWN)
         number_line_6 = number_line_5.copy().shift(DOWN)
         number_line_7 = number_line_6.copy().shift(DOWN)
-        number_line_8 = number_line_7.copy().shift(DOWN)
-
-        
+        number_line_8 = number_line_7.copy().shift(DOWN)        
     
         number_line_1.add_tip(tip_shape=StealthTip, tip_length=0.2) 
         number_line_1.add_tip(tip_shape=StealthTip, tip_length=0.2, at_start=True)
@@ -160,7 +267,6 @@ class Introduction(Scene):
         set_builder_6 =  MathTex(r"[a,\infty) = \{ x \in \mathbb{Z} : a \leq x \}").next_to(number_line_6, LEFT*3, buff=0.5)
         set_builder_7 =  MathTex(r"(-\infty,b) = \{ x \in \mathbb{Z} :  x < b \}").next_to(number_line_7, LEFT*3, buff=0.5)
         set_builder_8 =  MathTex(r"(-\infty,b] = \{ x \in \mathbb{Z} :  x \leq b \}").next_to(number_line_8, LEFT*3, buff=0.5)
-
 
         # Positions for a and b
         a_val = -1
@@ -240,15 +346,214 @@ class Introduction(Scene):
 
             ).scale(.5).next_to(underline, DOWN)
         # Add everything
+        # number_line_1.copy()
+        copy_number_line_1 = number_line_1.copy() # VGroup().next_to(underline, DOWN*2, buff=0.5).shift(LEFT*3)
+        dot_a_1_copy = dot_a_1.copy()
+        dot_b_1_copy = dot_b_1.copy()
+        label_a_1_copy = label_a_1.copy()
+        label_b_1_copy = label_b_1.copy()
+        self.play(Create(copy_number_line_1), run_time=.5) # 2 minute and 49.5 seconds
+        self.wait(6) # 2 minute and 55.5 seconds
+       
+
+        self.play(FadeIn(dot_a_1_copy), FadeIn(dot_b_1_copy), FadeIn(label_a_1_copy), FadeIn(label_b_1_copy), run_time=.5) # 2 minute and 56 seconds
+        self.wait(2.5) # 2 minute and 58 seconds
+        a_is_less_than_b = VGroup(MathTex(r"a, b \in \mathbb{R}"), MarkupText("ምስ", color=WHITE, font="Nyala", font_size=24), MathTex(r"a < b ")).arrange(RIGHT).next_to(copy_number_line_1, DOWN*1, buff=0.5).scale(.5)
+        self.play(Create(a_is_less_than_b),  run_time=.5) # 2 minute and 59 seconds 
+        self.wait(4.5) # 3 minute and 3.5 seconds
+        self.play(FadeOut(a_is_less_than_b),  FadeOut(dot_a_1_copy), FadeOut(dot_b_1_copy), FadeOut(label_a_1_copy), FadeOut(label_b_1_copy), FadeOut(copy_number_line_1), run_time=.5) # 3 minute and 4 seconds
+        self.wait(3) # 3 minute and 7 seconds
         self.add(vgroup)
+        self.wait(15) # 3 minute and 22.5 seconds 
+        self.play(Circumscribe(set_builder_1, stroke_width=1, color=BLUE),  run_time=1) # 3 minute and 23 seconds 
+        self.wait(4) # 3 minute and 27.5 seconds
+        self.play(Circumscribe(set_builder_2, stroke_width=1, color=BLUE),  run_time=1) # 3 minute and 28 seconds
+        self.wait(4.5) # 3 minute and 33 seconds
+        self.play(Circumscribe(set_builder_3, stroke_width=1, color=BLUE),  run_time=1) # 3 minute and 33.5 seconds
+        self.wait(3.5) # 3 minute and 37.5 seconds
+        self.play(Circumscribe(set_builder_4, stroke_width=1, color=BLUE),  run_time=1) # 3 minute and 38 seconds
+        self.wait(2.5) # 3 minute and 41 seconds
+        self.play(Circumscribe(set_builder_5, stroke_width=1, color=BLUE),  run_time=1) # 3 minute and 41.5 seconds
+        self.wait(4.5) # 3 minute and 46.5 seconds
+        self.play(Circumscribe(set_builder_6, stroke_width=1, color=BLUE),  run_time=1) # 3 minute and 47 seconds
+        self.wait(5) # 3 minute and 52.5 seconds
+        self.play(Circumscribe(set_builder_7, stroke_width=1, color=BLUE),  run_time=1) # 3 minute and 53 seconds
+        self.wait(2.5) # 3 minute and 56 seconds
+        self.play(Circumscribe(set_builder_8, stroke_width=1, color=BLUE),  run_time=1) # 3 minute and 56.5 seconds
+        self.wait(9) # 4 minute and 6.5 seconds
+        self.play(FadeOut(vgroup),  run_time=.5) # 4 minute and 7 seconds
+        self.wait(1.5) # 4 minute and 8.5 seconds
 
-        self.wait()
-
-
-        '''
+        number_line_1_2 = NumberLine(x_range=[-1, 4, 1],include_numbers=False,stroke_width=2, color=GREY_B)
+        number_line_1_2.add_tip(tip_shape=StealthTip, tip_length=0.2) 
+        number_line_1_2.add_tip(tip_shape=StealthTip, tip_length=0.2, at_start=True)
+        val_1 = 1
+        val_2 = 2
+        segment_1_2 = Line(number_line_1_2.n2p(val_1-.1), number_line_1_2.n2p(val_2-.1), stroke_width=6, color=ORANGE )
+        dot_1 = Dot(number_line_1_2.n2p(val_1), radius=0.14, color=ORANGE)
+        dot_2 = Dot(number_line_1_2.n2p(val_2), radius=0.14, color=ORANGE)
+        label_1 = MathTex("1").next_to(dot_1, UP, buff=0.2)
+        label_2 = MathTex("2").next_to(dot_2, UP, buff=0.2)
+        vgroup_1_2 = VGroup(
+            number_line_1_2,
+            dot_1,label_1,
+            dot_2,label_2,
+           segment_1_2,
+        ).scale(.5).next_to(underline, DOWN)
+        self.play(GrowFromCenter(vgroup_1_2), run_time=.5) # 4 minute and 9 seconds
+        self.wait(13) # 4 minute and 22 seconds
+        total_height = 4
+        bottom_y = DOWN
+        iterations = 10  
+        spacing = 0.4  
+        main_group = VGroup().scale(.5).next_to(vgroup_1_2, DOWN)
+        # 1. Create the reference "1 Unit" line on the far left
+        ref_line = Line(bottom_y + UP * total_height, bottom_y, color=ORANGE)
+        ref_label = MathTex("1").next_to(ref_line, DOWN)
         
-        num_list = [MathTex(n) for n in ["2", "4", "6", "8"]]
-        
+        main_group.add(ref_line, ref_label)
+        segments = VGroup() #.scale(.5).to_edge(UP, buff=.2)
+        number_one = MathTex("1 = ")
+        proof_text = MathTex(
+            "\\frac{1}{2}",  
+            "+ \\frac{1}{4}", 
+            "+ \\frac{1}{8}", 
+            "+ \\frac{1}{16}", 
+            "+ \\frac{1}{32}", 
+            "+ \\frac{1}{64}", 
+            "+ \\frac{1}{128}", 
+            "+ \\frac{1}{256}", 
+            "+ \\frac{1}{512}", 
+            "+ \\frac{1}{1024}",
+            color=ORANGE
+        ).scale(.7)
+        sum_formula = MathTex(
+            "= \\sum_{n=1}^{\\infty} \\frac{1}{2^n}"
+        )
+        formula_dots = MathTex(" + \\dots",  color=ORANGE).scale(.7)
+    
+        for i in range(1, iterations + 1):
+            # Calculate length: 1/2, 1/4, 1/8...
+            seg_length = total_height / (2**i)
+            
+            # Position: Aligning at the bottom
+            # x increases for each segment; y remains constant at the bottom
+            x_pos = i * spacing
+            seg_bottom = bottom_y + RIGHT * x_pos
+            seg_top = seg_bottom + UP * seg_length
+            
+            # Create segment and its fraction label
+            segment = Line(seg_bottom, seg_top, color=ORANGE, stroke_width=4)
+            label = MathTex(f"\\frac{{1}}{{{2**i}}}", font_size=20).next_to(segment, DOWN, buff=0.2)  
+            unit = VGroup(segment, label)
+            segments.add(unit)
+            
+
+        dots = MathTex("\\dots", color=ORANGE).next_to(segments[-1], RIGHT, buff=0.2).align_to(bottom_y, DOWN).scale(.7)
+        main_group.add(segments, dots)
+        main_group.to_corner(UL, buff=2.0)
+        v_formula = VGroup(number_one, proof_text, formula_dots, sum_formula).arrange(RIGHT, buff=.2).next_to(segments, DOWN*.5, buff=.2).scale(.7).shift(RIGHT*3)
+        self.play(Write(ref_line), Write(ref_label), Write(number_one), run_time=0.5) # 4 minute and 22.5 seconds
+        self.wait(3) # 4 minute and 24.5 seconds
+        for i, unit in enumerate(segments, start=1):
+            cal_run_time = 0.6 / (i**0.5)  # Faster for smaller segments, slower for larger ones
+            if i == 1 or i == 2 or i == 3:
+                cal_run_time = .5  # Slightly longer for the first segment to set the stage
+            self.play(
+                Create(unit[0]), # The Line
+                Write(unit[1]),  # The Label
+                Write(proof_text[i-1]),
+                run_time=cal_run_time
+            )
+            if i == 1:
+                self.wait(9.5)  # Slightly longer for the first segment to set the stage 4 minute and 35 seconds
+            elif i == 2:
+                self.wait(7.5)  # Moderate wait for the next few segments 4 minute and 43.5 seconds
+            elif i == 3:
+                self.wait(3.5)  # Moderate wait for the next few segments 4 minute and 48 seconds
+        # 2. Add trailing dots to show infinite progression    
+        self.play(Write(dots), Write(formula_dots), runt_time=1) # 4 minute and 52 seconds
+        self.wait(2) # 4 minute and 56 seconds
+        # 3. Add a curve connecting the tops to show the "diminishing triangle" slope
+        curve = VMobject(color=ORANGE, stroke_width=.75)
+        curve.set_points_as_corners([s.get_top() for s in segments])
+        # self.play(Create(curve), run_time=1.5)    
+        self.play(Write(sum_formula), run_time=.5) # 4 minute and 52 seconds
+        self.wait(6.5) # 4 minute and 58.5 seconds
+        self.play(FadeOut(vgroup_1_2), FadeOut(v_formula), FadeOut(dots), FadeOut(formula_dots),
+                   FadeOut(segments), FadeOut(ref_line), FadeOut(ref_label), run_time=.5) # 4 minute and 59 seconds
+        self.wait(5.5) # 5 minute and 4.5 seconds
+        _set_of_bools = MathTex(r"B = \{T,F\}")
+        self.play(Write(_set_of_bools.move_to(ORIGIN)), run_time=.5) # 5 minute and 5 seconds
+        self.wait(5) # 5 minute and 10 seconds 
+        self.play(FadeOut(_set_of_bools), run_time=.5) # 5 minute and 10.5 seconds
+        _set_of_xy_coordinates = MathTex(r"D = \{(0,0),(1,0),(0,1),(1,1)\}")
+        self.play(Write(_set_of_xy_coordinates.move_to(ORIGIN)), run_time=.5) # 12 minute and 11 seconds       
+        self.wait(8.5) # 5 minute and 19.5 seconds
+        element_of_d = MathTex(r"(0,0) \in D").next_to(_set_of_xy_coordinates, DOWN, buff=0.5)
+        self.play(Write(element_of_d), run_time=.5) # 5 minute and 20 seconds
+        self.wait(3.5) # 5 minute and 23.5 seconds
+        not_element_of_d = MathTex(r"(1,2) \notin D").next_to(element_of_d, DOWN, buff=0.5)
+        self.play(Write(not_element_of_d), run_time=.5) # 5 minute and 24 seconds
+        self.wait(2) # 5 minute and 26 seconds
+        self.play(FadeOut(_set_of_xy_coordinates), FadeOut(element_of_d), FadeOut(not_element_of_d), run_time=.5) # 5 minute and 26.5 seconds  
+        self.wait(6) # 5 minute and 32.5 seconds
+        _set_of_sets = MathTex(r"E =\{1, \{1, 2\}, \{3, 4\} \}")
+        self.play(Write(_set_of_sets.move_to(ORIGIN)), run_time=.5) # 5 minute and 33 seconds
+        self.wait(3) # 5 minute and 36 seconds
+        self.play(FadeOut(_set_of_sets), run_time=.5) # 5 minute and 36.5 seconds
+        self.wait(9) # 5 minute and 37 seconds
+
+        _cardinality= Text("|x|")
+        self.play(Write(_cardinality.move_to(ORIGIN)), run_time=.5) # 5 minute and 46.5 seconds
+        self.wait(.5) # 5 minute and 47. seconds
+        self.play(FadeOut(_cardinality), run_time=.5) # 5 minute and 47.5 seconds
+        copy__set_a_label = _set_a_label.copy()
+        copy_set_of_bools = _set_of_bools.copy()
+        copy_set_of_xy_coordinates = _set_of_xy_coordinates.copy()
+        copy_set_of_sets = _set_of_sets.copy()
+
+        _cardinality_of_v = Text("|A| = 4, |B|=2, |D|= 4, |E|=3")
+        v_cardinality = VGroup(copy__set_a_label, copy_set_of_bools, copy_set_of_xy_coordinates, copy_set_of_sets, _cardinality_of_v).arrange(DOWN, buff=0.5).scale(.7).move_to(ORIGIN)
+        self.wait(1) # 5 minute and 48.5 seconds
+        self.play(FadeIn(v_cardinality), run_time=.5) # 5 minute and 49 seconds
+        self.wait(11) # 6 minute and 00 seconds
+        self.play(FadeOut(v_cardinality), run_time=.5) # 6 minute and 0.5 seconds
+        self.wait(15) # 6 minute and 14.5 seconds
+        _empty_set = MathTex(r"\emptyset")
+        empty_set_braces = MathTex(r"\{ \}")
+        wey= Text("ወይ", font_size=28, color=WHITE, font="Nyala")
+        empty_notations = VGroup(_empty_set, wey, empty_set_braces).arrange(RIGHT, buff=0.5).move_to(ORIGIN)
+        self.play(Write(_empty_set), Write(wey), Write(empty_set_braces), run_time=.5) # 6 minute and 15 seconds
+        self.wait(.5) # 6 minute and 15.5 seconds
+        self.play(FadeOut(empty_notations), run_time=.5) # 6 minute and 16 seconds
+        self.wait(2) # 6 minute and 18 seconds 
+        _cardinality_of_empty = MathTex(r"|\emptyset| = 0")
+        self.play(Write(_cardinality_of_empty.move_to(ORIGIN)), run_time=.5) # 6 minute and 18.5 seconds
+        self.wait(1) # 6 minute and 19.5 seconds
+        self.play(FadeOut(_cardinality_of_empty), run_time=.5) # 6 minute and 20 seconds
+        set_with_empty = MathTex(r"\{ \emptyset \}")
+        self.wait(2) # 6 minute and 21 seconds
+        self.play(Write(set_with_empty), run_time=.5) # 6 minute and 22.5 seconds
+        self.wait(1) # 6 minute and 23.5 seconds
+        self.play(FadeOut(set_with_empty), run_time=.5) # 6 minute and 24 seconds
+        copy_empty_set = _empty_set.copy()
+        copy_set_with_empty = set_with_empty.copy()
+        not_equal_to = MathTex(r" \neq ")
+        v_empty = VGroup(copy_empty_set, not_equal_to, copy_set_with_empty).arrange(RIGHT, buff=0.5).move_to(ORIGIN)
+        self.wait(2) # 6 minute and 26 seconds
+        self.play(Write(v_empty), run_time=1) # 6 minute and 26.5 seconds
+        self.wait(2.5) # 6 minute and 27 seconds
+        self.play(FocusOn(copy_empty_set), run_time=.5) # 6 minute and 29.5 seconds
+        self.wait(1) # 6 minute and 30.5 seconds
+        self.play(FocusOn(copy_set_with_empty), run_time=.5) # 6 minute and 31 seconds
+        self.wait(3) # 6 minute and 35 seconds
+        self.play(FadeOut(v_empty), run_time=.5) # 6 minute and 35.5 seconds
+        self.wait(3) # 6 minute and 38.5 seconds  
+        a_sample_set = MathTex(r"A = \{2,4,6,8\}").next_to(underline, DOWN, buff=0.5) 
+        self.play(Write(a_sample_set), run_time=.5) # 6 minute and 39 seconds
+        self.wait(2) # 6 minute and 41 seconds 
+        num_list = [MathTex(n) for n in ["2", "4", "6", "8"]]  
         # 2. Group them and arrange with a buffer (space)
         # buff=1.0 provides a generous space between elements
         numbers = VGroup(*num_list).arrange(RIGHT, buff=1.0)
@@ -257,70 +562,54 @@ class Introduction(Scene):
         ,stroke_width= 2, buff=MED_LARGE_BUFF)
 
         # 3. Animate them
-        self.play(Create(box))
-        self.play(Write(numbers))
-        self.wait(2)
-        self.play(FadeOut(box), FadeOut(numbers))
-        self.wait(2)
-        self.add(_equal)
-        outer_box = RoundedRectangle(width=5, height=3,fill_opacity=0.05, corner_radius=0.1, fill_color=ORANGE,
+        self.play(Create(box), run_time=.5) # 6 minute and 41.5 seconds
+        self.play(Write(numbers), run_time=.5) # 6 minute and 42 seconds
+        self.wait(5) # 6 minute and 47 seconds
+        self.play(FadeOut(box), FadeOut(numbers), FadeOut(a_sample_set), run_time=.5) # 6 minute and 47.5 seconds
+        self.wait(1.5) # 6 minute and 49 seconds
+
+        another_copy_empty_set = _empty_set.copy()
+        copy_of_box = RoundedRectangle(width=1, height=1, color=YELLOW, 
+        fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.1
+        ,stroke_width= 2)
+        equal_sign = MathTex(r"=")
+        empty_box_equality = VGroup(another_copy_empty_set, equal_sign, copy_of_box).arrange(RIGHT, buff=0.5).next_to(underline, DOWN, buff=0.5 )
+        self.play(Write(empty_box_equality), run_time=.5) # 6 minute and 49.5 seconds
+        self.wait(3.5) # 6 minute and 53 seconds
+
+        another_copy_set_with_empty = set_with_empty.copy()
+        copy_of_equal_sign = MathTex(r"=")
+        outer_box = RoundedRectangle(width=2, height=2,fill_opacity=0.05, corner_radius=0.1, fill_color=ORANGE,
         stroke_width= 2, color=YELLOW)
+        box_left = RoundedRectangle(width=1, height=1,fill_opacity=0.05, corner_radius=0.1, fill_color=GRAY_B,
+        stroke_width= 2, color=BLUE)
+        boxes_group = VGroup(box_left).move_to(outer_box.get_center())
+        box_viz = VGroup(outer_box, boxes_group)
+        set_with_empty_box_equality = VGroup(another_copy_set_with_empty, copy_of_equal_sign, box_viz).arrange(RIGHT, buff=0.5).next_to(empty_box_equality, DOWN)
+        self.play(Write(set_with_empty_box_equality), run_time=.5) # 6 minute and 53.5 seconds
+        self.wait(1) # 6 minute and 55.5 seconds
+        self.play(FadeOut(set_with_empty_box_equality), FadeOut(empty_box_equality), run_time=.5) # 6 minute and 56 seconds
+        copy_v_empty = v_empty.copy().move_to(ORIGIN)
+        self.wait(1.5) # 6 minute and 57 seconds    
+        self.play(Write(copy_v_empty), run_time=.5) # 6 minute and 57.5 seconds
+        self.wait(2.5) # 7 minute and 0 second
+        self.play(FadeOut(copy_v_empty), run_time=.5) # 7 minute and .5 seconds   
+        self.wait(14) # 7 minute and 14.5 seconds
+        _infinite_set = MathTex(r"E =\{...,-6,-4,-2,0,2,4,6,...\}").scale(.6).move_to(ORIGIN)
+        self.play(Write(_infinite_set), run_time=.5) # 7 minute and 15 seconds
+        self.wait(6) # 7 minute and 21 seconds
+        _set_builder_notation = MathTex(r"E = \{ 2n : n \in \mathbb{Z} \}").next_to(_infinite_set, DOWN, buff=0.2).scale(.7)
+        self.play(Write(_set_builder_notation), run_time=.5) # 7 minute and 21.5 seconds
+        self.wait(15.5) # 7 minute and 35 seconds
+        _set_builder_opening= MathTex(r"X = \{")
+        _set_builder_closing = MathTex(r"\}")
+        _set_builder_expression = MarkupText(r"expression (ኣገላልፃ) : rule (ሕጊ)", font_size=24, color=WHITE, font="Nyala")
+        _set_builder_expression_rule =  VGroup(_set_builder_opening, _set_builder_expression,_set_builder_closing ).arrange(RIGHT).scale(.8).next_to(_set_builder_notation, DOWN, buff=0.2)
+        self.play(Write(_set_builder_expression_rule), run_time=.5) # 7 minute and 37.5 seconds
+        self.wait(2) # 7 minute and 38.5 seconds
+        self.play(FadeOut(_set_builder_expression_rule), FadeOut(_set_builder_notation), FadeOut(_infinite_set), run_time=.5) # 7 minute and 39 seconds
+        self.wait(.5) # 7 minute and 40.5 seconds
         
-        box_left = Square(side_length=1.5, color=RED)
-        box_right = Square(side_length=2, color=GREEN).next_to(box_left, RIGHT, buff=0.4)
-        box_deep = Square(side_length=1.5, color=BLUE).move_to(box_right.get_center())
-        box_deeper = Square(side_length=0.5, color=PURPLE).move_to(box_deep.get_center())
-        # Group and position boxes to the right of the equal sign
-        boxes_group = VGroup(box_left, box_right, box_deep, box_deeper).move_to(outer_box.get_center())
-        box_viz = VGroup(outer_box, boxes_group).next_to(_equal, RIGHT, buff=0.4)
-
-        # 3. Define the Set Stages (using MathTex)
-        # We use r'...' for LaTeX strings
-        sets = [
-            MathTex(r"A", r"=", r"\{ \}"),
-            MathTex(r"A", r"=", r"\{ \{ \} \}"),
-            MathTex(r"A", r"=", r"\{ \{ \}, \{ \} \}"),
-            MathTex(r"A", r"=", r"\{ \{ \}, \{ \{ \} \} \}"),
-            MathTex(r"A", r"=", r"\{ \{ \}, \{ \{ \{ \} \} \} \}") # Deepest stage
-        ]
-
-        # Initialize the first set position
-        for s in sets:
-            s.next_to(_equal, LEFT, buff=0.4)
-
-        current_set = sets[0]
-
-        # 4. Animation Sequence
-        # Step 1: Outer Box
-        self.play(Create(outer_box), Write(current_set))
-        self.wait(0.5)
-
-        # Step 2: Left Inner Box
-        self.play(
-            Create(box_left),
-            Transform(current_set, sets[1].next_to(_equal, LEFT, buff=0.4))
-        )
-        self.wait(0.5)
-
-        # Step 3: Right Inner Box
-        self.play(
-            Create(box_right),
-            Transform(current_set, sets[2].next_to(_equal, LEFT, buff=0.4))
-        )
-        self.wait(0.5)
-
-        # Step 4: Deep Inner Box
-        self.play(
-            Create(box_deep),
-            Transform(current_set, sets[3].next_to(_equal, LEFT, buff=0.4))
-        )
-        self.wait(0.5)
-        self.play(
-            Create(box_deeper),
-            Transform(current_set, sets[4].next_to(_equal, LEFT, buff=0.4))
-        )
-        self.wait(2)
-'''
 # manim -ql -p --disable_caching set.py Introduction
 # manim -ql -p set.py Introduction
 
@@ -342,46 +631,43 @@ class CartesianProduct(Scene):
         _order_pair_definition = VGroup(_order_pair_defintion_title, _order_pair_defintion_1).scale(.5).arrange(DOWN, aligned_edge=LEFT).next_to(underline, DOWN*2, buff=0.5).shift(LEFT*1)
         
         _order_pair_defintion_box = SurroundingRectangle(_order_pair_definition, color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)
+        self.wait(18) # 18 seconds
         self.add(_order_pair_defintion_title,
                 _order_pair_defintion_1,
                 _order_pair_defintion_box)
-        self.wait(4)
-        self.play(FadeOut(_order_pair_definition),FadeOut(_order_pair_defintion_box))
-        self.wait(2)
-        _example_1 = MathTex("(1, 2)")
-        _example_2 = MathTex("(2, 1)")
+        self.wait(13) # 31 seconds
+        self.play(FadeOut(_order_pair_definition),FadeOut(_order_pair_defintion_box), run_time=.5) # 31.5 seconds
+        self.wait(1.5) # 33 seconds
+        _example_1 = MathTex("(2, 4)")
+        _example_2 = MathTex("(4, 2)")
         _not_equal = MathTex(r" \neq ", color=RED)
         _example = VGroup(_example_1, _not_equal, _example_2).arrange(RIGHT, buff=.2)
         numberplane = NumberPlane()
         dot = Dot(ORIGIN)
-        _dot_1 = Dot(point=[1., 2., 0.], radius=.12, color=YELLOW)
-        _dot_2 = Dot(point=[2., 1., 0.],radius=.12, color=RED)       
-        _text_dot_1 = Text('(1, 2)').next_to(_dot_1.get_end(), RIGHT)
-        _text_dot_2 = Text('(2, 1)').next_to(_dot_2.get_end(), RIGHT)
+        _dot_1 = Dot(point=[2., 4., 0.], radius=.12, color=YELLOW)
+        _dot_2 = Dot(point=[4., 2., 0.],radius=.12, color=RED)       
+        _text_dot_1 = Text('(2, 4)').next_to(_dot_1.get_end(), RIGHT)
+        _text_dot_2 = Text('(4, 2)').next_to(_dot_2.get_end(), RIGHT)
         _plane = VGroup(numberplane, dot,_dot_1,_dot_2, _text_dot_1, _text_dot_2).scale(.5)
-
         _order_pair = VGroup(_example, _plane).arrange(RIGHT, buff=.5).next_to(underline, DOWN*3, buff=0.2).scale(.5)
-        self.play(Write(_example_1))
-        self.wait()
-        self.play(Write(_example_2))
-        self.wait()
-        self.play(Write(_not_equal))
-        self.wait()
-        self.play(FadeIn(numberplane), FadeIn(dot))
-        self.wait()
-        self.play(FadeIn(_dot_1))
-        self.wait()
-        self.play(FadeIn(_dot_2))
-        self.wait()
+        self.play(Write(_example_1), run_time=.5) # 33.5 seconds
+        self.wait(2) # 35.5 seconds
+        self.play(Write(_example_2), run_time=.5) # 36 seconds
+        self.wait(5) # 41 seconds
+        self.play(Write(_not_equal) , run_time=.5) #41.5 seconds
+        self.wait(10.5) # 52 seconds
+        self.play(FadeIn(numberplane), FadeIn(dot) , run_time=.5) # 52.5 seconds
+        self.wait(.5) # 53 seconds
+        self.play(FadeIn(_dot_1), FadeIn(_dot_2), run_time=.5) # 53.5 seconds
+        
+       
         _example_copy_1 = _example_1.copy()
         _example_copy_2 = _example_2.copy()
-        self.play(FadeTransform(_example_copy_1,_text_dot_1))
-        self.wait()
-        self.play(FadeTransform(_example_copy_2,_text_dot_2))
-        self.wait(2)
-        self.play(ShrinkToCenter(_order_pair))
-        self.wait(2)
-        
+        self.play(FadeTransform(_example_copy_1,_text_dot_1), FadeTransform(_example_copy_2,_text_dot_2), run_time=.5) # 54 seconds
+                
+        self.wait(.5) # 54.5 seconds
+        self.play(ShrinkToCenter(_order_pair), run_time=.5)# 55 seconds
+        self.wait(.5) # 55.5
         _cartesian_product_defintion_title= MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
         _cartesian_product_defintion_1 = MarkupText("ምልክቱ A X B ዝኾነ ናይ Aን Bን ዝተብሃሉ ክልተ ስብስባት Cartesian Product፣ በዚ መልክዕ ይግለፅ።",font_size=30, color=WHITE, font="Nyala")
         _cartesian_product_defintion_2 = MathTex(r"A \times B = \{(a,b): a \in A, b \in B \}")
@@ -392,12 +678,13 @@ class CartesianProduct(Scene):
                 _cartesian_product_defintion_1,
                 _cartesian_product_defintion_2,
                 _cartesian_product_defintion_box)
-        self.wait(4)
-        self.play(FadeOut( _cartesian_product_definition),FadeOut( _cartesian_product_defintion_box))
-        self.wait(2)
+        self.wait(8.5) # 1 minute and 4 seconds
+        self.play(FadeOut( _cartesian_product_definition),FadeOut( _cartesian_product_defintion_box), run_time=.5) # 1 minute and 4.5 seconds
+        self.wait(1) # 1 minute and 5.5 seconds
+
         grid_content = VGroup(
-            MathTex("(k,r)", "(\\ell,r)", "(m,r)", color=PURPLE),
-            MathTex("(k,q)", "(\\ell,q)", "(m,q)", color=PURPLE)
+            MathTex("(k,q)", "(\\ell,q)", "(m,q)", color=YELLOW),
+            MathTex("(k,r)", "(\\ell,r)", "(m,r)", color=YELLOW)
         ).arrange(DOWN, buff=1.0)
         
         # Manually align columns for row 2 to match row 1
@@ -413,7 +700,7 @@ class CartesianProduct(Scene):
         product_section = VGroup(box_ab, grid_content, label_ab)
 
         # 3. Build Set B (Vertical)
-        elements_b = VGroup(MathTex("r", color=RED), MathTex("q", color=RED)).arrange(DOWN, buff=1.0)
+        elements_b = VGroup(MathTex("q", color=RED), MathTex("r", color=RED)).arrange(DOWN, buff=1.0)
         elements_b.next_to(box_ab, LEFT, buff=1.2).align_to(grid_content, UP)
 
         
@@ -437,12 +724,12 @@ class CartesianProduct(Scene):
         # 6. Animation        
         _sets = [
             MathTex(r"A \times B", r"=", r"\{ \}"),
-            MathTex(r"A \times B", r"=", r"\{ (k, r) \}"),
-            MathTex(r"A \times B", r"=", r"\{ (k, r),(\ell, r)\}"),
-            MathTex(r"A \times B", r"=", r"\{ (k, r),(\ell, r),(m, r) \}"),
-            MathTex(r"A \times B", r"=", r"\{ (k, r),(\ell, r),(m, r),(k, q) \}"),
-            MathTex(r"A \times B", r"=", r"\{ (k, r),(\ell, r),(m, r),(k, q),(\ell, q) \}"),
-            MathTex(r"A \times B", r"=", r"\{ (k, r),(\ell, r),(m, r),(k, q),(\ell, q), (m, q)\}")           
+            MathTex(r"A \times B", r"=", r"\{ (k, q) \}"),
+            MathTex(r"A \times B", r"=", r"\{ (k, q),(\ell, q)\}"),
+            MathTex(r"A \times B", r"=", r"\{ (k, q),(\ell, q),(m, q) \}"),
+            MathTex(r"A \times B", r"=", r"\{ (k, q),(\ell, q),(m, q),(k, r) \}"),
+            MathTex(r"A \times B", r"=", r"\{ (k, q),(\ell, q),(m, q),(k, r),(\ell, r) \}"),
+            MathTex(r"A \times B", r"=", r"\{ (k, q),(\ell, q),(m, q),(k, r),(\ell, r), (m, r)\}")           
         ]
 
         # Initialize the first set position 
@@ -451,12 +738,14 @@ class CartesianProduct(Scene):
 
         current_set = _sets[0]
 	
-        self.play(FadeIn(set_b_section, shift=DOWN), run_time=2)
-        self.play(FadeIn(set_a_section, shift=DOWN), run_time=2)
-        self.play(FadeIn(box_ab),FadeIn(label_ab), FadeIn(current_set), run_time=2)
-        self.wait(2)
+        self.play(FadeIn(set_a_section, shift=DOWN), run_time=.5)# 1 minute and 6 seconds
+        self.wait(2) # 1 minute and 8 seconds
+        self.play(FadeIn(set_b_section, shift=DOWN), run_time=.5) # 1 minute and 8.5 seconds
+        self.wait(2) # 1 minute and 10.5 seconds
+        self.play(FadeIn(box_ab),FadeIn(label_ab), FadeIn(current_set), run_time=.5) # 1 minute and 11 seconds
+        self.wait(7) # 1 minute and 18 seconds
         x = 1
-        for i, row_char in enumerate(elements_b):      # r, then q
+        for i, row_char in enumerate(elements_b):      # q, then r
             for j, col_char in enumerate(elements_a):  # k, then l, then m
                 
                 # Target coordinate in your grid_content
@@ -467,17 +756,24 @@ class CartesianProduct(Scene):
                     ReplacementTransform(col_char.copy(), target), # Transform 'k' to '(' or 'k'
                     ReplacementTransform(row_char.copy(), target), # Transform 'r' to 'r' or ')'
                     Transform(current_set, _sets[x].next_to(diagram, DOWN, buff=0.4)),
-                    run_time=1
+                    run_time=1.5
                 )
                 x = x + 1
-                self.wait(.5)
+                self.wait(1)            
         
-        self.wait(2)
+        self.wait(4.5) # 1 minute and 37 seconds
+        # cartesian_set = MathTex(r"A \times B = \{ (k, q),(\ell, q),(m, q),(k, r),(\ell, r), (m, r)\}").scale(.5).next_to(diagram, DOWN, buff=0.4)
+        self.wait(3) # 1 minute and 40 seconds
+        box = SurroundingRectangle(current_set, buff = .1, stroke_width=1)
+        self.add(box)        
+        self.wait(2) # 1 minute and 42 seconds
+        
         _sets_cardinality = MathTex(r'|A \times B| = |A|.|B|').next_to(current_set, DOWN*2, buff=0.2).scale(.5)
-        self.play(Write(_sets_cardinality))
-        self.wait(2)
-        self.play(FadeOut(diagram), FadeOut(current_set),FadeOut(_sets_cardinality) )
-        self.wait(2)
+        self.wait(2.5) # 1 minute and 44.5 seconds
+        self.play(Write(_sets_cardinality), run_time=.5) # 1 minute and 45 seconds
+        self.wait(3) # 1 minute and 48 seconds
+        self.play(FadeOut(diagram), FadeOut(current_set),FadeOut(_sets_cardinality), FadeOut(box), run_time=.5 )# 1 minute and 48.5 seconds
+        self.wait(10) # 1 minute and 58.5 seconds
         _cartesian_notation_RR = MathTex(r"\mathbb{R} \times \mathbb{R} = \{ (x, y) : x, y \in \mathbb{R} \}")
         _cartesian_notation_RN = MathTex(r"\mathbb{R} \times \mathbb{N} = \{ (x, y) : x \in \mathbb{R}, y \in \mathbb{N} \}")
         _cartesian_notation_NN = MathTex(r"\mathbb{N} \times \mathbb{N} = \{ (x, y) : x, y \in \mathbb{N} \}")
@@ -519,8 +815,8 @@ class CartesianProduct(Scene):
         
         # Center the whole thing on screen
         full_rr.move_to(LEFT*4).scale(.35)
-        self.play(FadeIn(full_rr))
-        self.wait(2)
+        self.play(FadeIn(full_rr), run_time=.5) # 1 minute and 59
+        self.wait(5.5) # 2 minute and 4.5 seconds
 
         # Fade out the entire group at once as requested
         # self.play(FadeOut(full_group))
@@ -553,17 +849,16 @@ class CartesianProduct(Scene):
         # 6. Final Master VGroup: Title + Graph
         full_rn = VGroup(_cartesian_notation_RN, graph_body).arrange(DOWN, buff=1.0)
         full_rn.next_to(full_rr, RIGHT, buff=.2).shift(LEFT*2).scale(.35)
+         # --- ANIMATION ---
+        self.play(Write(_cartesian_notation_RN), run_time=.5) # 2 minute and 5 second
+        self.wait(3.5) # 2 minute and 8.5 seconds
 
-        # --- ANIMATION ---
-        self.play(Write(_cartesian_notation_RN))
-        self.wait(0.5)
-        
         # Animate lines appearing one by one to emphasize the "Discrete" nature of N
-        self.play(Create(x_axis), Create(y_axis), Write(x_label), Write(y_label))
-        self.play(AnimationGroup(*[Create(l) for l in lines], lag_ratio=0.2))
-        self.play(Write(graph_label))
+        self.play(Create(x_axis), Create(y_axis), Write(x_label), Write(y_label), run_time=.5) # 2 minute and 9 second
+        self.play(AnimationGroup(*[Create(l) for l in lines], lag_ratio=0.2), run_time=.5) # 2 minute and 9.5 seconds
+        self.play(Write(graph_label), run_time=.5) # 2 minute and 10 seconds
         
-        self.wait(2)
+        self.wait(3.5) # 2 minute and 13.5 seconds
         
         # Fade out everything at once
         # self.play(FadeOut(full_rn))
@@ -595,31 +890,47 @@ class CartesianProduct(Scene):
         full_nn.next_to(full_rn, RIGHT, buff=.2).shift(LEFT*2).scale(.35)
 
         # --- ANIMATION ---
-        self.play(Write(_cartesian_notation_NN))
-        self.wait(0.5)
-
+    
+        self.play(Write(_cartesian_notation_NN), run_time=.5) # 2 minute and 14 seconds
+        self.wait(3.5) # 2 minute and 17.5 seconds
         # Draw axes
-        self.play(Create(x_axis), Create(y_axis), Write(x_label), Write(y_label))
+        self.play(Create(x_axis), Create(y_axis), Write(x_label), Write(y_label) , run_time=.5) # 2 minute and 18 seconds
         
         # Animate dots appearing in order (by column)
-        self.play(LaggedStartMap(FadeIn, dots, shift=UP*0.2, scale=0.5, lag_ratio=0.05))
+        self.play(LaggedStartMap(FadeIn, dots, shift=UP*0.2, scale=0.5, lag_ratio=0.05), run_time=.5) # 2 minute and 18.5 seconds
         
-        self.play(Write(graph_label))
-        self.wait(2)
+        self.play(Write(graph_label), run_time=.5)# 2 minute and 19 seconds
+        self.wait(1)# 2 minute and 20 seconds
 
         # Fade out the entire VGroup at once
-        self.play(FadeOut(full_nn), FadeOut(full_rn), FadeOut(full_rr))
-        self.wait()
+        self.play(FadeOut(full_nn), FadeOut(full_rn), FadeOut(full_rr), run_time=.5) # 2 minute and 20.5 seconds
+        self.wait(8.5)# 2 minute and 29 seconds
 
         _cartesian_notation_RNZ = MathTex(
             r"\mathbb{R} \times \mathbb{N} \times \mathbb{Z} = \{ (x, y, z) : x \in \mathbb{R}, y \in \mathbb{N}, z \in \mathbb{Z} \}"
         ).scale(.5)
         _cartesian_product_n = MathTex(
             r"A_1 \times A_2 \times \cdots \times A_n = \{ (x_1, x_2, \dots, x_n) : x_i \in A_i \text{ for each } i = 1, 2, \dots, n \}"
-        ).scale(.5)
+        ).scale(.5).next_to(_cartesian_notation_RNZ, DOWN, buff=0.2)
         _cartesian_notation_An = MathTex(
             r"A^n = A \times A \times \cdots \times A = \{ (x_1, x_2, \dots, x_n) : x_1, x_2, \dots, x_n \in A \}"
-        ).scale(.5)
+        ).scale(.5).next_to(_cartesian_product_n, DOWN, buff=0.2)
+
+        self.play(Write(_cartesian_notation_RNZ), run_time=.5) # 2 minute and 29.5 seconds
+       
+        # self.play(Unwrite(_cartesian_notation_RNZ), run_time=.5) # 2 minute and 31 seconds
+        self.wait(2.5) # 2 minute and 32 seconds
+
+        self.play(Write(_cartesian_product_n), run_time=.5) # 2 minute and 32.5 seconds
+        # self.wait(2) # 2 minute and 34.5 seconds
+        # self.play(Unwrite(_cartesian_product_n), run_time=.5) # 2 minute and 35 seconds
+        self.wait(5)# 2 minute and 38 seconds
+
+        self.play(Write(_cartesian_notation_An), run_time=.5) # 2 minute and 38 seconds
+        self.wait(1.5) # 2 minute and 39.5 seconds
+        self.play(FadeOut(_cartesian_notation_RNZ), FadeOut(_cartesian_product_n), FadeOut(_cartesian_notation_An), run_time=.5) # 2 minute and 40 seconds
+        self.wait(17) # 2 minute and 56.5 seconds
+
         _matrix_set_M = MathTex(
             r"M = \left\{ \begin{bmatrix} u & v & w \\ x & y & z \end{bmatrix} : u, v, w, x, y, z \in \mathbb{R} \right\}"
         ).next_to(underline, DOWN, buff=.5).scale(.5)
@@ -628,29 +939,17 @@ class CartesianProduct(Scene):
             r"\mathbb{R}^6 = \{ (u, v, w, x, y, z) : u, v, w, x, y, z \in \mathbb{R} \}"
         ).next_to(_matrix_set_M, DOWN, buff=.2).scale(.5)
         _M_not_r6 = MathTex(r"M \neq \mathbb{R}^6").next_to(_r6_notation, DOWN, buff=.2).scale(.5)
-        self.play(Write(_cartesian_notation_RNZ))
-        self.wait(2)
-        self.play(Unwrite(_cartesian_notation_RNZ))
-        self.wait(2)
+        
+        self.play(Write(_matrix_set_M), run_time=.5) # 2 minute and 57 seconds
+        self.wait(3.5) # 3 minute and 0.5 seconds
+        self.play(Write(_r6_notation), run_time=.5) # 3 minute and 1 seconds
+        self.wait(13.5) # 3 minute and 14.5 seconds
+        self.play(Write(_M_not_r6), run_time=.5) # 3 minute and 15 seconds
+        self.wait(6.5) # 3 minute and 21.5 seconds
+        self.play(Unwrite(_cartesian_notation_An), run_time=.5) # 3 minute and 22 seconds
+        self.wait(.5) # 3 minute and 22.5 seconds
 
-        self.play(Write(_cartesian_product_n))
-        self.wait(2)
-        self.play(Unwrite(_cartesian_product_n))
-        self.wait(2)
-
-        self.play(Write(_cartesian_notation_An))
-        self.wait(2)
-        self.play(Unwrite(_cartesian_notation_An))
-        self.wait(2)
-
-        self.play(Write(_matrix_set_M))
-        self.wait(1)
-        self.play(Write(_r6_notation))
-        self.wait(1)
-        self.play(Write(_M_not_r6))
-        self.wait(1)
-        self.play(Unwrite(_cartesian_notation_An))
-        self.wait(2)
+        
     
 # manim -qk -p set.py CartesianProduct
 
@@ -666,6 +965,12 @@ class Subset(Scene):
 
         self.add(title)
         self.add(underline)
+        _set_a = MathTex(r"A = \{0,2,4\}")
+        _set_b = MathTex(r"B =\{0,1,2,3,4\}").next_to(_set_a, DOWN, buff=0.5)
+        self.wait(7.5) # 5.5 seconds
+        self.play(Write(_set_a), Write(_set_b), run_time=.5) # 8 seconds
+        self.wait(9) # 17 seconds
+        self.play(FadeOut(_set_a), FadeOut(_set_b), run_time=.5) # 17.5 seconds
         _subset_defintion_title= MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
         _subset_defintion_1 = MarkupText("Aን Bን ስብስባት እዮም ንበል። ሕድ ሕድ ባእታ ናይ A ባእታ ናይ B እውን እንተኾይኑ፣ ስብስብ A ንኡስ ስብስብ ናይ B እዩ ንብል።",font_size=30, color=WHITE, font="Nyala")
         _subset_defintion_2_1 = MathTex(r"A \subseteq B", color=ORANGE)
@@ -684,9 +989,9 @@ class Subset(Scene):
                 _subset_definition_3,
                 _subset_defintion_4,
                 _subset_defintion_box)
-        self.wait(4)
-        self.play(FadeOut( _subset_definition),FadeOut( _subset_defintion_box))
-        self.wait(2)
+        self.wait(30.5) # 48 seconds
+        self.play(FadeOut( _subset_definition),FadeOut( _subset_defintion_box), run_time=.5) # 48.5 seconds
+        self.wait(2)# 50.5 seconds
 
         lines = [
             r"\{2, 3, 7\} \subseteq \{2, 3, 4, 5, 6, 7\}",
@@ -704,24 +1009,37 @@ class Subset(Scene):
         ]).arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(underline, DOWN, buff=.1).scale(.5)
 
         # 3. Display them one by one
-        for item in subset_group:
-            self.play(Write(item), run_time=1)
-            self.wait(0.5)
-
-        self.wait(2)
+        # for item in subset_group:
+        #     self.play(Write(item), run_time=1)
+        #     self.wait(0.5)
+        self.add(subset_group)
+        self.wait(66.5) # 1 minute and 57 seconds
         
         # Now you can fade the whole thing out easily
-        self.play(FadeOut(subset_group))
+        self.play(FadeOut(subset_group), run_time=.5) # 1 minute and 57.5 seconds
+        self.wait(1) # 1 minute and 58.5 seconds
         _empty_set_rule = MathTex(r"\forall A, \emptyset \subseteq A").scale(.5)
-        self.play(Write(_empty_set_rule), run_time=1)
-
+        self.play(Write(_empty_set_rule), run_time=.5) # 1 minute and 59 seconds
         # Specifically for itself
+        self.wait(2) # 2 minute and 1 seconds
         _empty_set_self = MathTex(r"\emptyset \subseteq \emptyset").next_to(_empty_set_rule, DOWN, buff=.2).scale(.5)
-        self.play(Write(_empty_set_self), run_time=1)
-        self.wait()
-        self.play(FadeOut(_empty_set_rule),FadeOut(_empty_set_self), run_time=1)
-        self.wait()
-        # 1. Configuration
+        self.play(Write(_empty_set_self), run_time=.5) # 2 minute and 1.5 seconds
+        self.wait(2) # 2 minute and 3.5 seconds
+        self.play(FadeOut(_empty_set_rule),FadeOut(_empty_set_self), run_time=.5) # 2 minute and 4 seconds
+        self.wait(9.5) # 2 minute and 13.5 seconds
+        set_b = MathTex(r"B= \{a, b, c\}").scale(.5).next_to(underline, DOWN*2, buff=0.5)
+        self.play(Write(set_b), run_time=.5) # 2 minute and 14 seconds
+        empty_set = MathTex(r"\{ \}").scale(.5).next_to(set_b, DOWN, buff=0.5)
+        self.wait(1.5) # 2 minute and 15.5 seconds
+        self.play(Write(empty_set), run_time=.5) # 2 minute and 16 seconds
+        self.wait(7.5) # 2 minute and 23.5 seconds
+        set_a_b = MathTex(r"a, b").scale(.5).next_to(empty_set, DOWN, buff=0.5)
+        self.play(Write(set_a_b), run_time=.5) # 2 minute and 24 seconds
+        
+        self.wait(28) # 2 minute and 52 seconds
+        self.play(FadeOut(set_b), FadeOut(empty_set), FadeOut(set_a_b), run_time=.5) # 2 minute and 52.5 seconds
+        self.wait(3.5) # 2 minute and 56 seconds
+         # 1. Configuration
         elements = ["a", "b", "c"]
         depth = len(elements)
         h_spacing = 4.5
@@ -743,7 +1061,7 @@ class Subset(Scene):
             # Segment 2: From just after the center to the end
             line2 = Line(mid + unit_vec * gap_size, end, stroke_width=1)
             
-            label = Text(label_text, font_size=20).move_to(mid)
+            label = MarkupText(label_text, font_size=20, font="Nyala").move_to(mid)
             return VGroup(line1, line2, label)
 
         # 2. Recursive function to build the tree
@@ -764,8 +1082,8 @@ class Subset(Scene):
             end_up = np.array([next_x - 0.7, y_up, 0])
             end_down = np.array([next_x - 0.7, y_down, 0])
 
-            no_branch = draw_broken_line(start_pt, end_up, "No")
-            yes_branch = draw_broken_line(start_pt, end_down, "Yes")
+            no_branch = draw_broken_line(start_pt, end_up, "ኣይፋል")
+            yes_branch = draw_broken_line(start_pt, end_down, "እወ")
 
             # --- Vertical Dotted Line ---
             # Connects the "No" and "Yes" text labels
@@ -790,7 +1108,8 @@ class Subset(Scene):
         header_y_pos = 7.0 
         for i, char in enumerate(elements):
             header_x = -4 + (i * h_spacing) + (h_spacing / 2)
-            h_text = MathTex(f"\\text{{Insert }}{char}?", font_size=30)
+            # h_text = MathTex(f"\\text{{Insert }}{char}?", font_size=30)
+            h_text = MarkupText(f"<span font_family='Sans'>{char} </span>ይእተው?", font_size=30, color=WHITE, font="Nyala")
             h_text.move_to([header_x, header_y_pos, 0])
             arrow = Arrow(h_text.get_bottom(), h_text.get_bottom() + DOWN * 1, buff=0.1, stroke_width=2)
             headers.add(h_text, arrow)
@@ -804,21 +1123,19 @@ class Subset(Scene):
             r"\{\}, \{c\}, \{b\}, \{b, c\}, \{a\}, \{a, c\}, \{a, b\} \text{ and } \{a, b, c\}."
         ).next_to(all_elements, DOWN*.5, buff=.1).scale(.5)
         # 5. Animation
-        self.play(FadeIn(all_elements, lag_ratio=0.05), Write(_powerset_list), run_time=2)
+        self.play(FadeIn(all_elements, lag_ratio=0.05), Write(_powerset_list), run_time=2) # 2 minute and 58 seconds
         # self.add(all_elements)
-        self.wait(2)
-        self.play(FadeOut(all_elements), FadeOut(_powerset_list))
-        self.wait(2)
-
+        self.wait(6) # 3 minute and 4 seconds
+        self.play(FadeOut(all_elements), FadeOut(_powerset_list), run_time=1) # 3 minute and 5 seconds
+        self.wait(3.5) # 3 minute and 8.5 seconds
         _set_cardinality = MathTex(r'|A| = n').scale(.5)
         _number_of_subsets = MathTex(r" \implies 2^n").next_to(_set_cardinality, RIGHT).scale(.5)
-        self.play(Write(_set_cardinality), run_time=.5)
-        self.wait()
-        self.play(Write(_number_of_subsets), run_time=.5)
-        self.wait()
-        self.play(FadeOut(_set_cardinality), FadeOut(_number_of_subsets))
-        self.wait(2)
-
+        self.play(Write(_set_cardinality), run_time=.5) # 3 minute and 9 seconds
+        self.wait(1.5) # 3 minute and 10.5 seconds
+        self.play(Write(_number_of_subsets), run_time=.5) # 3 minute and 11 seconds
+        self.wait(2.5) # 3 minute and 13.5 seconds
+        self.play(FadeOut(_set_cardinality), FadeOut(_number_of_subsets), run_time=.5) # 3 minute and 14 seconds
+        self.wait(1)# 3 minute and 15 seconds
         _powerset_defintion_title= MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
         _powerset_defintion_1 = MarkupText("A ስብስብ እንተኾይኑ፡ ስብስብ ናይ ኩሎም ንኡሳን ስብስባት A ዝኾነ ካልእ ስብስብ ድማ፣ ስብስብ ሓይሊ ናይ A (Power Set of A) ይባሃል።",font_size=30, color=WHITE, font="Nyala")
         _powerset_defintion_2_1 = MathTex(r"\mathcal{P}(A) = \{X : X \subseteq A\}", color=ORANGE)
@@ -832,29 +1149,22 @@ class Subset(Scene):
                 _powerset_defintion_1,
                 _powerset_defintion_2,
                 _powerset_defintion_box)
-        self.wait(4)
-        self.play(FadeOut( _powerset_definition),FadeOut( _powerset_defintion_box))
-        self.wait(2)
+        self.wait(11) # 3 minute and 26 seconds
+        self.play(FadeOut( _powerset_definition),FadeOut( _powerset_defintion_box), run_time=.5) # 3 minute and 26.5 seconds
+        self.wait(2) # 3 minute and 28.5 seconds
         _set_A = MathTex(r"A = \{1, 2, 3\}")
         _powerset_set_A = MathTex(r"\mathcal{P}(A) = \{\}, \{1\}, \{2\}, \{3\}, \{1, 2\},  \{1, 3\}, \{2, 3\} , \{1, 2, 3\}")
         _power_set_cardinality = MathTex(r"|\mathcal{P}(A)| = 2^{|A|}")
         _powerset_group = VGroup(_set_A,_powerset_set_A, _power_set_cardinality
         ).arrange(DOWN, aligned_edge=LEFT, buff=0.5).scale(.5)
-        self.play(FadeIn(_set_A), run_time=.5)
-        self.wait()
-        self.play(FadeIn(_powerset_set_A), run_time=.5)
-        self.wait()
-        self.play(FadeIn(_power_set_cardinality), run_time=.5)
-        self.wait()
-        self.play(ShrinkToCenter(_powerset_group))
-
-        self.wait(4)
-
-        # _subset_notation = MathTex(r"A \subseteq B")
-        # _not_subset = MathTex(r"A \not\subseteq B")
-        # _power_set = MathTex(r"\mathcal{P}(A)")
-    
-
+        self.play(FadeIn(_set_A), run_time=.5) # 3 minute and 29 seconds
+        self.wait(2.5) # 3 minute and 31 seconds
+        self.play(FadeIn(_powerset_set_A), run_time=.5) # 3 minute and 32 seconds
+        self.wait(3.5) # 3 minute and 35.5 seconds
+        self.play(FadeIn(_power_set_cardinality), run_time=.5) # 3 minute and 36 seconds
+        self.wait(1) # 3 minute and 37 seconds
+        self.play(ShrinkToCenter(_powerset_group), run_time=.5) # 3 minute and 37.5 seconds
+        self.wait(.5) # 3 minute and 38 seconds        
 # manim -ql -p  set.py Subset
 
 
@@ -865,14 +1175,15 @@ class SetUNDC(Scene):
         self.add(background)  
         self.add(bg_text)   
         # Title
-        title = Text("ሕብረት፣ መጋጠሚ፣ፍልልይ / Union, Intersection, Difference", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        title = Text("ሕብረት፣ መጋጠሚ፣ ፍልልይ፣ መመላእታ / Union, Intersection, Difference, Complement", font_size=34, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
         underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
         underline.next_to(title, DOWN, buff=0.2)
 
         self.add(title)
         self.add(underline)
+        self.wait(24) # 24 seconds
         _undc_defintion_title= MarkupText("<span underline='low' underline_color='#FFFF00'>መብርሂ:</span>",font_size=40, color=WHITE, font="Nyala")
-        _undc_defintion_sets = MarkupText("U ዝባሃል ኣድማሳዊ ስብስብን A፣ B፣ ዝባሃሉ ተራ ስብስባትን ተልዮምና...",font_size=30, color=WHITE, font="Nyala")
+        _undc_defintion_sets = MarkupText("U ዝባሃል ኣድማሳዊ ስብስብን A፣ B፣ C ዝባሃሉ ተራ ስብስባትን ተልዮምና...",font_size=30, color=WHITE, font="Nyala")
         
         _undc_defintion_union_1 = MathTex(r"A \cup B = \{x : x \in A \lor x \in B\}", color=ORANGE)
         _undc_defintion_union_2 = MarkupText("  ዝግለፀ ስብስብስ፣ ናይ ስብስብ Aን ስብስብ Bን ሕብረት እዩ።",font_size=30, color=WHITE, font="Nyala")
@@ -886,8 +1197,8 @@ class SetUNDC(Scene):
         _undc_defintion_difference_2 = MarkupText("  ዝግለፀ ስብስብስ፣ ናይ ስብስብ A ፍልልይ ስብስብ B እዩ።",font_size=30, color=WHITE, font="Nyala")
         _undc_defintion_difference = VGroup(_undc_defintion_difference_1, _undc_defintion_difference_2).arrange(RIGHT)
 
-        _undc_defintion_complement_1 = MathTex(r"\overline{A} = U - A", color=ORANGE)
-        _undc_defintion_complement_2 = MarkupText("  ዝግለፀ ስብስብስ፣ ናይ ስብስብ A መመላእታ እዩ።",font_size=30, color=WHITE, font="Nyala")
+        _undc_defintion_complement_1 = MathTex(r"\overline{C} = U - C", color=ORANGE)
+        _undc_defintion_complement_2 = MarkupText("  ዝግለፀ ስብስብስ፣ ናይ ስብስብ C መመላእታ እዩ።",font_size=30, color=WHITE, font="Nyala")
         _undc_defintion_complement = VGroup(_undc_defintion_complement_1, _undc_defintion_complement_2).arrange(RIGHT)
 
         
@@ -902,74 +1213,74 @@ class SetUNDC(Scene):
                 _undc_defintion_difference,
                 _undc_defintion_complement,
                 _undc_defintion_box)
-        self.wait(4)
-        self.play(FadeOut(_undc_definition),FadeOut( _undc_defintion_box))
-        self.wait(2)
+        self.wait(28) # 52 seconds
+        self.play(FadeOut(_undc_definition),FadeOut( _undc_defintion_box), run_time=1) # 53 seconds
+        self.wait(2.5) # 55.5 seconds
         _set_ab = MathTex(r"X \& Y")
         _set_aub = MathTex(r"X \cup Y = Y \cup X")
         _set_anb = MathTex(r"X \cap Y = Y \cap X")
         _set_adb = MathTex(r"X - Y \neq Y - X")
 
         _sets_ab_group = VGroup(_set_ab,_set_aub, _set_anb,_set_adb
-        ).arrange(DOWN, buff=0.2).next_to(underline, DOWN, buff=.5).scale(.5)
-        self.play(FadeIn(_set_ab), run_time=.5)
-        self.wait()
-        self.play(FadeIn(_set_aub), run_time=.5)
-        self.wait()
-        self.play(FadeIn(_set_anb), run_time=.5)
-        self.wait()  
-        self.play(FadeIn(_set_adb), run_time=.5)
-        self.wait()       
+        ).arrange(DOWN, buff=0.5).next_to(underline, DOWN, buff=.5).scale(.5)
+        self.play(FadeIn(_set_ab), run_time=.5) #  56 seconds
+        self.wait(2.5) # 58.5 seconds
+        self.play(FadeIn(_set_aub), run_time=.5) # 59 seconds
+        self.wait(4.5) # 1 minute and 3.5 seconds
+        self.play(FadeIn(_set_anb), run_time=.5) # 1 minute and 4 seconds
+        self.wait(8.5) # 1 minute and 12.5 seconds
+        self.play(FadeIn(_set_adb), run_time=.5) # 1 minute and 13 seconds
+        self.wait(2.5) # 1 minute and 15.5 seconds 
 
-        self.play(FadeOut(_sets_ab_group))
-        self.wait(2)
+        self.play(FadeOut(_sets_ab_group), run_time=.5) # 1 minute and 16 seconds
+        self.wait(18) # 1 minute and 34 seconds
 
-        _set_A = MathTex(r"A = \{a, b, c, d, e\}, ")
-        _set_B = MathTex(r"B = \{d, e, f\}, ")
-        _set_C = MathTex(r"C = \{1, 2, 3\}")
+        # _set_A = MathTex(r"A = \{a, b, c, d, e\}, ")
+        # _set_B = MathTex(r"B = \{d, e, f\}, ")
+        # _set_C = MathTex(r"C = \{1, 2, 3\}")
     
-        _sets_a_b_c_group = VGroup(_set_A,_set_B, _set_C
-        ).arrange(RIGHT, buff=0.2).next_to(underline, DOWN, buff=.5).scale(.5)
-        self.play(FadeIn(_set_A), run_time=.5)
-        self.wait()
-        self.play(FadeIn(_set_B), run_time=.5)
-        self.wait()
-        self.play(FadeIn(_set_C), run_time=.5)
-        self.wait()  
+        # _sets_a_b_c_group = VGroup(_set_A,_set_B, _set_C
+        # ).arrange(RIGHT, buff=0.2).next_to(underline, DOWN, buff=.5).scale(.5)
+        # self.play(FadeIn(_set_A), run_time=.5)
+        # self.wait()
+        # self.play(FadeIn(_set_B), run_time=.5)
+        # self.wait()
+        # self.play(FadeIn(_set_C), run_time=.5)
+        # self.wait()  
 
-        MathTex(r"\overline{A} = U - A.}", color=ORANGE)      
+        # MathTex(r"\overline{A} = U - A.}", color=ORANGE)      
 
-        lines = [
-            r"1. \quad A \cup B = \{a, b, c, d, e, f\}",
-            r"2. \quad A \cap B = \{d, e\}",
-            r"3. \quad A - B = \{a, b, c\}",
-            r"4. \quad B - A = \{f\}",
-            r"5. \quad (A - B) \cup (B - A) = \{a, b, c, f\}",
-            r"6. \quad A \cup C = \{a, b, c, d, e, 1, 2, 3\}",
-            r"7. \quad A \cap C = \emptyset",
-            r"8. \quad A - C = \{a, b, c, d, e\}",
-            r"9. \quad (A \cap C) \cup (A - C) = \{a, b, c, d, e\}",
-            r"10. \overline{A} = \{g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z\}"            
-        ]
+        # lines = [
+        #     r"1. \quad A \cup B = \{a, b, c, d, e, f\}",
+        #     r"2. \quad A \cap B = \{d, e\}",
+        #     r"3. \quad A - B = \{a, b, c\}",
+        #     r"4. \quad B - A = \{f\}",
+        #     r"5. \quad (A - B) \cup (B - A) = \{a, b, c, f\}",
+        #     r"6. \quad A \cup C = \{a, b, c, d, e, 1, 2, 3\}",
+        #     r"7. \quad A \cap C = \emptyset",
+        #     r"8. \quad A - C = \{a, b, c, d, e\}",
+        #     r"9. \quad (A \cap C) \cup (A - C) = \{a, b, c, d, e\}",
+        #     r"10. \overline{A} = \{g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z\}"            
+        # ]
 
-        # Convert strings to MathTex objects and group them
-        set_list = VGroup(*[
-            MathTex(line, font_size=32) for line in lines
-        ])
+        # # Convert strings to MathTex objects and group them
+        # set_list = VGroup(*[
+        #     MathTex(line, font_size=32) for line in lines
+        # ])
 
-        # Arrange them vertically, aligned to the left edge
-        set_list.arrange(DOWN, aligned_edge=LEFT, buff=0.3)
+        # # Arrange them vertically, aligned to the left edge
+        # set_list.arrange(DOWN, aligned_edge=LEFT, buff=0.3)
         
-        # Center the whole group on the screen
-        set_list.next_to(_sets_a_b_c_group, DOWN, buff=.2).scale(.5)
+        # # Center the whole group on the screen
+        # set_list.next_to(_sets_a_b_c_group, DOWN, buff=.2).scale(.5)
 
-        # Animation: Write them line by line
-        self.play(Write(set_list, run_time=5, lag_ratio=0.5))
-        self.wait(2)
+        # # Animation: Write them line by line
+        # self.play(Write(set_list, run_time=5, lag_ratio=0.5))
+        # self.wait(2)
 
-        self.play(ShrinkToCenter(set_list), FadeOut(_sets_a_b_c_group))
+        # self.play(ShrinkToCenter(set_list), FadeOut(_sets_a_b_c_group))
 
-        self.wait(2)
+       
 
         axes_parabol = Axes(
             x_range=[-3, 3, 1],
@@ -1036,7 +1347,7 @@ class SetUNDC(Scene):
         graphs_vgroup = VGroup(parabola_group, line_group).arrange(DOWN, buff=0.5).next_to(underline, DOWN*.1, buff=.1).shift(LEFT*3).scale(.5)
 
         # Add the final VGroup to the scene
-        self.play(Create(graphs_vgroup))
+        self.play(Create(graphs_vgroup), run_time=2) # 1 minute and 36 seconds
         self.wait()
 
         # 2. Define the Parabola (Set B: y = x^2)
@@ -1139,18 +1450,17 @@ class SetUNDC(Scene):
         g_group = VGroup(group_one, group_two).arrange(DOWN, buff=.5).next_to(graphs_vgroup, RIGHT*.1, buff=.1).shift(LEFT*9).scale(.25)
         
         # 5. Animation Sequence
-        self.play(Create(d_ab_vgroup))
-        self.wait()
-        self.play(Create(d_ba_vgroup))
-        self.wait()
-        self.play(Create(n_vgroup))
-        self.wait()
-        self.play(Create(c_group))
-        self.wait()
-        self.play(FadeOut(graphs_vgroup))
-        self.wait()
-        self.play(ShrinkToCenter(g_group))
-        self.wait(2)
+        self.wait(2.5) # 1 minute and 38.5 seconds
+        self.play(Create(d_ab_vgroup), run_time=.5 ) # 1 minute and 39 seconds
+        self.wait(6) # 1 minute and 45 seconds
+        self.play(Create(d_ba_vgroup), run_time=.5 )# 1 minute and 45.5 seconds
+        self.wait(7.5) # 1 minute and 53 seconds
+        self.play(Create(n_vgroup), run_time=.5 )# 1 minute and 53.5 seconds
+        self.wait(4.5) # 1 minute and 58 seconds
+        self.play(Create(c_group), run_time=.5 )# 1 minute and 58.5 seconds
+        self.wait(3) # 2 minute and 1.5 seconds
+        self.play(FadeOut(graphs_vgroup),ShrinkToCenter(g_group), run_time=.5) # 2 minute and 2 seconds        
+        self.wait(1) # 2 minute and 3 second
 
         # _complement_notation = MathTex(r"\overline{A} = U - A.")
 
@@ -1187,8 +1497,9 @@ class VennDiagram(Scene):
 
         # Arrange vertically with a small gap (buff)
         main_vgroup = VGroup(*groups).arrange(DOWN, buff=0.5).next_to(underline, DOWN, buff=.4).shift(LEFT*5)
-        self.play(Create(main_vgroup), run_time=2)
-        self.wait(2)
+        self.wait(16) # 16 seconds
+        self.play(Create(main_vgroup), run_time=.5) # 16.5 seconds
+        self.wait(6.4) # 23 seconds
 
         circle_radius = 1.2
         overlap_dist = 0.8  # Distance from center to center
@@ -1236,44 +1547,12 @@ class VennDiagram(Scene):
         # Put all diagrams in a VGroup and arrange them horizontally
         all_diagrams = VGroup(diag_a, diag_b, diag_c).arrange(RIGHT, buff=.5).next_to(underline, DOWN, buff=.4).scale(.5)
         
-
-        self.add(all_diagrams)
-
-        self.wait(2)
-
         c_rad = 1.0
         overlap = 0.6
         fill_opt = {"fill_opacity": 0.5, "color": PURPLE}
         stroke_opt = {"stroke_width": 2, "color": WHITE}
 
-        # --- Helper for 3-circle Base ---
-        def get_3venn_base():
-            # Arrange circles in a triangle
-            c_a = Circle(radius=c_rad, **stroke_opt).shift(LEFT * 0.6 + DOWN * 0.4)
-            c_b = Circle(radius=c_rad, **stroke_opt).shift(RIGHT * 0.6 + DOWN * 0.4)
-            c_c = Circle(radius=c_rad, **stroke_opt).shift(UP * 0.6)
-            l_a = MathTex("A").next_to(c_a, LEFT, buff=0.1).scale(.5)
-            l_b = MathTex("B").next_to(c_b, RIGHT, buff=0.1).scale(.5)
-            l_c = MathTex("C").next_to(c_c, UP, buff=0.1).scale(.5)
-            return c_a, c_b, c_c, l_a, l_b, l_c
-
-        # --- ROW 2: 3-Circle Diagrams ---
-        # 3-Way Union
-        c4a, c4b, c4c, l4a, l4b, l4c = get_3venn_base()
-        u3 = Union(c4a, c4b, c4c, **fill_opt)
-        row2_1 = VGroup(u3, c4a, c4b, c4c, l4a, l4b, l4c, MathTex("A \\cup B \\cup C").next_to(u3, DOWN*.5, buff=0.5).scale(.7))
-
-        # 3-Way Intersection
-        c5a, c5b, c5c, l5a, l5b, l5c = get_3venn_base()
-        i3 = Intersection(c5a, c5b, c5c, **fill_opt)
-        row2_2 = VGroup(i3, c5a, c5b, c5c, l5a, l5b, l5c, MathTex("A \\cap B \\cap C").next_to(i3, DOWN*2.3, buff=0.5).scale(.7))
-
-        row2 = VGroup(row2_1, row2_2).arrange(RIGHT, buff=.5).next_to(all_diagrams, DOWN*.25, buff=.2).shift(UP).scale(.5)
-
-        # --- Final Layout ---
-    
-        self.add(row2)
-        self.wait(2)
+       
 
         # 1. Create the Universal Set (Rectangle)
         universal_set = Rectangle(width=4.0, height=3.0, color=WHITE)
@@ -1289,11 +1568,20 @@ class VennDiagram(Scene):
 
         # 4. Group and Label
         caption = MathTex(r"\overline{C}").next_to(universal_set, DOWN, buff=0.3).shift(UR).scale(.7)
-        diagram = VGroup(complement_fill, universal_set, circle_a, u_label, label_a, caption).next_to(row2, DOWN,buff=.2).shift(UP*.75).scale(.5)
+        diagram = VGroup(complement_fill, universal_set, circle_a, u_label, label_a, caption).next_to(all_diagrams, DOWN,buff=.2).shift(UP*.75).scale(.5)
 
         # 5. Display
-        self.play(DrawBorderThenFill(diagram))
-        self.wait(4)
+        self.play(Create(diag_a), run_time=1) # 23.5 seconds
+        self.wait(2) # 25.5 seconds
+        self.play(Create(diag_b), run_time=1) # 26.5 seconds
+        self.wait(2) # 28.5 seconds
+        self.play(Create(diag_c), run_time=1) # 29.5 seconds
+        self.wait(3) # 32.5 seconds
+        self.play( DrawBorderThenFill(diagram), run_time=1) # 33.5 seconds
+        self.wait(13)# 46.5 seconds
+        self.play(FadeOut(all_diagrams), FadeOut(diagram), run_time=1) # 47 seconds
+        self.wait(1) # 48 seconds
+        
 
 # manim -qk -p set.py VennDiagram
 
@@ -1305,12 +1593,22 @@ class Indexes(Scene):
         self.add(background)  
         self.add(bg_text)   
         # Title
-        title = Text("ዝርዝር ስብስባት/ Indexed Sets", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
+        title = Text("ሓባሪ ኣሃዝ ዘለዎም ስብስባት/ Indexed Sets", font_size=40, color=WHITE, font="Nyala").scale(0.9).to_edge(UP)
         underline = Line(LEFT*title.width/2, RIGHT*title.width/2, stroke_width=4, color=WHITE)
         underline.next_to(title, DOWN, buff=0.2)
 
         self.add(title)
         self.add(underline)
+        self.wait(13) # 13 seconds
+        a_b_c = MathTex(r"A, B, C").next_to(underline, DOWN, buff=.5).scale(.7)
+        self.play(Write(a_b_c), run_time=2) # 15 seconds
+        a1_a2_a3 = MathTex(r"A_1, A_2, A_3").next_to(a_b_c, DOWN, buff=.5).scale(.7)
+        self.wait(7) # 22 seconds
+        self.play(Write(a1_a2_a3), run_time=2) # 24 seconds
+        self.wait(6) # 30 seconds
+        self.play(FadeOut(a_b_c), FadeOut(a1_a2_a3), run_time=1) # 31 seconds
+        self.wait(21) # 49 seconds      
+        
         _union_general_1 = MathTex(r"A_1 \cup A_2 \cup A_3 \cup \cdots \cup A_n = \{x : x \in A_i")        
         _union_general_2 =Text(" እንተናኣሰ ንሓደ ስብስብስ ", weight=LIGHT, color=WHITE, font="Nyala")
         _union_general_3 = MathTex(r"A_i,")
@@ -1325,7 +1623,7 @@ class Indexes(Scene):
         #     r"A_1 \cap A_2 \cap A_3 \cap \cdots \cap A_n = \{x : x \in A_i \text{ for every set } A_i, \text{ for } 1 \leq i \leq n\},"
         # ) 
         _intersection_general_1 = MathTex(r"A_1 \cap A_2 \cap A_3 \cap \cdots \cap A_n = \{x : x \in A_i")        
-        _intersection_general_2 =Text(" እንተናኣሰ ንሓደ ስብስብስ ", weight=LIGHT, color=WHITE, font="Nyala")
+        _intersection_general_2 =Text(" ንሕድ ሕድ ስብስብስ ", weight=LIGHT, color=WHITE, font="Nyala")
         _intersection_general_3 = MathTex(r"A_i,")
         _intersection_general_4 = MarkupText(" ን ", font_size=30, color=WHITE, font="Nyala") 
         _intersection_general_5 = MathTex(r" 1 \leq i \leq n \}," )
@@ -1344,36 +1642,34 @@ class Indexes(Scene):
         _box_general = SurroundingRectangle(_definitions_general,  color=YELLOW, buff=0.4, fill_color=ORANGE, fill_opacity=0.05, corner_radius=0.2, stroke_width=1)        
         
         self.play(FadeIn(_defintions_general_title), FadeIn(_defintion_general_1),
-                FadeIn(_union_general),FadeIn(_intersection_general),FadeIn(_box_general))        
-        self.wait(2)
-        self.play(FadeOut(_box_general), FadeOut(_definitions_general))
-        self.wait(2)
+                FadeIn(_union_general),FadeIn(_intersection_general),FadeIn(_box_general), run_time=.5) # 53 seconds     
+        self.wait(26) # 1 minute and 19 seconds
+        self.play(FadeOut(_box_general), FadeOut(_definitions_general), run_time=.5) # 1 minute and 19.5 seconds
+        self.wait(22.5) # 1 minute and 42 seconds
     
         _summation_notation = MathTex(
             r"\sum_{i=1}^{n} a_i = a_1 + a_2 + a_3 + \cdots + a_n."
         ).next_to(underline, DOWN, buff=.2).scale(.7)
-        self.play(Write(_summation_notation), run_time=1)
-        self.wait()
-        self.play(FadeOut(_summation_notation), run_time=1)
-        self.wait()
+        self.play(Write(_summation_notation), run_time=1) # 1 minute and 43 seconds              
+        self.wait(6) # 1 minute and 49 seconds
 
         _infinite_sum = MathTex(
             r"\sum_{i=1}^{\infty} a_i = a_1 + a_2 + a_3 + \cdots + a_i + \cdots"
         ).next_to(underline, DOWN, buff=.2).scale(.7)
-        self.play(Write(_infinite_sum), run_time=1)
-        self.wait()
-        self.play(FadeOut(_infinite_sum), run_time=1)
-        self.wait()
+        self.play(Write(_infinite_sum), run_time=1) # 1 minute and 50 seconds
+        self.wait(.5) # 1 minute and 50.5 seconds
+        self.play(FadeOut(_infinite_sum), FadeOut(_summation_notation), run_time=1) # 1 minute and 51.5 seconds
+        self.wait(2.5) # 1 minute and 54 seconds
         _indexed_notations = MathTex(
             r"\bigcup_{i=1}^{n} A_i = A_1 \cup A_2 \cup A_3 \cup \cdots \cup A_n",            
             r"  \bigcap_{i=1}^{n} A_i = A_1 \cap A_2 \cap A_3 \cap \cdots \cap A_n"
         ).next_to(underline, DOWN, buff=.2).scale(.7)
-        self.play(Write(_indexed_notations[0]), run_time=1)
-        self.wait()
-        self.play(Write(_indexed_notations[1]), run_time=1)
-        self.wait()
-        self.play(FadeOut(_indexed_notations[0]),FadeOut(_indexed_notations[1]), run_time=1)
-        self.wait()
+        self.play(Write(_indexed_notations[0]), run_time=1) # 2 minute and 5 seconds
+        self.wait(3.5) # 2 minute and 7 seconds
+        self.play(Write(_indexed_notations[1]), run_time=1) # 2 minute and 8 seconds
+        self.wait(1) # 2 minute and 9 seconds
+        self.play(FadeOut(_indexed_notations[0]),FadeOut(_indexed_notations[1]), run_time=1) # 2 minute and 10 seconds
+        self.wait(1) # 2 minute and 11 seconds
     
         _set_A_1 = MathTex(r"A_1 = \{0,2,5\}")
         _set_A_2 = MathTex(r"A_2 = \{1,2,5\}")
@@ -1382,18 +1678,18 @@ class Indexes(Scene):
         _union_set_As = MathTex(r"\bigcup_{i=1}^{3} A_i = A_1 \cup A_2 \cup A_3 = \{0,1,2,5,7\}")
         _intersection_set_As = MathTex(r"\bigcap_{i=1}^{3} A_i = A_1 \cap A_2 \cap A_3 = \{2,5\}")
         _v_set_As = VGroup(_set_A_1, _set_A_2, _set_A_3, _union_set_As, _intersection_set_As).arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(underline, DOWN, buff=.2).scale(.7)
-        self.play(FadeIn(_set_A_1), run_time=1)
-        self.wait()
-        self.play(FadeIn(_set_A_2), run_time=1)
-        self.wait()
-        self.play(FadeIn(_set_A_3), run_time=1)
-        self.wait()
-        self.play(FadeIn(_union_set_As), run_time=1)
-        self.wait()
-        self.play(FadeIn(_intersection_set_As), run_time=1)
-        self.wait()
-        self.play(ShrinkToCenter(_v_set_As), run_time=1)
-        self.wait()
+        self.play(FadeIn(_set_A_1), run_time=1) # 2 minute and 12 seconds
+        self.wait(1) # 1 minute and 13 seconds
+        self.play(FadeIn(_set_A_2), run_time=1)# 1 minute and 14 seconds
+        self.wait(1) # 1 minute and 15 seconds
+        self.play(FadeIn(_set_A_3), run_time=1) # 2 minute and 16 seconds
+        self.wait(2) # 2 minute and 18 seconds
+        self.play(FadeIn(_union_set_As), run_time=1) # 2 minute and 19 seconds
+        self.wait(3) # 2 minute and 22 seconds
+        self.play(FadeIn(_intersection_set_As), run_time=1) # 2 minute and 23 seconds
+        self.wait(8) # 2 minute and 31 seconds
+        self.play(ShrinkToCenter(_v_set_As), run_time=1) # 2 minute and 32 seconds
+        self.wait(1) # 2 minute and 33 seconds
         # 1. Row 1: Infinite Union
         # row1 = MathTex(
         #     r"\bigcup_{i=1}^{\infty} A_i = A_1 \cup A_2 \cup A_3 \cup \cdots = \{x : x \in A_i \text{ for at least one set } A_i \text{ with } 1 \leq i \}.",
@@ -1425,14 +1721,18 @@ class Indexes(Scene):
         
         # 4. Create the surrounding box (just like the image)
         # _box_infinity = SurroundingRectangle(_definitions_infinity, color=WHITE, buff=0.4, stroke_width=1)
-        
-        self.play(Write(_union_infinity), run_time=2)
-        self.play(Write(_intersect_infinity), run_time=2)
+        self.wait(5) # 2 minute and 36 seconds
+        self.play(Write(_union_infinity), run_time=1) # 2 minute and 37 seconds
+        self.wait(2) # 2 minute and 39 seconds
+        self.play(Write(_intersect_infinity), run_time=1) # 2 minute and 40 seconds
         # self.play(Create(_box_infinity))
-        self.wait(2)
-        self.play(FadeOut(_definitions_infinity))
-        self.wait(2)
+        self.wait(2) # 2 minute and 42 seconds
+        self.play(FadeOut(_definitions_infinity), run_time=.5) # 2 minute and 42.5 seconds
+        self.wait(5) # 2 minute and 47.5 seconds
+        '''
         formula = MathTex(r"I = [0,2] = \{x \in \mathbb{R} : 0 \le x \le 2\}")
+        self.play(Write(formula), run_time=.5) # 2 minute and 48 seconds
+        self.wait(7.5) # 2 minute and 55.5 seconds
     
         alpha_tracker = ValueTracker(0)
         a_values = [0, 0.5, 0.75, 1.0, 1.25, np.sqrt(2), 2]
@@ -1557,9 +1857,11 @@ class Indexes(Scene):
         intersection_formula = MathTex(
             r"\bigcap\limits_{\alpha \in I} A_{\alpha} = \{(2, 0)\}"
         ).scale(.7).next_to(ax, DOWN, buff=.2)
-        self.play(FadeIn(intersection_formula))
-        self.wait(3)
-            
+        self.play(FadeIn(intersection_formula), run_time=1) # 3 minute and 41 seconds
+        self.wait(4.5)# 3 minute and 44 seconds
+        self.play(FadeOut(ax), FadeOut(labels), FadeOut(union_triangle), FadeOut(union_label), FadeOut(intersection_formula), run_time=1) # 3 minute and 45 seconds
+        self.wait(1) # 3 minute and 47.5 seconds
+        '''    
 # manim -ql -p set.py Indexes
 
 class OldIndexes(ThreeDScene):
@@ -1777,3 +2079,30 @@ class ZenoParadox(Scene):
         self.play(Write(sum_formula))
         self.wait(2)
 # manim -ql -p set.py ZenoParadox
+
+class SetTheoryThumbnail(Scene):
+    def construct(self):
+        # Set a dark background for contrast
+        background, bg_text = layout()  
+        self.camera.background_color = "#121212"
+        
+        # Create Circles for Sets A and B
+        circle_a = Circle(radius=2, color=BLUE, fill_opacity=0.4).shift(LEFT * 1.2)
+        circle_b = Circle(radius=2, color=YELLOW, fill_opacity=0.4).shift(RIGHT * 1.2)
+        
+        # Labels for Sets
+        label_a = MathTex("A", color=BLUE).scale(2).move_to(circle_a.get_center() + LEFT * 0.8)
+        label_b = MathTex("B", color=YELLOW).scale(2).move_to(circle_b.get_center() + RIGHT * 0.8)
+        
+        # Intersection Symbol in the middle
+        intersection = MathTex("A \\cap B").scale(1.2).move_to(ORIGIN)
+        
+        # Main Title (Big and Bold for YouTube)
+        title = Text("SET THEORY", font_size=65, weight=BOLD)
+        title.to_edge(UP, buff=0.5).set_color_by_gradient(BLUE, YELLOW)
+        
+        # Group and Add
+        venn = VGroup(circle_a, circle_b, label_a, label_b, intersection)
+        title_tg = MarkupText("ናይ ስብስብ ክልሰ-ሓሳብ", font_size=60, weight=BOLD, font="Nyala")
+        title_tg.next_to(venn, DOWN, buff=0.5).set_color_by_gradient(BLUE, YELLOW)
+        self.add(title, venn, title_tg)
