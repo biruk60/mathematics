@@ -2,6 +2,83 @@ from manim import *
 import manimpango
 from common.common import layout
 
+class YouTubeThumbnail(Scene):
+    def construct(self):
+        chama, bg_text = layout()
+        # 1. Process the portrait using PIL to blend/remove the dark background
+        img = Image.open("dostoevsky.png").convert("RGBA")
+        mask = img.convert("L") 
+        mask = mask.point(lambda x: min(255, int(x * 1.5))) 
+        img.putalpha(mask)
+        img.save("dostoevsky_transparent.png")
+
+        # 2. Load Assets into Manim
+        background = ImageMobject("sky_background.png")
+        portrait = ImageMobject("dostoevsky_transparent.png")
+
+        # 3. Position and Scale Background
+        background.stretch_to_fit_width(config.frame_width)
+        background.stretch_to_fit_height(config.frame_height)
+        background.move_to(ORIGIN)
+        self.add(background) 
+
+        # 4. Position and Scale Portrait
+        portrait.scale_to_fit_height(config.frame_height * 1.1) 
+        portrait.to_edge(RIGHT, buff=-0.5) 
+        self.add(portrait) 
+
+        # 5. Create Typography
+        title_top = Text(
+            "ዶስቶየቭስኪ", 
+            font="Nyala",
+            
+            color=WHITE
+        ).scale(1.2)
+
+        title_bottom = Text(
+            "ብዕምቆት:- ", 
+            font="Nyala", 
+            
+            color="#E6A100"  # High-contrast golden yellow
+        ).scale(1.2)
+
+        # 6. Create the Divider Line
+        # We start with a base line and scale its width to match the main title text
+        divider_line = Line(
+            start=LEFT, 
+            end=RIGHT, 
+            color="#E6A100", 
+            stroke_width=5
+        )
+        # Dynamically match the width of the "EXISTENTIALISM" text box
+        divider_line.match_width(title_bottom)
+
+        # 7. Create Subtitle
+        subtitle = Text(
+            "መእተዊ",
+            font="Nyala",
+            
+            color="#CCCCCC",
+            disable_ligatures=True
+        ).scale(0.65)
+
+        # 8. Stack and Align Everything Vertically
+        # The line sits cleanly between title_bottom and subtitle
+        text_group = VGroup(title_top, title_bottom, subtitle)
+        
+        # Use a small custom buffer for tight, professional spacing
+        text_group.arrange(RIGHT, buff=0.25)
+        text_group.to_edge(LEFT, buff=0.8)
+        
+        # 9. Drop Shadow Effect (applied to the text and the line)
+        shadow = text_group.copy()
+        shadow.set_color(BLACK)
+        shadow.shift(DOWN * 0.04 + RIGHT * 0.04)
+        shadow.set_opacity(0.8)
+
+        self.add(shadow, text_group)
+
+
 class Thumbnail(Scene):
     def construct(self):
         background, bg_text = layout()
